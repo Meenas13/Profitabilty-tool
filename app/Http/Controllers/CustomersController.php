@@ -23,6 +23,7 @@ class SalesController extends Controller
         $this->middleware('auth');
     }
 
+    //store function
     public function store(Request $request){
         
         $response = $this->action($request);

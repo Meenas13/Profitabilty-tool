@@ -9,7 +9,7 @@
                     <i class="ik ik-user-plus bg-blue"></i>
                     <div class="d-inline">
                         <h5>Customers</h5>
-
+                        <!-- This customer's page view  -->
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@
         });
         if (cOfferID.length > 0) {
             $('#customer-offer').prop('disabled', true);
-            var token =  $('meta[name="_token"]').attr('content');
+            var token = $('meta[name="_token"]').attr('content');
             $('<form>', {
                 "id": "customerOfferFrom",
                 "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /> <input type="text" id="token" name="_token" value="' + token + '" />',
