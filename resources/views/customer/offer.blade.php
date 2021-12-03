@@ -9,7 +9,7 @@
                     <i class="ik ik-user-plus bg-blue"></i>
                     <div class="d-inline">
                         <h5>Offer</h5>
-
+                        <!-- offer page view blade -->
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
     <div class="row">
 
         <div class="col-md-12">
-            <div class="card" >
+            <div class="card">
                 <br>
                 <div style="text-align: center !important;" class="card-options">
                     <h3 style="border: 3px solid #007bff;">Forecasted OTI = <span id="forecasted">0%</span></h3>
@@ -48,7 +48,7 @@
                                 <th width="15%"> Status</th>
                                 <th>Colli</th>
                                 <th>Requested Price<br>/<br>MU</th>
-                                
+
 
                             </tr>
                         </thead>
@@ -65,7 +65,7 @@
                                     <input type="text" name="selling[]" value="0" class="form-control selling">
                                     <input type="hidden" name="buying[]" value="{{$offer->nn_buy_pr_ho_curr}}" class="form-control buying">
                                 </td>
-                               
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -111,19 +111,19 @@
                 'buying': buying,
             },
             success: function(response) {
-                
+
                 $('#calculate').prop('disabled', false);
-                if(response=="Less Then Zero"){
+                if (response == "Less Then Zero") {
                     $("#forecasted").text(response);
                     $("#forecasted").css("color", "red");
-                }else{
+                } else {
                     $("#forecasted").css("color", "");
-                    $("#forecasted").text(response+'%');
+                    $("#forecasted").text(response + '%');
                 }
-                
+
             },
             fail: function(response) {
-               
+
             }
         });
         $('#calculate').prop('disabled', false);
