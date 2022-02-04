@@ -82,7 +82,7 @@
                             <div class="card-body">
                                 <div class="profiletimeline mt-0">
                                     <div class="sl-item">
-                                        <div class="sl-left"> <img src="../img/users/1.jpg" alt="user" class="rounded-circle" /> </div>
+                                        <div class="sl-left"> <img src="../img/user1.jpg" alt="user" class="rounded-circle" /> </div>
                                         <div class="sl-right">
                                             <div><a href="javascript:void(0)" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
                                                 <p>assign a new task <a href="javascript:void(0)"> Design weblayout</a></p>
