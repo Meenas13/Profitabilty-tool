@@ -710,7 +710,7 @@
                     <div class="card-body chat-box scrollable card-300" >
                         <ul class="chat-list">
                             <li class="chat-item">
-                                <div class="chat-img"><img src="../img/users/1.jpg" alt="user"></div>
+                                <div class="chat-img"><img src="../img/user1.jpg" alt="user"></div>
                                 <div class="chat-content">
                                     <h6 class="font-medium">{{ __('James Anderson')}}</h6>
                                     <div class="box bg-light-info">Lorem Ipsum is simply dummy text of the printing &amp; type setting industry.</div>

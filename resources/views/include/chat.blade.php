@@ -13,37 +13,37 @@
             <div class="list-group row">
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Gene Newman">
                     <figure class="user--online">
-                        <img src="{{ asset('img/users/1.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user1.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Gene Newman')}}</span>  <span class="username">@gene_newman</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Billy Black">
                     <figure class="user--online">
-                        <img src="{{ asset('img/users/2.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user2.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Billy Black')}}</span>  <span class="username">@billyblack</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Herbert Diaz">
                     <figure class="user--online">
-                        <img src="{{ asset('img/users/3.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user3.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Herbert Diaz')}}</span>  <span class="username">@herbert</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Sylvia Harvey">
                     <figure class="user--busy">
-                        <img src="{{ asset('img/users/4.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user1.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Sylvia Harvey')}}</span>  <span class="username">@sylvia</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item active" data-chat-user="Marsha Hoffman">
                     <figure class="user--busy">
-                        <img src="{{ asset('img/users/5.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user2.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Marsha Hoffman')}}</span>  <span class="username">@m_hoffman</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Mason Grant">
                     <figure class="user--offline">
-                        <img src="{{ asset('img/users/1.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user3.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Mason Grant')}}</span>  <span class="username">@masongrant</span> </span>
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
                     <figure class="user--offline">
-                        <img src="{{ asset('img/users/2.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user4.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Shelly Sullivan')}}</span>  <span class="username">@shelly</span></span>
                 </a>
             </div>
@@ -64,7 +64,7 @@
                     <div class="message media reply">
                         <figure class="user--online">
                             <a href="#">
-                                <img src="{{ asset('img/users/3.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user3.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">
@@ -74,7 +74,7 @@
                     <div class="message media">
                         <figure class="user--online">
                             <a href="#">
-                                <img src="{{ asset('img/users/1.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user1.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">
@@ -84,7 +84,7 @@
                     <div class="message media reply">
                         <figure class="user--offline">
                             <a href="#">
-                                <img src="{{ asset('img/users/5.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user2.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">
@@ -95,7 +95,7 @@
                     <div class="message media">
                         <figure class="user--online">
                             <a href="#">
-                                <img src="{{ asset('img/users/1.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user3.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">
@@ -105,7 +105,7 @@
                     <div class="message media reply">
                         <figure class="user--busy">
                             <a href="#">
-                                <img src="{{ asset('img/users/5.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user1.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">
@@ -115,7 +115,7 @@
                     <div class="message media">
                         <figure class="user--online">
                             <a href="#">
-                                <img src="{{ asset('img/users/1.jpg')}}" class="rounded-circle" alt="">
+                                <img src="{{ asset('img/user2.jpg')}}" class="rounded-circle" alt="">
                             </a>
                         </figure>
                         <div class="message-body media-body">

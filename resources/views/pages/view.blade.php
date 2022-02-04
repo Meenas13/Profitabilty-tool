@@ -170,7 +170,7 @@
                     <div  class="card-body chat-box scrollable card-300">
                         <ul class="chat-list">
                             <li class="chat-item">
-                                <div class="chat-img"><img src="img/users/1.jpg" alt="user"></div>
+                                <div class="chat-img"><img src="img/user1.jpg" alt="user"></div>
                                 <div class="chat-content">
                                     <h6 class="font-medium">James Anderson</h6>
                                     <div class="box bg-light-info">Lorem Ipsum is simply dummy text of the printing &amp; type setting industry.</div>
@@ -520,7 +520,7 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
                             </td>
-                            <td><img src="img/users/1.jpg" class="table-user-thumb" alt=""></td>
+                            <td><img src="img/user1.jpg" class="table-user-thumb" alt=""></td>
                             <td>Tiger Nixon</td>
                             <td>System Architect</td>
                             <td>Edinburgh</td>
@@ -595,7 +595,7 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
                             </td>
-                            <td><img src="img/users/1.jpg" class="table-user-thumb" alt=""></td>
+                            <td><img src="img/user1.jpg" class="table-user-thumb" alt=""></td>
                             <td>Brielle Williamson</td>
                             <td>Integration Specialist</td>
                             <td>New York</td>

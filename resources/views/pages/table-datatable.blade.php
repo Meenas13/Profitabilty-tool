@@ -55,7 +55,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ __('001')}}</td>
-                                    <td><img src="../img/users/1.jpg" class="table-user-thumb" alt=""></td>
+                                    <td><img src="../img/user1.jpg" class="table-user-thumb" alt=""></td>
                                     <td>{{ __('Erich Heaney')}}</td>
                                     <td>{{ __('erich@example.com')}}</td>
                                     <td>

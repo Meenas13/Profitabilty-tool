@@ -2,7 +2,7 @@
     <div class="sidebar-header">
         <a class="header-brand" href="{{route('dashboard')}}">
             <div class="logo-img">
-               <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}"> 
+                <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}">
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>
@@ -10,17 +10,18 @@
     </div>
 
     @php
-        $segment1 = request()->segment(1);
-        $segment2 = request()->segment(2);
+    $segment1 = request()->segment(1);
+    $segment2 = request()->segment(2);
+    $segment3 = request()->segment(3);
     @endphp
-    
+
     <div class="sidebar-content">
         <div class="nav-container">
             <nav id="main-menu-navigation" class="navigation-main">
-                <div class="nav-item {{ ($segment1 == 'dashboard') ? 'active' : '' }}">
+                <!-- <div class="nav-item {{ ($segment1 == 'dashboard') ? 'active' : '' }}">
                     <a href="{{route('dashboard')}}"><i class="ik ik-bar-chart-2"></i><span>{{ __('Dashboard')}}</span></a>
-                </div>
-               <!--  <div class="nav-item {{ ($segment1 == 'users' || $segment1 == 'roles'||$segment1 == 'permission' ||$segment1 == 'user') ? 'active open' : '' }} has-sub">
+                </div> -->
+                <!--  <div class="nav-item {{ ($segment1 == 'users' || $segment1 == 'roles'||$segment1 == 'permission' ||$segment1 == 'user') ? 'active open' : '' }} has-sub">
                     <a href="#"><i class="ik ik-user"></i><span>{{ __('Adminstrator')}}</span></a>
                     <div class="submenu-content">
                         
@@ -39,7 +40,16 @@
                 <div class="nav-item {{ ($segment1 == 'customer') ? 'active' : '' }}">
                     <a href="{{route('customer')}}"><i class="ik ik-users"></i><span>{{ __('Customer')}}</span></a>
                 </div>
-                
+
+
+                <?php $user = Auth::User();
+                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in") { ?>
+
+                    <div class="nav-item {{ ($segment1 == 'nnnbp_screen') ? 'active' : '' }}">
+                        <a href="{{route('nnnbp_screen')}}"><i class="ik ik-list"></i><span> {{ __('NNNBP Update')}}</span></a>
+                    </div>
+                <?php } ?>
+
         </div>
     </div>
 </div>

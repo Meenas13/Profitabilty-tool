@@ -1,36 +1,55 @@
-
-.logo{
-    color: #fff;
-    font-size: 25px;
-    font-weight: 500;
-}
-.logo2 img {
-    width:200px;
-}
-
-.wrapper .page-wrap .app-sidebar.colored .sidebar-header {
-    background-color: #fff;
-}
-
-.footer {
-    height:unset;
-}
-.logo img {
-    height: 25px;
-    margin-right: 10px;
-}
-
-.table thead {
-    background-color: #003b7e;
-    color: #fff;
-    text-align: center;
-}
-.table thead th {
-    font-weight: 600;
-    color: #fff;
-    font-size: 14px;
-}
+.logo{color: #fff;font-size: 25px;font-weight: 500;}
+.logo2 img {width:200px;}
+.wrapper .page-wrap .app-sidebar.colored .sidebar-header {background-color: #fff;}
+.footer {height:unset;}
+.logo img {height: 25px;margin-right: 10px;}
 
 
+/* ================ NEW CSS Changes by developer Piyusha ============== */
 
+/* Header CSS */
+.header-brand .logo-img {width: 100px !important;}
+
+/* Sales OTI & Category Share table CSS */
+.table thead {background-color: #003b7e;color: #fff;text-align: center;}
+.table thead th {font-weight: 600;color: #fff;font-size: 14px;}
+
+/* Customer Filter and Summery Page */
+table.dataTable tbody tr {cursor: pointer;}
+.ui-datepicker-calendar {display: none;}
+.error {color: red;}
+select#customer_unique,select#quater {width: 100%;position: relative;overflow-y: hidden;padding: 0;}
+.select2.select2-container {position: relative;}
+.custom_placeholder {position: absolute;z-index: 99;padding: 6px 15px;color: #555555;}
+.select2.select2-container--default.select2-container--focus .select2-selection--multiple {border-color: #8e8e8e;padding: 0 12px;}
+.select2.select2-container--default .select2-selection--multiple {border-color: #bfbfbf;padding: 0 10px;}
+.select2-container--default .select2-search--inline .select2-search__field {margin-bottom: 0;}
+select#customer_unique option.linked,
+select#quater option.linked {background: transparent;height: 100%;width: 100%;padding: 10px;display: flex;align-items: center;}
+.year_dash {display: flex;width: 4%;align-items: center;justify-content: center;height: 35px;}
+
+
+/* Offer Page CSS */
+.full_div {display: inline-block;width: 100%;}
+.half_div {display: inline-block;width: 40%;}
+.half_div.first {width: 57%;}
+td.type1_bb {display: inline-flex;}
+input.percent,
+input.amount {width: 50%;}
+
+
+/* nnnbp Page CSS */
+/* #nnnbp_updatePage .nnnbp_columns {border: 0;}display: flex;align-items: center;justify-content: center; */
+#nnnbp_updatePage .switch {position: relative;display: inline-block;width: 46px;height: 23px;margin-bottom: 0}
+#nnnbp_updatePage .switch input {opacity: 0;width: 0;height: 0;}
+#nnnbp_updatePage .slider {position: absolute;cursor: pointer;top: 0;left: 0;right: 0;bottom: 0;background-color: #ccc;-webkit-transition: .4s;transition: .4s;}
+#nnnbp_updatePage .slider:before {position: absolute;content: "";height: 17px;width: 17px;left: 3px;bottom: 3px;background-color: white;-webkit-transition: .4s;transition: .4s;}
+#nnnbp_updatePage input:checked+.slider {background-color: rgb(249 174 0);}
+#nnnbp_updatePage input:focus+.slider {box-shadow: 0 0 1px #f9ae00;}
+#nnnbp_updatePage input:checked+.slider:before {-webkit-transform: translateX(23px);-ms-transform: translateX(23px);transform: translateX(23px);}
+#nnnbp_updatePage input:checked+.slider.not_selected {background-color: #ccc;}
+#nnnbp_updatePage input:focus+.slider.not_selected {box-shadow: 0 0 1px #ccc;}
+#nnnbp_updatePage input:checked+.slider.not_selected:before {-webkit-transform: translateX(0);-ms-transform: translateX(0);transform: translateX(0);}
+#nnnbp_updatePage .slider.round {border-radius: 34px;}
+#nnnbp_updatePage .slider.round:before {border-radius: 50%;}
 

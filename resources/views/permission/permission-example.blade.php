@@ -73,7 +73,7 @@
                     </div>
                     <div class="card-block">
                         <div class="align-middle mb-25">
-                            <img src="{{ asset('img/users/1.jpg')}}" alt="user image" class="rounded-circle img-40 align-top mr-15">
+                            <img src="{{ asset('img/user1.jpg')}}" alt="user image" class="rounded-circle img-40 align-top mr-15">
                             <div class="d-inline-block">
                                 <a href="#!"><h6>{{ __('Alex Thompson')}} </h6></a>
                                 <p class="text-muted mb-0">{{ __('Cheers!')}}</p>
@@ -1057,7 +1057,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-auto pr-0">
-                                    <img src="{{ asset('img/users/1.jpg')}}" alt="user image" class="rounded-circle profile-img cust-img mb-15">
+                                    <img src="{{ asset('img/user1.jpg')}}" alt="user image" class="rounded-circle profile-img cust-img mb-15">
                                 </div>
                                 <div class="col">
                                     <h6 class="mb-15">{{ __('John Deo')}}</h6>
