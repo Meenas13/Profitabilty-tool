@@ -25,8 +25,7 @@
                         <!-- <li class="breadcrumb-item">
                             <a href="{{url('dashboard')}}"><i class="ik ik-home"></i></a>
                         </li> -->
-                        <li class="breadcrumb-item"><i class="ik ik-home"></i> Customers
-                        </li>
+                        <li class="breadcrumb-item"><i class="ik ik-home"></i> Customers </li>
                     </ol>
                 </nav>
             </div>
@@ -45,6 +44,11 @@
                             <input type="hidden" value="" name="selected_ico" class="selected_ico">
                             <input type="hidden" value="<?php echo $unique_implode; ?>" name="selected_unique[]" class="selected_unique">
                             <input type="hidden" value="<?php echo $sel_quater_implode; ?>" name="selected_quater[]" class="selected_quater">
+
+                            <input type="hidden" value="<?php echo $article_category; ?>" name="selected_artCategory" class="selected_artCategory">
+                            <input type="hidden" value="<?php echo $channel; ?>" name="selected_channel" class="selected_channel">
+                            <input type="hidden" value="<?php echo $year_range; ?>" name="selected_yearId" class="selected_yearId">
+                            <input type="hidden" value="<?php echo $monthId; ?>" name="selected_monthId" class="selected_monthId">
 
                             <select class="form-control select2" name="customer_ico" id="customer" required>
                                 <option value="" selected="selected">Customer</option>
@@ -89,7 +93,6 @@
                                 <?php }
                                 ?>
                             </select>
-
                             <!-- <select class="form-control customer_unique" name="customer_unique" id="customer_unique" required>
                                 <option selected="selected" value=""> Linked Customers</option>
                              
@@ -161,7 +164,7 @@
                         <div class="col-md-4">
                             <label for="">Quarter</label>
                             <!-- <p class="custom_placeholder1">Quarter</p> -->
-                            <select multiple="multiple" class="form-control quater select2" placeholder="Quater" name="quater[]" id="quater">
+                            <select multiple="multiple" class="form-control quater select2" data-placeholder="Your Placeholder" name="quater[]" id="quater">
                                 <!-- <option value="" class="linked">Select Quater</option> -->
                                 <option value="FQ1">FQ1 (Oct-Dec)</option>
                                 <option value="FQ2">FQ2 (Jan-Mar)</option>
@@ -372,14 +375,20 @@
     $(document).ready(function() {
 
         // $('.customer_unique').selectpicker();
+        // $('.quater').select2({
+        //     minimumResultsForSearch: -1,
+        //     placeholder: function() {
+        //         $(this).data('placeholder');
+        //     }
+        // });
 
-        //If from year is selected then add required to select To-year
+
+        //If from-year is selected then add required to select To-year
         $('.show_data').click(function() {
             if ($('.from_year').val().length == "4") {
                 $('.to_year').prop("required", true);
             }
         });
-
 
         $(function() {
             $('#filterByDate1, #filterByDate2').datepicker({
@@ -391,27 +400,16 @@
                 yearRange: "2015:2032",
                 defaultDate: null,
                 onClose: function(dateText, inst) {
-
                     $(this).datepicker('getDate', "");
                     $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
                 }
             });
 
-            // $(".show_date").click(function() {
-
-            if ($(".from_year").val().length > 0) {
-                $(".to_year").attr("required", true);
-            }
-
-            //});
-
-
-
             $(".month_id").datepicker({
                 format: "MM yyyy",
                 viewMode: "months",
                 minViewMode: "months",
-                autoclose: true //to close picker once year is selected
+                autoclose: true //to close picker once month is selected
             });
 
             $(".year_id").datepicker({
@@ -420,7 +418,6 @@
                 minViewMode: "years",
                 autoclose: true //to close picker once year is selected
             });
-
 
         }); //Func end
 
@@ -436,7 +433,6 @@
                 text: 'Quater'
             },
         });
-
 
 
         /*  $('#customer').on('change', function() {
@@ -502,8 +498,6 @@
         })
 
 
-
-
         var table = $('.final_table').DataTable({
             "scrollY": "auto",
             "scrollX": true,
@@ -522,67 +516,49 @@
                 [50, 150, 200, -1],
                 [50, 150, 200, "All"]
             ]
-        });
+        }); //datatable end
 
         $('.final_table tbody').on('click', 'tr', function() {
             $(this).toggleClass('selected');
             $(this).find('td .custom-control-input').toggleClass("selected_box");
         });
 
-        /*  $('#button').click(function() {
-             var ids = $.map(table.rows('.selected').data(), function(item) {
-                 return item[1];
-             });
-             console.log(ids);
-             alert(table.rows('.selected').data().length + ' row(s) selected');
-         }); */
-
-
         $("#customer-offer").click(function() {
 
             var cOfferID = [];
 
-            // $(".custom-control-input:checked").each(function() {
-            //     cOfferID.push($(this).val());
-            //     // console.log($(this).val());
-            // });
-
             var ids = $.map(table.rows('.selected').data(), function(item) {
                 return item[0];
-
             });
 
             cOfferID += ids;
 
-            if (cOfferID.length > 0) {
-                $('#customer-offer').prop('disabled', true);
-                var token = $('meta[name="_token"]').attr('content');
+            // if (cOfferID.length > 0) {
+            $('#customer-offer').prop('disabled', true);
+            var token = $('meta[name="_token"]').attr('content');
 
-                // var cust_id = location.search;
-                // cust_id = cust_id.replace("?id=", "");
-                var cust_id = $("#customer").val();
-                var cust_unique = $(".selected_unique").val();
-                var selected_quarter = $(".selected_quater").val();
-                // alert(cOfferID);
-                console.log(selected_quarter);
+            // var cust_id = location.search;
+            // cust_id = cust_id.replace("?id=", "");
+            var cust_id = $("#customer").val();
+            var cust_unique = $(".selected_unique").val();
+            var selected_quarter = $(".selected_quater").val();
+            var selected_artCategory = $(".selected_artCategory").val();
+            var selected_channel = $(".selected_channel").val();
+            var selected_yearId = $(".selected_yearId").val();
+            var selected_monthId = $(".selected_monthId").val();
+            // alert(cOfferID);
+            console.log(selected_quarter);
 
-                $('<form>', {
-                    "id": "customerOfferFrom",
-                    "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" />   <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /> ',
-                    "action": "{{route('customer-offer-data')}}",
-                    "method": "POST"
-                }).appendTo(document.body).submit();
+            $('<form>', {
+                "id": "customerOfferFrom",
+                "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
+                "action": "{{route('customer-offer-data')}}",
+                "method": "POST"
+            }).appendTo(document.body).submit();
 
-            }
+            //  }
 
         });
-
-
-
-        // $(".chosen-select").chosen({
-        //     no_results_text: "Oops, nothing found!"
-        // });
-
 
     });
 </script>

@@ -36,7 +36,7 @@ select#quater option.linked {background: transparent;height: 100%;width: 100%;pa
 td.type1_bb {display: inline-flex;}
 input.percent,
 input.amount {width: 50%;}
-
+.BonusType_error{color: red;}
 
 /* nnnbp Page CSS */
 /* #nnnbp_updatePage .nnnbp_columns {border: 0;}display: flex;align-items: center;justify-content: center; */

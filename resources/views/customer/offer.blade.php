@@ -42,6 +42,7 @@
                 <div class="card-body">
                     <!-- <table id="advanced_table" class="table table-striped table-bordered nowrap dataTable"> -->
                     <table id="advanced_table" class="display nowrap final_table" style="width:100%">
+                        <span id="backBonus_amt" style="display: none;"></span>
                         <thead style="text-align: center;">
                             <tr valign="center">
                                 <th width="15%">Buy Domain</th>
@@ -57,7 +58,7 @@
                             @foreach($data as $offer)
 
                             <tr <?php if ($offer->delivery_flag_name == "Delivery") { ?> style="background-color: rgb(255 241 185);" <?php } ?>>
-                                <span id="backBonus_amt"></span>
+
                                 <input type="hidden" name="buy_domain_no[]" class="buy_domain_no" value="<?php echo $offer->buy_domain_no; ?>">
                                 <input type="hidden" name="subsys_art_no[]" class="subsys_art_no" value="<?php echo $offer->subsys_art_no; ?>">
                                 <td>{{$offer->buy_domain}}</td>
@@ -67,7 +68,6 @@
                                 <td><input type="text" name="collis[]" value="0" class="form-control collis"></td>
                                 <td>
                                     <input type="text" name="selling[]" value="0" class="form-control selling">
-                                    <input type="hidden" name="buying[]" value="" class="form-control buying">
                                 </td>
 
                             </tr>
@@ -99,8 +99,13 @@
                     <div class="card-options">
                         <div class="row">
                             <div class="col-md-4"><label> ICO: </label><input readonly type="text" class="selected_ico form-control" value="<?php echo $cust_id; ?>"></div>
-                            <div class="col-md-4"><label> Unique No. : </label><input readonly type="text" class="form-control" value="<?php echo $unique_implode;  ?>"></div>
+                            <div class="col-md-4"><label> Unique No. : </label><input readonly type="text" class="form-control c_unique" value="<?php echo $unique_implode;  ?>"></div>
                             <div class="col-md-4"><label> Quarters :</label><input readonly type="text" value="<?php echo str_replace("'", "", $selected_quarter_implode); ?>" class="form-control"></div>
+
+                            <input readonly type="hidden" value="<?php echo $selected_artCategory; ?>" name="selected_artCategory" class="selected_artCategory">
+                            <input readonly type="hidden" value="<?php echo $selected_channel; ?>" name="selected_channel" class="selected_channel">
+                            <input readonly type="hidden" value="<?php echo $selected_yearId; ?>" name="selected_yearId" class="selected_yearId">
+                            <input readonly type="hidden" value="<?php echo $selected_monthId; ?>" name="selected_monthId" class="selected_monthId">
 
                             <?php foreach ($cust_unique as $un_number) { ?>
                                 <input readonly type="hidden" value="<?php echo $un_number; ?>" name="selected_unique" class="selected_unique">
@@ -145,32 +150,32 @@
                                         </select>
                                     </td>  -->
                                     <td>
-                                        <select contenteditable="true" class="form-control bulk" name="country">
+                                        <select contenteditable="true" class="form-control bulk select2" name="country">
                                             <option selected="selected" value="">Bulk </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select>
                                     </td>
-                                    <td> <select contenteditable="true" class="form-control spirits" name="country">
+                                    <td> <select contenteditable="true" class="form-control spirits select2" name="country">
                                             <option selected="selected" value="">Spirits </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select> </td>
-                                    <td> <select contenteditable="true" class="form-control regular" name="country">
+                                    <td> <select contenteditable="true" class="form-control regular select2" name="country">
                                             <option selected="selected" value=""> Regular </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select> </td>
-                                    <td> <select contenteditable="true" class="form-control promo" name="country">
+                                    <td> <select contenteditable="true" class="form-control promo select2" name="country">
                                             <option selected="selected" value="">Promo </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select> </td>
-                                    <td> <select contenteditable="true" class="form-control cip" name="country">
+                                    <td> <select contenteditable="true" class="form-control cip select2" name="country">
                                             <option selected="selected" value="">CIP </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
@@ -193,23 +198,22 @@
                         </div>
                         <br>
 
+                        <div class="BonusType_error" style="display: none;"> * Enter either bonus type 1 or type 2 </div>
                         <div class="bb_returns" style="display: none;">
                             <h5> Back Bonus <span id="backBonus"></span> </h5>
                             <h5> Limit Base <span id="limitBase"></span> </h5>
                             <h5> Bonus Base <span id="bonusBase"></span> </h5>
-                        </div>
 
+                            <h4> Historical OTI% <span id="historical_oti"> </span></h4>
+                        </div>
                     </div>
 
                     <br>
                     <div style="text-align: right !important;" class="card-options">
                         <button type="button" id="calculate_backBonus" class="btn btn-info btn-large">Calculate Back Bonus</button>
-
                         <button type="button" id="calculate" class="btn btn-warning btn-large" disabled>Calculate OTI</button>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -494,11 +498,6 @@
                 subsys_art_no.push($(this).val());
             });
 
-            var buying = [];
-            $(".buying").each(function() {
-                buying.push($(this).val());
-            });
-
             $.ajax({
                 method: "POST",
                 url: "{{route('forcasted-cal')}}",
@@ -709,9 +708,18 @@
                 var cust_id = jQuery("#cust_id").val();
                 console.log(cust_id);
 
+                var cust_unique = $(".c_unique").val();
+                var selected_quarter = $(".selected_quarter").val();
+
+                var selected_artCategory = $(".selected_artCategory").val();
+                var selected_channel = $(".selected_channel").val();
+                var selected_yearId = $(".selected_yearId").val();
+                var selected_monthId = $(".selected_monthId").val();
+
                 $('<form>', {
                     "id": "customerOfferFrom",
-                    "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferIDs + '" /> <input type="text" id="token" name="_token" value="' + token + '" /> <input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" />',
+                    "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferIDs + '" /> <input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /> <input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" />  <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
+
                     "action": "{{route('customer-offer-data')}}",
                     "method": "POST"
                 }).appendTo(document.body).submit();
@@ -952,179 +960,227 @@
 
 
         $("#calculate_backBonus").on('click', function() {
-            var row = [];
-            // var customer_ico = [];
-            var customer_unique = [];
-            var bulk = $(".bulk").val();
-            var spirits = $(".spirits").val();
-            var regular = $(".regular").val();
-            var promo = $(".promo").val();
-            var cip = $(".cip").val();
-            var amount = $(".amount").val();
-            var percent = $(".percent").val();
-            var from_amount = [];
-            var to_amount = [];
-            var percentage = [];
+            if ($('.amount').val().length > 0) {
+                if ($('.percent').val().length > 0) {
 
-            $('.row_count').each(function() {
-                row.push($(this).text());
-            });
+                    $('.error').fadeOut("fast", function() {});
 
-            $('.selected_unique').each(function() {
-                customer_unique.push($(this).val());
-            });
+                    // if ($('.amount').val().length == 0 || $('.from_amount').val().length == 0) {
+                    //     $(".bb_returns").hide();
+                    // } else {
 
-            $('.from_amount').each(function() {
-                from_amount.push($(this).val().replace("€", ""));
-            });
-            $('.to_amount').each(function() {
-                to_amount.push($(this).val().replace("€", ""));
-            });
+                    var row = [];
+                    // var customer_ico = [];
+                    var customer_unique = [];
+                    var bulk = $(".bulk").val();
+                    var spirits = $(".spirits").val();
+                    var regular = $(".regular").val();
+                    var promo = $(".promo").val();
+                    var cip = $(".cip").val();
+                    var amount = $(".amount").val();
+                    var percent = $(".percent").val();
+                    var from_amount = [];
+                    var to_amount = [];
+                    var percentage = [];
 
-            $('.percentage').each(function() {
-                percentage.push($(this).val().replace("%", ""));
-            });
-
-
-            $.ajax({
-                url: "calculate_backBonus",
-                method: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    rows: countt,
-                    customer_ico: $(".selected_ico").val(),
-                    customer_unique: customer_unique,
-                    selected_quarter: $(".selected_quarter").val(),
-                },
-
-                success: function(data) {
-                    // console.log(data.data[0][0]);
-                    // console.log(data.data[1][0]);
-
-                    var bulk_sales_sum = [];
-                    var spirit_sales_sum = [];
-                    var regular_sales_sum = [];
-                    var promo_sales_sum = [];
-                    var cip_sales_sum = [];
-
-                    $(data.data).each(function(key, index) {
-                        console.log(key);
-                        console.log(index[0]);
-
-                        bulk_sales_sum.push(index[0].bulk_sales);
-                        spirit_sales_sum.push(index[0].spirit_sales);
-                        regular_sales_sum.push(index[0].regular_sales);;
-                        promo_sales_sum.push(index[0].promo_sales);;
-                        cip_sales_sum.push(index[0].cip_sales);;
-
-                        // console.log(index[0].bulk_sales);
-
+                    $('.row_count').each(function() {
+                        row.push($(this).text());
                     });
 
-                    //Calculate Sum of all Sales individually
-                    var bulk_sum = eval(bulk_sales_sum.join("+"));
-                    var spirit_sum = eval(spirit_sales_sum.join("+"));
-                    var regular_sum = eval(regular_sales_sum.join("+"));
-                    var promo_sum = eval(promo_sales_sum.join("+"));
-                    var cip_sum = eval(cip_sales_sum.join("+"));
+                    $('.selected_unique').each(function() {
+                        customer_unique.push($(this).val());
+                    });
+
+                    $('.from_amount').each(function() {
+                        from_amount.push($(this).val().replace("€", ""));
+                    });
+                    $('.to_amount').each(function() {
+                        to_amount.push($(this).val().replace("€", ""));
+                    });
+
+                    $('.percentage').each(function() {
+                        percentage.push($(this).val().replace("%", ""));
+                    });
 
 
-                    //Calculate Limit Base
-                    var Limit_base = [];
-                    if ($(".bulk").val() == "limitBase" || $(".bulk").val() == "limitAndBonusBase") {
-                        Limit_base.push(bulk_sum);
-                    }
-                    if ($(".spirits").val() == "limitBase" || $(".spirits").val() == "limitAndBonusBase") {
-                        Limit_base.push(spirit_sum);
-                    }
-                    if ($(".regular").val() == "limitBase" || $(".regular").val() == "limitAndBonusBase") {
-                        Limit_base.push(regular_sum);
-                    }
-                    if ($(".promo").val() == "limitBase" || $(".promo").val() == "limitAndBonusBase") {
-                        Limit_base.push(promo_sum);
-                    }
-                    if ($(".cip").val() == "limitBase" || $(".cip").val() == "limitAndBonusBase") {
-                        Limit_base.push(cip_sum);
-                    }
+                    $.ajax({
+                        url: "calculate_backBonus",
+                        method: "POST",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            rows: countt,
+                            customer_ico: $(".selected_ico").val(),
+                            customer_unique: customer_unique,
+                            selected_quarter: $(".selected_quarter").val(),
+                            selected_artCategory: $(".selected_artCategory").val(),
+                            selected_channel: $(".selected_channel").val(),
+                            selected_yearId: $(".selected_yearId").val(),
+                            selected_monthId: $(".selected_monthId").val(),
+                        },
 
-                    var limit_base_amount = eval(Limit_base.join("+")).toFixed(2);
+                        success: function(data) {
+                            // console.log(data.data[0][0]);
+                            // console.log(data.data[1][0]);
 
-                    //Calculate Bonus Base
-                    var bonus_base = [];
-                    if ($(".bulk").val() == "limitAndBonusBase") {
-                        bonus_base.push(bulk_sum);
-                    }
-                    if ($(".spirits").val() == "limitAndBonusBase") {
-                        bonus_base.push(spirit_sum);
-                    }
-                    if ($(".regular").val() == "limitAndBonusBase") {
-                        bonus_base.push(regular_sum);
-                    }
-                    if ($(".promo").val() == "limitAndBonusBase") {
-                        bonus_base.push(promo_sum);
-                    }
-                    if ($(".cip").val() == "limitAndBonusBase") {
-                        bonus_base.push(cip_sum);
-                    }
-                    var bonus_base_amount = eval(bonus_base.join("+")).toFixed(2);
+                            var bulk_sales_sum = [];
+                            var spirit_sales_sum = [];
+                            var regular_sales_sum = [];
+                            var promo_sales_sum = [];
+                            var cip_sales_sum = [];
+
+                            var historical = [];
+                            var arr_count = "";
+                            $(data.data).each(function(key, index) {
+                                //    console.log(data.data.length);
+                                console.log(key);
+                                console.log(index[0]);
+
+                                arr_count = data.data.length;
+                                // if (index[0].spirit_sales == null) {
+                                //     console.log("Spirit 0");
+                                // } else {
+                                //     console.log(index[0].spirit_sales);
+                                // }
+
+                                bulk_sales_sum.push(index[0].bulk_sales);
+                                spirit_sales_sum.push(index[0].spirit_sales);
+                                regular_sales_sum.push(index[0].regular_sales);
+                                promo_sales_sum.push(index[0].promo_sales);
+                                cip_sales_sum.push(index[0].cip_sales);
+
+                                historical.push(index[0].oti_percentage);
+                                // console.log(index[0].bulk_sales);
+
+                            });
+
+                            //Calculate Sum of all Sales individually
+                            var bulk_sum = eval(bulk_sales_sum.join("+"));
+                            var spirit_sum = eval(spirit_sales_sum.join("+"));
+                            var regular_sum = eval(regular_sales_sum.join("+"));
+                            var promo_sum = eval(promo_sales_sum.join("+"));
+                            var cip_sum = eval(cip_sales_sum.join("+"));
+
+                            var hist_sum = eval(historical.join("+"));
+                            //    var arr_cnt = eval(arr_count.join("+") + 1 );
+
+                            console.log(hist_sum);
+                            console.log(arr_count);
+
+                            var historical_otiSum = hist_sum / arr_count;
 
 
-                    //Check if Amount/Percent is added then calculate BackBonus
-                    var bonus_amount = $(".amount").val().replace("€", "");
-                    var bonus_percent = $(".percent").val().replace("%", "");
-                    var base_bonus = 0;
-                    if (limit_base_amount && bonus_percent != "") {
-                        if (parseFloat(limit_base_amount) > parseFloat(bonus_amount)) {
-
-                            var base_bonus = parseFloat(limit_base_amount) * parseFloat(bonus_percent / 100);
-                            base_bonus = base_bonus.toFixed(2);
-                        }
-                    }
-
-                    //Check if Amount-Levels are added then calculate BackBonus
-                    if (limit_base_amount && percentage != "") {
-                        $(from_amount).each(function(f_key, f_index) {
-
-                            if (parseFloat(limit_base_amount) >= parseFloat(from_amount[f_key]) && parseFloat(limit_base_amount) < parseFloat(to_amount[f_key])) {
-                                var bb = parseFloat(limit_base_amount) * parseFloat(percentage[f_key] / 100);
-                                if (bb == "undefined") {
-                                    base_bonus = 0;
-                                } else {
-                                    base_bonus = bb.toFixed(2);
-                                }
-
+                            //Calculate Limit Base
+                            var Limit_base = [];
+                            if ($(".bulk").val() == "limitBase" || $(".bulk").val() == "limitAndBonusBase") {
+                                Limit_base.push(bulk_sum);
                             }
-                            // console.log("backBonus " + base_bonus);
+                            if ($(".spirits").val() == "limitBase" || $(".spirits").val() == "limitAndBonusBase") {
+                                Limit_base.push(spirit_sum);
+                            }
+                            if ($(".regular").val() == "limitBase" || $(".regular").val() == "limitAndBonusBase") {
+                                Limit_base.push(regular_sum);
+                            }
+                            if ($(".promo").val() == "limitBase" || $(".promo").val() == "limitAndBonusBase") {
+                                Limit_base.push(promo_sum);
+                            }
+                            if ($(".cip").val() == "limitBase" || $(".cip").val() == "limitAndBonusBase") {
+                                Limit_base.push(cip_sum);
+                            }
 
-                        });
-                    }
+                            var limit_base_amount = eval(Limit_base.join("+")).toFixed(2);
 
-                    //   console.log("backBon " + base_bonus);
+                            //Calculate Bonus Base
+                            var bonus_base = [];
+                            if ($(".bulk").val() == "limitAndBonusBase") {
+                                bonus_base.push(bulk_sum);
+                            }
+                            if ($(".spirits").val() == "limitAndBonusBase") {
+                                bonus_base.push(spirit_sum);
+                            }
+                            if ($(".regular").val() == "limitAndBonusBase") {
+                                bonus_base.push(regular_sum);
+                            }
+                            if ($(".promo").val() == "limitAndBonusBase") {
+                                bonus_base.push(promo_sum);
+                            }
+                            if ($(".cip").val() == "limitAndBonusBase") {
+                                bonus_base.push(cip_sum);
+                            }
+                            var bonus_base_amount = eval(bonus_base.join("+")).toFixed(2);
 
 
-                    //Append Result to div 
-                    $(".bb_returns").show("slide", {
-                        direction: "left"
-                    }, 1000);
+                            //Check if Amount/Percent is added then calculate BackBonus
+                            var bonus_amount = $(".amount").val().replace("€", "");
+                            var bonus_percent = $(".percent").val().replace("%", "");
+                            var back_bonus = 0;
+                            if (limit_base_amount && bonus_percent != "") {
+                                if (parseFloat(limit_base_amount) > parseFloat(bonus_amount)) {
+                                    console.log('%' + bonus_percent);
+                                    var back_bonus = parseFloat(limit_base_amount) * (parseFloat(bonus_percent) / 100);
+                                    back_bonus = back_bonus.toFixed(2);
+                                }
+                            }
 
-                    $("#backBonus").text(" = € " + base_bonus);
-                    $("#backBonus_amt").text(base_bonus);
-                    $("#limitBase").text(" = € " + limit_base_amount);
-                    $("#bonusBase").text(" = € " + bonus_base_amount);
+                            //Check if Amount-Levels are added then calculate BackBonus
+                            if (limit_base_amount && percentage != "") {
+                                $(from_amount).each(function(f_key, f_index) {
 
-                    $("#calculate_backBonus").prop("disabled", true);
-                    $("#calculate").prop("disabled", false);
+                                    if (parseFloat(limit_base_amount) >= parseFloat(from_amount[f_key]) && parseFloat(limit_base_amount) < parseFloat(to_amount[f_key])) {
+                                        var bb = parseFloat(limit_base_amount) * parseFloat(percentage[f_key] / 100);
+                                        if (bb == "undefined") {
+                                            back_bonus = 0;
+                                        } else {
+                                            back_bonus = bb.toFixed(2);
+                                        }
 
+                                    }
+                                    // console.log("backBonus " + back_bonus);
+
+                                });
+                            }
+
+                            //   console.log("backBon " + back_bonus);
+
+
+                            //Append Result to div 
+                            $(".bb_returns").show("slide", {
+                                direction: "left"
+                            }, 1000);
+
+                            $("#backBonus").text(" = € " + back_bonus);
+                            $("#backBonus_amt").text(back_bonus);
+                            $("#limitBase").text(" = € " + limit_base_amount);
+                            $("#bonusBase").text(" = € " + bonus_base_amount);
+                            $("#historical_oti").text(" = " + historical_otiSum.toFixed(2) + "%");
+
+                            $("#calculate_backBonus").prop("disabled", true);
+                            $("#calculate").prop("disabled", false);
+
+                        }
+
+                    }); //Ajax end
+                    // }
+
+
+
+
+                } else {
+                    $('<div class="error"> Enter percent(%) </div>').insertAfter(".BonusType_error");
+                    $('.percent').prop("required", true);
                 }
-            });
-
-
+                $('.BonusType_error').fadeOut("fast", function() {});
+            } else {
+                if ($('.percent').val().length > 0) {
+                    $('.BonusType_error').fadeOut("fast", function() {});
+                    $('<div class="error"> Enter amount(€) </div>').insertAfter(".BonusType_error");
+                } else {
+                    $('.BonusType_error').fadeIn("slow", function() {});
+                }
+            }
 
         });
 
-
-
-    });
+    }); //ready end
 </script>
 @endpush
 
