@@ -85,7 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
 	Route::get('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
 
-	Route::get('/bb_preRequestedData', [DashboardController::class, 'bb_preRequestedData'])->name('bb_preRequestedData');
+	// Route::get('/bb_preRequestedData', [DashboardController::class, 'bb_preRequestedData'])->name('bb_preRequestedData');
+	Route::get('/get_allUniqueCustomer', [DashboardController::class, 'get_allUniqueCustomer'])->name('get_allUniqueCustomer');
 
 	Route::get('/customer', [DashboardController::class, 'customers'])->name('customer');
 	//	Route::get('/customer-offer', function () { return view('customer.offer'); })->name('customer-offer'); 

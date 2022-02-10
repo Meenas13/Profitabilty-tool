@@ -1,6 +1,6 @@
 <div class="app-sidebar colored">
     <div class="sidebar-header">
-        <a class="header-brand" href="{{route('dashboard')}}">
+        <a class="header-brand" href="{{route('customer')}}">
             <div class="logo-img">
                 <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}">
             </div>

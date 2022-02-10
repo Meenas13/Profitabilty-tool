@@ -1,11 +1,11 @@
-@extends('layouts.main')
-@section('title', 'Customers')
-@section('content')
 
-@section('styles')
+<?php $__env->startSection('title', 'Customers'); ?>
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('styles'); ?>
 <link href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
-@stop
+<?php $__env->stopSection(); ?>
 
 <style>
     select#quater {
@@ -33,7 +33,7 @@
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <!-- <li class="breadcrumb-item">
-                            <a href="{{url('dashboard')}}"><i class="ik ik-home"></i></a>
+                            <a href="<?php echo e(url('dashboard')); ?>"><i class="ik ik-home"></i></a>
                         </li> -->
                         <li class="breadcrumb-item"><i class="ik ik-home"></i> Customers </li>
                     </ol>
@@ -45,8 +45,8 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <form class="" method="POST" action="{{ url('full_domainList') }}">
-                    @csrf
+                <form class="" method="POST" action="<?php echo e(url('full_domainList')); ?>">
+                    <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-4">
                             <label for="">Customer ico <span class="error">*</span></label>
@@ -62,12 +62,12 @@
 
                             <select class="form-control select2" name="customer_ico" id="customer" required>
                                 <option value="" selected="selected">Customer</option>
-                                @foreach($cust_icoList as $cust_ico_no)
-                                <option value="{{$cust_ico_no->ico}}" <?php if ($id == "$cust_ico_no->ico") {
+                                <?php $__currentLoopData = $cust_icoList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cust_ico_no): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($cust_ico_no->ico); ?>" <?php if ($id == "$cust_ico_no->ico") {
                                                                             echo 'selected';
-                                                                        } ?>>{{$cust_ico_no->ico}}</option>
+                                                                        } ?>><?php echo e($cust_ico_no->ico); ?></option>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                 <!-- <option value="106007" <?php if ($id == "106007") {
                                                                 echo 'selected';
@@ -96,9 +96,9 @@
                                 <?php
 
                                 foreach ($cust_uniqueList as $unique) { ?>
-                                    <option value="{{ $unique->cust_no_unique;}} " <?php if ($unique_number == "$unique->cust_no_unique") {
+                                    <option value="<?php echo e($unique->cust_no_unique); ?> " <?php if ($unique_number == "$unique->cust_no_unique") {
                                                                                         echo 'selected';
-                                                                                    } ?>>{{$unique->cust_no_unique}}</option>
+                                                                                    } ?>><?php echo e($unique->cust_no_unique); ?></option>
 
                                 <?php }
                                 ?>
@@ -112,11 +112,11 @@
                             <label for="">Article Category</label>
                             <select class="form-control select2" name="category">
                                 <option selected="selected" value="">Category of an article</option>
-                                @if($catmanager_groupList)
-                                @foreach($catmanager_groupList as $category)
-                                <option value="<?php echo $category->catmanager_group; ?>">{{$category->catmanager_group}}</option>
-                                @endforeach
-                                @endif
+                                <?php if($catmanager_groupList): ?>
+                                <?php $__currentLoopData = $catmanager_groupList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo $category->catmanager_group; ?>"><?php echo e($category->catmanager_group); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
                             </select>
                         </div>
                     </div><br>
@@ -319,19 +319,19 @@
                                                 <span class="custom-control-label">&nbsp;</span>
                                             </label>
                                         </td> -->
-                                        <td style="display: none;"> {{$value->buy_subsys_no}} </td>
-                                        <td> {{$value->buy_domain}}</td>
-                                        <td>{{$value->subsys_art_no}}</td>
-                                        <td>{{$value->subsys_art_name}}</td>
-                                        <td>{{$value->status_article}}</td>
-                                        <!-- <td>{{ $rand }}</td> -->
-                                        <td>{{ $value->qtymonths }}</td>
-                                        <td>{{number_format(round($value->sales,2))}}</td>
-                                        <td>{{round($value->colli,2)}}</td>
-                                        <td>{{$value->noofinvoice}}</td>
-                                        <td>{{round($value->sales_per_month)}}</td>
-                                        <td>{{round($value->colli_per_month)}}</td>
-                                        <td>{{round($value->invoices_per_month)}}</td>
+                                        <td style="display: none;"> <?php echo e($value->buy_subsys_no); ?> </td>
+                                        <td> <?php echo e($value->buy_domain); ?></td>
+                                        <td><?php echo e($value->subsys_art_no); ?></td>
+                                        <td><?php echo e($value->subsys_art_name); ?></td>
+                                        <td><?php echo e($value->status_article); ?></td>
+                                        <!-- <td><?php echo e($rand); ?></td> -->
+                                        <td><?php echo e($value->qtymonths); ?></td>
+                                        <td><?php echo e(number_format(round($value->sales,2))); ?></td>
+                                        <td><?php echo e(round($value->colli,2)); ?></td>
+                                        <td><?php echo e($value->noofinvoice); ?></td>
+                                        <td><?php echo e(round($value->sales_per_month)); ?></td>
+                                        <td><?php echo e(round($value->colli_per_month)); ?></td>
+                                        <td><?php echo e(round($value->invoices_per_month)); ?></td>
                                     </tr>
                             <?php }
                             } ?>
@@ -369,7 +369,7 @@
 </div>
 
 
-@push('script')
+<?php $__env->startPush('script'); ?>
 
 
 <!-- month/year dropdown select Bootstrap js library -->
@@ -519,7 +519,7 @@
 
 
         /*  $('#customer').on('change', function() {
-             // var url = "{{url('customer?id=')}}" + this.value;
+             // var url = "<?php echo e(url('customer?id=')); ?>" + this.value;
              // window.location.href = url;
 
              var token_n = $('meta[name="_token"]').attr('content');
@@ -530,7 +530,7 @@
              $('<form>', {
                  "id": "customer_icoForm",
                  "html": '<input type="text" id="selected_ico" name="selected_ico" value="' + ico_number + '" /><input type="text" id="unique_no" name="unique_no" value="' + unique_no + '" /><input type="text" id="category" name="category" value="' + category + '" /><input type="text" id="token" name="_token" value="' + token_n + '" />',
-                 "action": "{{route('get_uniqueCustomer')}}",
+                 "action": "<?php echo e(route('get_uniqueCustomer')); ?>",
                  "method": "POST"
              }).appendTo(document.body).submit();
 
@@ -635,7 +635,7 @@
             $('<form>', {
                 "id": "customerOfferFrom",
                 "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
-                "action": "{{route('customer-offer-data')}}",
+                "action": "<?php echo e(route('customer-offer-data')); ?>",
                 "method": "POST"
             }).appendTo(document.body).submit();
 
@@ -647,6 +647,7 @@
 </script>
 
 
-@endpush
+<?php $__env->stopPush(); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\profitability-tool\resources\views/customer/index.blade.php ENDPATH**/ ?>

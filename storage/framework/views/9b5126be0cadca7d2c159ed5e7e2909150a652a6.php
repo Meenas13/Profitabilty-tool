@@ -1,6 +1,6 @@
-@extends('layouts.main')
-@section('title', 'Offer')
-@section('content')
+
+<?php $__env->startSection('title', 'Offer'); ?>
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid">
     <div class="page-header">
@@ -18,7 +18,7 @@
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{url('customer')}}"><i class="ik ik-home"></i></a>
+                            <a href="<?php echo e(url('customer')); ?>"><i class="ik ik-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="#">Offer</a>
@@ -55,24 +55,24 @@
                         </thead>
 
                         <tbody>
-                            @foreach($data as $offer)
+                            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $offer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <tr <?php if ($offer->delivery_flag_name == "Delivery") { ?> style="background-color: rgb(255 241 185);" <?php } ?>>
 
                                 <input type="hidden" name="buy_domain_no[]" class="buy_domain_no" value="<?php echo $offer->buy_domain_no; ?>">
                                 <input type="hidden" name="subsys_art_no[]" class="subsys_art_no" value="<?php echo $offer->subsys_art_no; ?>">
                                 <input type="hidden" name="buy_subsys_no[]" class="buy_subsys_no" value="<?php echo $offer->buy_subsys_no; ?>">
-                                <td>{{$offer->buy_domain}}</td>
-                                <td>{{$offer->subsys_art_no}}</td>
-                                <td>{{$offer->subsys_art_name}}</td>
-                                <td>{{$offer->status_article}}</td>
+                                <td><?php echo e($offer->buy_domain); ?></td>
+                                <td><?php echo e($offer->subsys_art_no); ?></td>
+                                <td><?php echo e($offer->subsys_art_name); ?></td>
+                                <td><?php echo e($offer->status_article); ?></td>
                                 <td><input type="text" name="collis[]" value="" class="form-control collis"></td>
                                 <td>
                                     <input type="text" name="selling[]" value="" class="form-control selling">
                                 </td>
 
                             </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                     <div class="card-options text-right mt-5">
@@ -140,9 +140,9 @@
                                     <!--       <td class="cust_HO_no">
                                         <select contenteditable="true" class="form-control cust_HO1 select2 customer_ico" name="customer_ico" id="customer_ico">
                                             <option selected="selected" value="">Select</option>
-                                            @foreach($cust_icoList as $cust_ico_no)
-                                            <option value="{{$cust_ico_no->ico}}">{{$cust_ico_no->ico}}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $cust_icoList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cust_ico_no): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($cust_ico_no->ico); ?>"><?php echo e($cust_ico_no->ico); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </td>
                                     <td class="linked_cust_no">
@@ -392,24 +392,24 @@
                                 <tr <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> class="selected" <?php } ?>>
                                     <!-- <td>
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input select_all_child" <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> checked <?php } ?>id="" name="customer-id" value="{{$value->buy_subsys_no}}">
+                                            <input type="checkbox" class="custom-control-input select_all_child" <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> checked <?php } ?>id="" name="customer-id" value="<?php echo e($value->buy_subsys_no); ?>">
                                             <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </td> -->
 
-                                    <td style="display: none;"> {{$value->buy_subsys_no}} </td>
-                                    <td> {{$value->buy_domain}}</td>
-                                    <td>{{$value->subsys_art_no}}</td>
-                                    <td>{{$value->subsys_art_name}}</td>
-                                    <td>{{$value->status_article}}</td>
-                                    <!-- <td>{{ $rand }}</td> -->
-                                    <td>{{ $value->qtymonths }}</td>
-                                    <td>{{round($value->sales,2)}}</td>
-                                    <td>{{round($value->colli,2)}}</td>
-                                    <td>{{$value->noofinvoice}}</td>
-                                    <td>{{round($value->sales_per_month)}}</td>
-                                    <td>{{round($value->colli_per_month)}}</td>
-                                    <td>{{round($value->invoices_per_month)}}</td>
+                                    <td style="display: none;"> <?php echo e($value->buy_subsys_no); ?> </td>
+                                    <td> <?php echo e($value->buy_domain); ?></td>
+                                    <td><?php echo e($value->subsys_art_no); ?></td>
+                                    <td><?php echo e($value->subsys_art_name); ?></td>
+                                    <td><?php echo e($value->status_article); ?></td>
+                                    <!-- <td><?php echo e($rand); ?></td> -->
+                                    <td><?php echo e($value->qtymonths); ?></td>
+                                    <td><?php echo e(round($value->sales,2)); ?></td>
+                                    <td><?php echo e(round($value->colli,2)); ?></td>
+                                    <td><?php echo e($value->noofinvoice); ?></td>
+                                    <td><?php echo e(round($value->sales_per_month)); ?></td>
+                                    <td><?php echo e(round($value->colli_per_month)); ?></td>
+                                    <td><?php echo e(round($value->invoices_per_month)); ?></td>
                                 </tr>
                         <?php }
                         } ?>
@@ -483,7 +483,7 @@
     </div>
 </div>
 
-@push('script')
+<?php $__env->startPush('script'); ?>
 
 <script type="text/javascript">
     //Forcasted OTI Calculation JS
@@ -535,7 +535,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "{{route('forcasted-cal')}}",
+                    url: "<?php echo e(route('forcasted-cal')); ?>",
                     dataType: "json",
                     data: {
                         '_token': $('meta[name="_token"]').attr('content'),
@@ -731,7 +731,7 @@
                 method: "POST",
                 data: {
                     // item_code: item_code,
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                     cust_id: $("#cust_id").val(),
                     row: count,
                     buy_domain: buy_domain,
@@ -827,7 +827,7 @@
                     "id": "customerOfferFrom",
                     "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferIDs + '" /> <input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /> <input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" />  <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
 
-                    "action": "{{route('customer-offer-data')}}",
+                    "action": "<?php echo e(route('customer-offer-data')); ?>",
                     "method": "POST"
                 }).appendTo(document.body).submit();
 
@@ -1113,7 +1113,7 @@
                 url: "calculate_backBonus",
                 method: "POST",
                 data: {
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                     rows: countt,
                     customer_ico: $(".selected_ico").val(),
                     customer_unique: customer_unique,
@@ -1310,7 +1310,8 @@
 
     }); //ready end
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\profitability-tool\resources\views/customer/offer.blade.php ENDPATH**/ ?>
