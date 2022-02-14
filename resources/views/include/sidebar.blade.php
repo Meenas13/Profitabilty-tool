@@ -43,7 +43,7 @@
 
 
                 <?php $user = Auth::User();
-                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in") { ?>
+                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in" || $user->email == "archanaaditya.deokar@metro-gsc.in") { ?>
 
                     <div class="nav-item {{ ($segment1 == 'nnnbp_screen') ? 'active' : '' }}">
                         <a href="{{route('nnnbp_screen')}}"><i class="ik ik-list"></i><span> {{ __('NNNBP Update')}}</span></a>

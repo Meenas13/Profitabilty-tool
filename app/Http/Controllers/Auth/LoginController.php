@@ -70,7 +70,7 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    
+
 
         if ($response = $this->loggedOut($request)) {
             Session::put('auth', $all);
@@ -81,6 +81,8 @@ class LoginController extends Controller
         // Auth::logout();
         // $request->Session::flush();
         return redirect('message')->with('logout', __('You have successfully logged out.'));
+        // return redirect('logout');
+        // ->with('logout', __('You have successfully logged out.'));
 
         // return $request->wantsJson()
         //     ? new Response('', 204)

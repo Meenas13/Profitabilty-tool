@@ -35,7 +35,7 @@
                 <div class="card">
                     <br>
                     <div class="card-body">
-                        <table id="nnnbp_table" class="display nowrap nnnbp_table" style="width:100%">
+                        <table id="nnnbp_table" class="display nowrap nnnbp_table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th style="display: none;">buy_domain_no</th>
@@ -136,51 +136,57 @@
                         $("." + make_key + " .nnnbp_src").text("");
                     }
 
-                    $("." + make_key + " .nnnbp_columns .switch input:checkbox").change(function() {
-                        if ($("." + make_key + " .nnnbp_columns .switch input:checkbox").is(":checked")) {
-                            $(this).parent().parent().addClass("selected_nnnbp");
-                            $(this).parent().find(".slider").removeClass("not_selected");
-                            $(this).parent().parent().find("input:checkbox").prop("checked", true);
+                    //    $("." + make_key + " .nnnbp_columns .switch input:checkbox").change(function() {
+                    if ($("." + make_key + " .nnnbp_columns .switch input:checkbox").is(":checked")) {
+                        $(this).parent().parent().addClass("selected_nnnbp");
+                        $(this).parent().find(".slider").removeClass("not_selected");
+                        $(this).parent().parent().find("input:checkbox").prop("checked", true);
 
-                            var get_attrId = $(this).parent().parent().attr("id");
-                            $("." + make_key + " .nnnbp_src").text(get_attrId);
+                        var get_attrId = $(this).parent().parent().attr("id");
+                        $("." + make_key + " .nnnbp_src").text(get_attrId);
 
-                            var buy_domain_no = $("." + make_key + " .buy_domain_no ").text();
+                        var buy_domain_no = $("." + make_key + " .buy_domain_no ").text();
 
-                            $.ajax({
+                        console.log("get_attrId " + get_attrId);
 
-                                method: "POST",
-                                url: "<?php echo e(route('update_nnnbpSrc')); ?>",
-                                dataType: "json",
-                                data: {
-                                    '_token': $('meta[name="_token"]').attr('content'),
-                                    'selected_src': get_attrId,
-                                    'buy_domain_no': buy_domain_no,
-                                },
-                                success: function(response) {
+                        $.ajax({
 
+                            method: "POST",
+                            url: "<?php echo e(route('update_nnnbpSrc')); ?>",
+                            dataType: "json",
+                            data: {
+                                '_token': $('meta[name="_token"]').attr('content'),
+                                'selected_src': get_attrId,
+                                'buy_domain_no': buy_domain_no,
+                            },
+                            success: function(response) {
+
+                                $(response).each(function(k, i) {
                                     $.alert({
                                         title: 'Great..!!',
                                         content: 'Source Updated',
                                         closeIcon: true
                                     });
-                                },
-                                fail: function(response) {
-                                    $.alert({
-                                        title: 'ohh..',
-                                        content: 'Source could not updated',
-                                        closeIcon: true
-                                    });
-                                }
-                            }); //Ajax end
+                                    return false;
+                                });
 
-                        } else {
-                            $(this).parent().parent().removeClass("selected_nnnbp");
-                            $(this).parent().parent().find("input:checkbox").prop("checked", false);
-                            $("." + make_key + " .nnnbp_columns .slider").addClass("not_selected");
+                            },
+                            fail: function(response) {
+                                $.alert({
+                                    title: 'ohh..',
+                                    content: 'Source could not updated',
+                                    closeIcon: true
+                                });
+                            }
+                        }); //Ajax end
 
-                        }
-                    }); //OnChangeinput-checkbox end
+                    } else {
+                        $(this).parent().parent().removeClass("selected_nnnbp");
+                        $(this).parent().parent().find("input:checkbox").prop("checked", false);
+                        $("." + make_key + " .nnnbp_columns .slider").addClass("not_selected");
+
+                    }
+                    //   }); //OnChangeinput-checkbox end
 
                 }); //OnClick input-checkbox end
 

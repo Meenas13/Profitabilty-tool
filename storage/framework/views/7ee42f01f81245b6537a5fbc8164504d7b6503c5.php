@@ -8,14 +8,14 @@
 <?php $__env->stopSection(); ?>
 
 <style>
-    select#quater {
+    /* select#quater {
         position: relative;
     }
 
     select#quater::before {
         position: absolute;
         content: "Select Quarter"
-    }
+    } */
 </style>
 <div class="container-fluid">
     <div class="page-header">
@@ -79,29 +79,24 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for=""> Linked Customer No <span class="error">*</span> (<input type="checkbox" class="refresh_unique">Show without ico ) </label>
+                            <label for=""> Linked Customers<span class="error" style="display: none;">*</span> (<input type="checkbox" class="refresh_unique">Show without ico ) </label>
                             <!-- &#8634;  -->
                             <!-- data-placeholder="Begin typing a name to filter..." multiple -->
 
                             <!-- <select multiple name="customer_unique[]" id="customer_unique" required class="chosen-select1 form-control1 customer_unique" style="width: 100%;">
                                 <option selected="selected" value=""> Linked Customers</option> -->
-                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" required class="chosen-select1 form-control customer_unique" style="width: 100%;">
-                                <option value="" class="linked"> Linked Customers</option>
-                                <?php
-                                // echo "<pre>";
-                                // print_r($cust_uniqueList);
-                                // echo "</pre>";
-                                // die(); 
-                                ?>
-                                <?php
-
-                                foreach ($cust_uniqueList as $unique) { ?>
-                                    <option value="<?php echo e($unique->cust_no_unique); ?> " <?php if ($unique_number == "$unique->cust_no_unique") {
-                                                                                        echo 'selected';
-                                                                                    } ?>><?php echo e($unique->cust_no_unique); ?></option>
-
-                                <?php }
-                                ?>
+                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique select2" style="width: 100%;">
+                                <!-- <option value="" class="linked"> Linked Customers</option> -->
+                                <?php if ($unique_number) { ?>
+                                    <?php foreach ($unique_number as $unique) { ?>
+                                        <option value="<?php echo $unique ?>" <?php //if ($unique == $cust_uniqueList->toArray()->cust_no_unique) {
+                                                                                echo 'selected';
+                                                                                //  }
+                                                                                ?>> <?php echo $unique ?> </option>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <!-- <option value="" class="linked"> Linked Customers</option> -->
+                                <?php } ?>
                             </select>
                             <!-- <select class="form-control customer_unique" name="customer_unique" id="customer_unique" required>
                                 <option selected="selected" value=""> Linked Customers</option>
@@ -114,7 +109,9 @@
                                 <option selected="selected" value="">Category of an article</option>
                                 <?php if($catmanager_groupList): ?>
                                 <?php $__currentLoopData = $catmanager_groupList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo $category->catmanager_group; ?>"><?php echo e($category->catmanager_group); ?></option>
+                                <option <?php if ($article_category_type == $category->catmanager_group) {
+                                            echo "selected";
+                                        } ?> value="<?php echo $category->catmanager_group; ?>"><?php echo e($category->catmanager_group); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                             </select>
@@ -126,9 +123,15 @@
                             <label for="">Channel Type</label>
                             <select class="form-control select2" name="channel">
                                 <option selected="selected" value=""> Type of channel</option>
-                                <option value="C&C">Cash & Carry</option>
-                                <option value="Delivery">FSD</option>
-                                <option value="both">Both</option>
+                                <option <?php if ($channel_type == "C&C") {
+                                            echo "selected";
+                                        } ?> value="C&C">Cash & Carry</option>
+                                <option <?php if ($channel_type == "Delivery") {
+                                            echo "selected";
+                                        } ?> value="Delivery">FSD</option>
+                                <option <?php if ($channel_type == "both") {
+                                            echo "selected";
+                                        } ?> value="both">Both</option>
                             </select>
                         </div>
                         <!-- <div class="col-md-8">
@@ -150,9 +153,9 @@
                         <div class="col-md-4">
                             <label for="">Year id</label>
                             <div class="yearRange_div" style="display: inline-flex;">
-                                <input type='text' class="year_id form-control from_year" name="from_year" format="yyyy" placeholder="From Year (yyyy)" style="width:48%">
+                                <input type='text' class="year_id form-control from_year" name="from_year" format="yyyy" placeholder="From Year (yyyy)" <?php if ($from_year) {  ?> value="<?php echo $from_year; ?>" <?php  } ?> style="width:48%">
                                 <span class="year_dash">-</span>
-                                <input type='text' class="year_id form-control to_year" name="to_year" placeholder="To Year (yyyy)" style="width:48%">
+                                <input type='text' class="year_id form-control to_year" name="to_year" placeholder="To Year (yyyy)" <?php if ($to_year) {  ?> value="<?php echo $to_year; ?>" <?php  } ?> style="width:48%">
 
                                 <!-- <input type="text" class="yearpicker from_year" name="from_year" placeholder="From Year (yyyy)">
                                 <input type="text" class="yearpicker to_year" name="to_year" placeholder="To Year (yyyy)"> -->
@@ -163,30 +166,56 @@
 
                         <div class="col-md-4">
                             <label for="">Month id </label>
-                            <input type='text' class="month_id form-control" name="month_id" placeholder="Select Month">
+                            <!-- <input type='text' class="month_id form-control" name="month_id" placeholder="Select Month"> -->
+                            <input type='text' class="month_id form-control" name="month_id" placeholder="Select Month" <?php if ($month_id) {
+                                                                                                                            echo "value='$month_id'";
+                                                                                                                        } ?>>
                         </div>
 
                     </div><br>
 
-
                     <div class="row">
-
                         <div class="col-md-4">
                             <label for="">Quarter</label>
                             <!-- <p class="custom_placeholder1">Quarter</p> -->
                             <select multiple="multiple" class="form-control quater select2" data-placeholder="Your Placeholder" name="quater[]" id="quater">
-                                <!-- <option value="" class="linked">Select Quater</option> -->
-                                <option value="FQ1">FQ1 (Oct-Dec)</option>
-                                <option value="FQ2">FQ2 (Jan-Mar)</option>
-                                <option value="FQ3">FQ3 (Apr-Jun)</option>
-                                <option value="FQ4">FQ4 (Jul-Sep)</option>
+                                <option value="" class="linked" id="first_quarter"></option>
+                                <option <?php
+                                        if ($quater) {
+                                            foreach ($quater as $qt) {
+                                                if ($qt == "FQ1") {
+                                                    echo "selected";
+                                                }
+                                            }
+                                        } ?> value="FQ1">FQ1 (Oct-Dec)</option>
+                                <option <?php if ($quater) {
+                                            foreach ($quater as $qt) {
+                                                if ($qt == "FQ2") {
+                                                    echo "selected";
+                                                }
+                                            }
+                                        } ?> value="FQ2">FQ2 (Jan-Mar)</option>
+                                <option <?php if ($quater) {
+                                            foreach ($quater as $qt) {
+                                                if ($qt == "FQ3") {
+                                                    echo "selected";
+                                                }
+                                            }
+                                        } ?> value="FQ3">FQ3 (Apr-Jun)</option>
+                                <option <?php if ($quater) {
+                                            foreach ($quater as $qt) {
+                                                if ($qt == "FQ4") {
+                                                    echo "selected";
+                                                }
+                                            }
+                                        } ?> value="FQ4">FQ4 (Jul-Sep)</option>
+
                             </select>
+
                         </div>
                     </div><br>
 
                     <div class="row">
-
-
                         <div class="col-md-4">
                             <button type="submit" class="btn btn-primary show_data"> Show Data</button>
                         </div>
@@ -205,7 +234,7 @@
                             <thead>
                                 <tr>
                                     <td>CATEGORY SALES SHARE</td>
-                                    <td></td>
+                                    <td>SALES SHARE %</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,7 +243,6 @@
                                     $cat_array = array();
                                     foreach ($catSaleShare as $key => $value) {
                                     ?>
-
                                         <tr>
                                             <td> <?php echo $value->catmanager_group; ?></td>
                                             <td> <?php echo round($value->sales_percentage, 2) . "%";   ?> </td>
@@ -230,7 +258,7 @@
                         <table id="advanced_table" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <td></td>
+                                    <td>FINANCIAL QUARTERS</td>
                                     <td>TOTAL SALES</td>
                                     <td>TOTAL OTI%</td>
                                     <td>INVOICES/MONTH</td>
@@ -277,8 +305,8 @@
 
                 <div class="card-body">
                     <!-- <table id="advanced_table" class="table table-bordered"> -->
-                    <table id="advanced_table" class="display nowrap final_table" style="width:100%">
-                        <thead style="text-align: center;" valign="center">
+                    <table id="advanced_table" class="display nowrap final_table table-bordered" style="width:100%">
+                        <thead style="text-align: left;" valign="center">
                             <tr>
                                 <!-- <th class="nosort" width="10">
                                     <label class="custom-control custom-checkbox m-0">
@@ -288,8 +316,8 @@
                                 </th> -->
                                 <th style="display: none;">Id</th>
                                 <th>Buy Domain</th>
-                                <th>Subsys<br>Art No</th>
-                                <th>Subsys<br>Art Name</th>
+                                <th>Subsys<br>Art. No.</th>
+                                <th>Subsys<br>Art. Name</th>
                                 <th>Status</th>
                                 <th>Qty<br>of<br>Months<br>With<br>Sales</th>
                                 <th>Sales</th>
@@ -338,12 +366,12 @@
 
                         </tbody>
 
-                        <tfoot style="text-align: center;" valign="center">
+                        <tfoot style="text-align: left;" valign="center">
                             <tr>
                                 <th style="display: none;">Id</th>
                                 <th>Buy Domain</th>
-                                <th>Subsys<br>Art No</th>
-                                <th>Subsys<br>Art Name</th>
+                                <th>Subsys<br>Art. No</th>
+                                <th>Subsys<br>Art. Name</th>
                                 <th>Status</th>
                                 <th>Qty<br>of<br>Months<br>With<br>Sales</th>
                                 <th>Sales</th>
@@ -371,7 +399,6 @@
 
 <?php $__env->startPush('script'); ?>
 
-
 <!-- month/year dropdown select Bootstrap js library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -382,7 +409,20 @@
 
 
 <script type="text/javascript">
+    $(window).load(function() {
+        // $(".quater").select2({
+        //     placeholder: {
+        //         id: '-1', // the value of the option
+        //         text: 'Select Quarter'
+        //     }
+        // });
+
+        // $(".quater").find("option#first_quarter").hide();
+        $(".quater option#first_quarter").remove();
+    })
+
     $(document).ready(function() {
+        // $(".quater").find("option#first_quarter").css('display','none');
 
         // $('.customer_unique').selectpicker();
         // $('.quater').select2({
@@ -404,6 +444,8 @@
                 $('#customer').prop('selectedIndex', 0).trigger("change");
 
                 $('#customer').prop("required", false);
+                $('#customer_unique').prop("required", true);
+                $('#customer_unique').parent().find("span.error").css('display', 'inline-block');
                 $('#customer').parent().find("span.error").css('display', 'none');
                 $('#customer_unique').prop("multiple", false);
 
@@ -414,7 +456,7 @@
                     success: function(data) {
                         console.log(data);
                         $('select[name="customer_unique[]"]').empty();
-                        $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>');
+                        $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>').fadeIn("fast");
                         jQuery.each(data, function(key, value) {
                             $('select[name="customer_unique[]"]').append('<option value="' + value.cust_no_unique + '">' + value.cust_no_unique + '</option>');
                         });
@@ -445,6 +487,13 @@
             if ($('.from_year').val().length == "4") {
                 $('.to_year').prop("required", true);
             }
+
+            $(".customer_unique").select2({
+                placeholder: {
+                    id: '-1', // the value of the option
+                    text: 'Linked Customers'
+                }
+            });
         });
 
         $(function() {
@@ -462,10 +511,15 @@
                 }
             });
 
+            $(".datepicker-months table.table-condensed tr td span.month").prop("disabled", false);
+            $(".datepicker-months table.table-condensed tr td span.month").removeAttr("disabled");
+
             $(".month_id").datepicker({
+                numberOfMonths: 12,
                 format: "MM yyyy",
                 viewMode: "months",
                 minViewMode: "months",
+                startView: 2,
                 defaultViewDate: {
                     year: '1950'
                 },
@@ -473,6 +527,7 @@
                 endDate: '-0y', //2021-2011
                 autoclose: true //to close picker once month is selected
             });
+
 
             $(".year_id.from_year").datepicker({
                 format: "yyyy",

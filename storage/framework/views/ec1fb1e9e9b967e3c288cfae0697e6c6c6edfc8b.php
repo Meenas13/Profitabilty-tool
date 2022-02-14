@@ -29,6 +29,23 @@
             color: #FFF;
             text-decoration: none;
         }
+
+        .button.btn.btn-custom#logout_btnDiv {
+            padding: 0;
+        }
+        /* 2400336341 */
+        .btn-custom.logout {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background-color: #009688;
+            height: 38px;
+            color: #fff;
+            border-radius: 25px;
+        }
     </style>
     <div class="col-md-12 p-0">
         <div class="auth-wrapper">
@@ -44,7 +61,7 @@
                             </br>
                             <div class="sign-btn text-center">
                                 <br>
-                                <button class="btn btn-custom">
+                                <button class="btn btn-custom" id="logout_btnDiv">
                                     <a class="btn-custom logout" href="<?php echo e(url('login')); ?>"><?php echo e(__('Login')); ?></a>
                                 </button>
                             </div>

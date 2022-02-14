@@ -10,6 +10,7 @@
 /* Header CSS */
 .header-brand .logo-img {width: 100px !important;}
 
+
 /* Sales OTI & Category Share table CSS */
 .table thead {background-color: #003b7e;color: #fff;text-align: center;}
 .table thead th {font-weight: 600;color: #fff;font-size: 14px;}
@@ -37,6 +38,7 @@ select#quater option.linked {background: transparent;height: 100%;width: 100%;pa
 
 select.bulk, select.spirit,select.regular, select.promo,select.cip {padding-right: 30px;}
 #bb_table select.form-control{background-position: center right 10px;}
+.datepicker table tr td span.month.disabled, .datepicker table tr td span.month.disabled:hover{display: inline !important;}
 
 /* Offer Page CSS */
 .full_div {display: inline-block;width: 100%;}
@@ -48,7 +50,7 @@ input.amount {width: 50%;}
 .BonusType_error{color: red;}
 .bt_error{display: none;color: red;}
 #refres_bonusTypes{cursor: pointer;}
-
+input.form-control.collis, input.form-control.selling {border: 1px solid grey !important;}
 /* nnnbp Page CSS */
 /* #nnnbp_updatePage .nnnbp_columns {border: 0;}display: flex;align-items: center;justify-content: center; */
 #nnnbp_updatePage .switch {position: relative;display: inline-block;width: 46px;height: 23px;margin-bottom: 0}

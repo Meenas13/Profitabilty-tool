@@ -41,13 +41,13 @@
                 </div> -->
                 <div class="card-body">
                     <!-- <table id="advanced_table" class="table table-striped table-bordered nowrap dataTable"> -->
-                    <table id="advanced_table1" class="display nowrap final_table" style="width:100%">
+                    <table id="advanced_table1" class="display nowrap final_table table-bordered" style="width:100%">
                         <span id="backBonus_amt" style="display: none;"></span>
-                        <thead style="text-align: center;">
+                        <thead style="text-align: left;">
                             <tr valign="center">
                                 <th width="15%">Buy Domain</th>
-                                <th width="15%">Subsys<br>Art No</th>
-                                <th width="15%">Subsys<br>Art Name</th>
+                                <th width="15%">Subsys<br>Art. No</th>
+                                <th width="15%">Subsys<br>Art. Name</th>
                                 <th width="15%"> Status</th>
                                 <th>Colli</th>
                                 <th>Requested Price<br>/<br>MU</th>
@@ -108,8 +108,14 @@
                             <input readonly type="hidden" value="<?php echo $selected_yearId; ?>" name="selected_yearId" class="selected_yearId">
                             <input readonly type="hidden" value="<?php echo $selected_monthId; ?>" name="selected_monthId" class="selected_monthId">
 
-                            <?php foreach ($cust_unique as $un_number) { ?>
-                                <input readonly type="hidden" value="<?php echo $un_number; ?>" name="selected_unique" class="selected_unique">
+                            <?php
+                            if ($cust_unique) {
+                                foreach ($cust_unique as $un_number) { ?>
+                                    <input readonly type="hidden" value="<?php echo $un_number; ?>" name="selected_unique" class="selected_unique">
+                                <?php }
+                            } else {
+                                ?>
+                                <input readonly type="hidden" value="<?php echo "NULL"; ?>" name="selected_unique" class="selected_unique">
                             <?php } ?>
 
                             <input readonly type="hidden" value="<?php echo $selected_quarter_implode; ?>" name="selected_quarter[]" class="selected_quarter">
@@ -153,7 +159,7 @@
                                     </td>  -->
                                     <td>
                                         <select contenteditable="true" required class="form-control bulk" name="country">
-                                            <option selected="selected" value="">Bulk </option>
+                                            <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
@@ -161,7 +167,7 @@
 
                                     </td>
                                     <td> <select contenteditable="true" required class="form-control spirits" name="country">
-                                            <option selected="selected" value="">Spirits </option>
+                                            <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
@@ -169,7 +175,7 @@
 
                                     </td>
                                     <td> <select contenteditable="true" required class="form-control regular" name="country">
-                                            <option selected="selected" value=""> Regular </option>
+                                            <option selected="selected" value=""> Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
@@ -177,7 +183,7 @@
 
                                     </td>
                                     <td> <select contenteditable="true" required class="form-control promo" name="country">
-                                            <option selected="selected" value="">Promo </option>
+                                            <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
@@ -185,7 +191,7 @@
 
                                     </td>
                                     <td> <select contenteditable="true" required class="form-control cip" name="country">
-                                            <option selected="selected" value="">CIP </option>
+                                            <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
@@ -226,16 +232,23 @@
                     <br>
                     <div style="text-align: right !important;" class="card-options">
                         <button type="button" id="calculate_backBonus" class="btn btn-info btn-large">Calculate Back Bonus</button>
-                        <button type="button" id="calculate" class="btn btn-warning btn-large" disabled>Calculate OTI</button>
+                        <button type="button" id="calculate" class="btn btn-warning btn-large">Calculate OTI</button>
                     </div>
                 </div>
-            </div>
+
+                <br><br>
+                <div style="text-align: center !important;" class="card-options">
+                    <h3 style="border: 3px solid #007bff;">Forecasted OTI = <span id="forecasted">0%</span></h3>
+                </div>
+                <br> <br>
+
+            </div> <!-- Card End -->
         </div>
     </div>
 </div>
 
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -244,14 +257,11 @@
                     <h3 style="border: 3px solid #007bff;">Forecasted OTI = <span id="forecasted">0%</span></h3>
                 </div>
                 <br> <br>
-                <!-- <div style="text-align: center !important;" class="card-options">
-                    <h3 style="border: 3px solid #007bff;">Historical OTI = <span id="historical">0%</span></h3>
-                </div>
-                <br> <br> -->
+              
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <!-- Modal add Backbonus range -->
@@ -275,7 +285,7 @@
                             <th>Level 5</th>
                         </tr>
                         <tr class="row_count1" id='row1'>
-                            <td contenteditable="true" class="level_1">
+                            <td class="level_1">
                                 <div class="full_div">
                                     <div class="half_div first">
                                         <input type="text" rowspan="2" value="" placeholder="From_1" class="from_amount form-control">
@@ -285,7 +295,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td contenteditable="true" class="level_2">
+                            <td class="level_2">
                                 <div class="full_div">
                                     <div class="half_div first">
                                         <input type="text" rowspan="2" value="" placeholder="From_2" class="from_amount form-control">
@@ -295,7 +305,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td contenteditable="true" class="level_3">
+                            <td class="level_3">
                                 <div class="full_div">
                                     <div class="half_div first">
                                         <input type="text" rowspan="2" value="" placeholder="From_3" class="from_amount form-control">
@@ -305,7 +315,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td contenteditable="true" class="level_4">
+                            <td class="level_4">
                                 <div class="full_div">
                                     <div class="half_div first">
                                         <input type="text" rowspan="2" value="" placeholder="From_4" class="from_amount form-control">
@@ -315,7 +325,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td contenteditable="true" class="level_5">
+                            <td class="level_5">
                                 <div class="full_div">
                                     <div class="half_div first">
                                         <input type="text" rowspan="2" value="" placeholder="From_5" class="from_amount form-control">
@@ -364,8 +374,8 @@
                             </th> -->
                             <th style="display: none;">Id</th>
                             <th>Buy Domain</th>
-                            <th>Subsys<br>Art No</th>
-                            <th>Subsys<br>Art Name</th>
+                            <th>Subsys<br>Art. No</th>
+                            <th>Subsys<br>Art. Name</th>
                             <th>Status</th>
                             <th>Qty<br>of<br>Months<br>With<br>Sales</th>
                             <th>Sales</th>
@@ -441,8 +451,8 @@
                     <table class="table table-bordered" id="cust_table">
                         <tr>
                             <th>Buy Domain</th>
-                            <th>Subsys Art No</th>
-                            <th>Subsys Art Name</th>
+                            <th>Subsys Art. No</th>
+                            <th>Subsys Art. Name</th>
                             <th>Status</th>
                             <th>Qty of Months With Sales</th>
                             <th>Sales</th>
@@ -492,149 +502,255 @@
         // Calculate Forcasted OTI % 
         $("#calculate").on("click", function() {
 
-            if ($('.collis').val().length <= 0 && $('.selling').val().length <= 0) {
+            if ($('.collis').length && $('.selling').length) {
+
+                if ($('.collis').val().length <= 0 && $('.selling').val().length <= 0) {
+                    $.alert({
+                        title: 'Error',
+                        content: 'Please enter Colli & Requested Price/MU of an article(s)',
+                        closeIcon: true
+                    });
+                    return false;
+                } else if ($('.collis').val().length > 0 && $('.selling').val().length <= 0) {
+                    $.alert({
+                        title: 'Error',
+                        content: 'Please enter Requested Price/MU of an article(s)',
+                        closeIcon: true
+                    });
+                    return false;
+                } else if ($('.collis').val().length <= 0 && $('.selling').val().length > 0) {
+                    $.alert({
+                        title: 'Error',
+                        content: 'Please enter Colli of an article(s)',
+                        closeIcon: true
+                    });
+                    return false;
+                } else {
+
+                    $('#calculate').prop('disabled', true);
+
+                    if ($('#backBonus_amt').text()) {
+                        var backBonus_amount = $('#backBonus_amt').text();
+                    } else {
+                        var backBonus_amount = "0";
+                    }
+
+                    var selling = [];
+                    $(".selling").each(function() {
+                        selling.push($(this).val());
+                    });
+
+                    var collis = [];
+                    $(".collis").each(function() {
+                        collis.push($(this).val());
+                    });
+
+                    var buy_domain_no = [];
+                    $(".buy_domain_no").each(function() {
+                        buy_domain_no.push($(this).val());
+                    });
+
+                    var subsys_art_no = [];
+                    $(".subsys_art_no").each(function() {
+                        subsys_art_no.push($(this).val());
+                    });
+
+                    var buy_subsys_no = [];
+                    $(".buy_subsys_no").each(function() {
+                        buy_subsys_no.push($(this).val());
+                    });
+
+                    var cust_id = jQuery("#cust_id").val();
+                    var cust_unique = $(".c_unique").val();
+
+                    var customer_unique = [];
+
+                    $('.selected_unique').each(function() {
+                        customer_unique.push($(this).val());
+                    });
+
+
+
+                    $.ajax({
+                        method: "POST",
+                        url: "<?php echo e(route('forcasted-cal')); ?>",
+                        dataType: "json",
+                        data: {
+                            '_token': $('meta[name="_token"]').attr('content'),
+                            'ico': cust_id,
+                            'cust_unique': cust_unique,
+                            'selling': selling,
+                            'colli': collis,
+                            'buy_domain_no': buy_domain_no,
+                            'buy_subsys_no': buy_subsys_no,
+                            'subsys_art_no': subsys_art_no,
+                            'backBonus_amount': backBonus_amount,
+
+                            'customer_ico': $(".selected_ico").val(),
+                            // 'customer_unique': customer_unique,
+                            'customer_unique': $(".c_unique").val(),
+                            'selected_quarter': $(".selected_quarter").val(),
+                            'selected_artCategory': $(".selected_artCategory").val(),
+                            'selected_channel': $(".selected_channel").val(),
+                            'selected_yearId': $(".selected_yearId").val(),
+                            'selected_monthId': $(".selected_monthId").val(),
+
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            console.log(response.last_yearSales);
+                            var fc = parseFloat(response.forecastedOTI) * 100;
+
+                            $('#calculate').prop('disabled', false);
+                            // if (response == "Less Then Zero") {
+                            if (fc < 0) {
+                                $("#forecasted").text(fc.toFixed(2) + '%');
+                                $("#forecasted").css("color", "red");
+                            } else {
+                                $("#forecasted").css("color", "");
+                                $("#forecasted").text(fc.toFixed(2) + '%');
+
+                                // var history_oti = $("#historical_oti").text().replace("%", "");
+                                var history_oti = response.sales_sum;
+
+
+                                var historical = [];
+                                var arr_count = "";
+                                $(history_oti).each(function(key, index) {
+
+                                    console.log(index);
+                                    arr_count = history_oti.length;
+
+                                    // if (customer_unique == "NULL") {
+                                    //     $(index).each(function(k, i) {
+                                    //         if (i.ico == $(".selected_ico").val()) {
+                                    //             historical.push(i.oti_percentage);
+                                    //         }
+                                    //     });
+                                    // } else {
+                                    //     historical.push(index[0].oti_percentage);
+                                    // }
+
+                                    if ($(".selected_ico").val() != "NULL" && customer_unique == "NULL") {
+                                        $(index).each(function(k, i) {
+                                            if (i.ico == $(".selected_ico").val()) {
+                                                historical.push(i.oti_percentage);
+                                            }
+                                        });
+                                    } else if ($(".selected_ico").val() != "NULL" && customer_unique != "NULL") {
+                                        $(index).each(function(k, i) {
+                                            for ($s = 0; $s < (customer_unique).length; $s++) {
+                                                if (i.ico == $(".selected_ico").val() && i.cust_no_unique == customer_unique[$s]) {
+                                                    historical.push(i.oti_percentage);
+                                                }
+                                            }
+                                        });
+                                    } else if ($(".selected_ico").val() == "NULL" && customer_unique != "NULL") {
+                                        $(index).each(function(k, i) {
+                                            for ($s = 0; $s < (customer_unique).length; $s++) {
+                                                if (i.cust_no_unique == customer_unique[$s]) {
+                                                    historical.push(i.oti_percentage);
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        historical.push(index[0].oti_percentage);
+                                    }
+
+
+
+                                });
+
+                                //Calculate Sum of all Sales individually
+                                var history_sum = eval(historical.join("+"));
+
+                                var historical_otiSum = (history_sum / arr_count).toFixed(2);
+                                // console.log("H OTI" + historical_otiSum);
+
+                                var last_yearSales_sum = [];
+
+                                $(response.last_yearSales).each(function(key, index) {
+                                    last_yearSales_sum.push(index.sales);
+                                });
+
+                                var previous_sales_sum = eval(last_yearSales_sum.join("+"));
+                                console.log(previous_sales_sum);
+                                console.log("fc " + fc);
+                                console.log("history_oti" + historical_otiSum);
+                                console.log("(fc - history_oti)" + (fc - historical_otiSum));
+
+                                //Show alert if Forecasted OTI% - Historical OTI % is greater than 5%
+                                if (((fc - historical_otiSum) > 5.00)) {
+                                    $.alert({
+                                        title: 'Alert !!',
+                                        content: 'Forecasted OTI% - Historical OTI % is greater than 5%',
+                                        closeIcon: true
+                                    });
+                                } else if (((fc - historical_otiSum) <= 5.00) && ((fc - historical_otiSum) > -5.00)) {
+                                    console.log("Forecasted OTI% - Historical OTI % is less than 5 and greater than -5");
+                                } else {
+                                    console.log("Forecasted OTI% - Historical OTI % is less than -5%");
+                                }
+
+                                //Show alert if current sales not greater than 25% than previous year
+                                if ((((response.colli_sp_sum / previous_sales_sum) - 1) * 100) > 25.00) {
+                                    console.log("Percentage Sales greater than 25%");
+                                } else {
+                                    $.alert({
+                                        title: 'Alert !!',
+                                        content: 'Percentage Sales not increased by 25% compared to previous year',
+                                        closeIcon: true
+                                    });
+                                }
+
+                                //Show alert if current sales not greater than 20000 Eur than previous year
+                                if (((response.colli_sp_sum - previous_sales_sum) * 4) > 20000.00) {
+                                    console.log("absolute sales greater than 20000 Eur");
+                                } else {
+                                    $.alert({
+                                        title: 'Alert !!',
+                                        content: 'Absolute Sales not increased by 20000(EUR) compared to previous year',
+                                        closeIcon: true
+                                    });
+                                }
+
+                                //Show alert if OTI is not incresed
+                                if ((historical_otiSum / fc) > ((previous_sales_sum / response.colli_sp_sum) * 50 / 100)) {
+                                    console.log("OTI Increase OK");
+                                } else {
+                                    // $.alert({
+                                    //     title: 'Alert !!',
+                                    //     content: 'OTI not Increase: NOT OK',
+                                    //     closeIcon: true
+                                    // });
+                                    console.log("OTI Not Increase: NOT OK");
+                                    console.log("history_oti / fc: " + historical_otiSum / fc);
+                                }
+
+                            }
+                        },
+                        fail: function(response) {
+
+                        }
+                    });
+                    $('#calculate').prop('disabled', false);
+                }
+
+            } else {
+
                 $.alert({
                     title: 'Error',
-                    content: 'Please enter Colli & Requested Price/MU for an article',
+                    content: 'No Article is selected to calculate OTI',
                     closeIcon: true
                 });
                 return false;
 
-            } else {
-
-                $('#calculate').prop('disabled', true);
-                var backBonus_amount = $('#backBonus_amt').text();
-
-                var selling = [];
-                $(".selling").each(function() {
-                    selling.push($(this).val());
-                });
-
-                var collis = [];
-                $(".collis").each(function() {
-                    collis.push($(this).val());
-                });
-
-                var buy_domain_no = [];
-                $(".buy_domain_no").each(function() {
-                    buy_domain_no.push($(this).val());
-                });
-
-                var subsys_art_no = [];
-                $(".subsys_art_no").each(function() {
-                    subsys_art_no.push($(this).val());
-                });
-
-                var buy_subsys_no = [];
-                $(".buy_subsys_no").each(function() {
-                    buy_subsys_no.push($(this).val());
-                });
-
-                var cust_id = jQuery("#cust_id").val();
-                var cust_unique = $(".c_unique").val();
-
-                $.ajax({
-                    method: "POST",
-                    url: "<?php echo e(route('forcasted-cal')); ?>",
-                    dataType: "json",
-                    data: {
-                        '_token': $('meta[name="_token"]').attr('content'),
-                        'ico': cust_id,
-                        'cust_unique': cust_unique,
-                        'selling': selling,
-                        'colli': collis,
-                        'buy_domain_no': buy_domain_no,
-                        'buy_subsys_no': buy_subsys_no,
-                        'subsys_art_no': subsys_art_no,
-                        'backBonus_amount': backBonus_amount
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        console.log(response.last_yearSales);
-                        $('#calculate').prop('disabled', false);
-                        // if (response == "Less Then Zero") {
-                        if (response < 0) {
-                            $("#forecasted").text(response.forecastedOTI);
-                            $("#forecasted").css("color", "red");
-                        } else {
-                            $("#forecasted").css("color", "");
-                            $("#forecasted").text(response.forecastedOTI + '%');
-
-                            var history_oti = $("#historical_oti").text().replace("%", "");
-
-                            var last_yearSales_sum = [];
-
-                            $(response.last_yearSales).each(function(key, index) {
-                                last_yearSales_sum.push(index.sales);
-                            });
-
-                            var previous_sales_sum = eval(last_yearSales_sum.join("+"));
-                            console.log(previous_sales_sum);
-
-                            //Show alert if Forecasted OTI% - Historical OTI % is greater than 5%
-                            if (Math.abs(parseFloat(response.forecastedOTI) - parseFloat(history_oti)) <= 5 && Math.abs(parseFloat(response.forecastedOTI) - parseFloat(history_oti) > -5)) {
-                                console.log("Forecasted OTI% - Historical OTI % is less than and equal to 5%");
-                            } else {
-                                // $.alert({
-                                //     title: 'Alert !!',
-                                //     content: 'Forecasted OTI% - Historical OTI % is greater than 5%',
-                                //     closeIcon: true
-                                // });
-
-                                console.log(Math.abs(response.forecastedOTI - history_oti));
-                                console.log($("#historical_oti").text());
-                                console.log($("#historical_oti").text().replace("%", ""));
-
-                            }
-
-                            //Show alert if current sales not greater than 25% than previous year
-                            if ((response.colli_sp_sum / previous_sales_sum * 100) > 25) {
-                                console.log("Percentage Sales greater than 25%");
-                            } else {
-                                $.alert({
-                                    title: 'Alert !!',
-                                    content: 'Percentage Sales not increased by 25% compared to previous year',
-                                    closeIcon: true
-                                });
-                            }
-
-                            //Show alert if current sales not greater than 20000 Eur than previous year
-                            if (Math.abs(response.colli_sp_sum - previous_sales_sum) > 20000) {
-                                console.log("absolute sales greater than 20000 Eur");
-                            } else {
-                                $.alert({
-                                    title: 'Alert !!',
-                                    content: 'Absolute Sales not increased by 25% compared to previous year',
-                                    closeIcon: true
-                                });
-                            }
-
-                            //Show alert if Forecasted OTI% - Historical OTI % is greater than 5%
-                            if ((history_oti / response.forecastedOTI) > ((previous_sales_sum / response.colli_sp_sum) * 50 / 100)) {
-                                console.log("OTI Increase OK");
-                            } else {
-                                $.alert({
-                                    title: 'Alert !!',
-                                    content: 'OTI not Increase: NOT OK',
-                                    closeIcon: true
-                                });
-                            }
-
-
-
-
-
-                        }
-                    },
-                    fail: function(response) {
-
-                    }
-                });
-                $('#calculate').prop('disabled', false);
             }
 
-        }); // Calculate Forcasted OTI % End
 
+
+
+        }); // Calculate Forcasted OTI % End
 
     });
 
@@ -842,7 +958,7 @@
     $(document).ready(function() {
 
         $('#refres_bonusTypes').click(function() {
-            $('input.amount, input.percent, input.from_amount, input.to_amount ').val("");
+            $('input.amount, input.percent, input.from_amount, input.to_amount ,  input.percentage').val("");
 
             $(".row_count1 td.type1_bb").find('.amount').prop('disabled', false);
             $(".row_count1 td.type1_bb ").find('.percent').prop('disabled', false);
@@ -1116,7 +1232,8 @@
                     "_token": "<?php echo e(csrf_token()); ?>",
                     rows: countt,
                     customer_ico: $(".selected_ico").val(),
-                    customer_unique: customer_unique,
+                    // customer_unique: customer_unique,
+                    customer_unique: $(".c_unique").val(),
                     selected_quarter: $(".selected_quarter").val(),
                     selected_artCategory: $(".selected_artCategory").val(),
                     selected_channel: $(".selected_channel").val(),
@@ -1132,21 +1249,70 @@
                     var cip_sales_sum = [];
                     var historical = [];
                     var arr_count = "";
+
                     $(data.data).each(function(key, index) {
-                        // console.log(index[0]);
 
+                        console.log(index);
+
+                        ind_count = index.length;
                         arr_count = data.data.length;
-                        bulk_sales_sum.push(index[0].bulk_sales);
-                        spirit_sales_sum.push(index[0].spirit_sales);
-                        regular_sales_sum.push(index[0].regular_sales);
-                        promo_sales_sum.push(index[0].promo_sales);
-                        cip_sales_sum.push(index[0].cip_sales);
-                        historical.push(index[0].oti_percentage);
+                        console.log(ind_count);
 
+                        if ($(".selected_ico").val() != "NULL" && customer_unique == "NULL") {
+                            $(index).each(function(k, i) {
+                                if (i.ico == $(".selected_ico").val()) {
+                                    bulk_sales_sum.push(i.bulk_sales);
+                                    spirit_sales_sum.push(i.spirit_sales);
+                                    regular_sales_sum.push(i.regular_sales);
+                                    promo_sales_sum.push(i.promo_sales);
+                                    cip_sales_sum.push(i.cip_sales);
+                                    historical.push(i.oti_percentage);
+                                }
+                            });
+                        } else if ($(".selected_ico").val() != "NULL" && customer_unique != "NULL") {
+
+                            $(index).each(function(k, i) {
+                                for ($s = 0; $s < (customer_unique).length; $s++) {
+                                    if (i.ico == $(".selected_ico").val() && i.cust_no_unique == customer_unique[$s]) {
+
+                                        bulk_sales_sum.push(i.bulk_sales);
+                                        spirit_sales_sum.push(i.spirit_sales);
+                                        regular_sales_sum.push(i.regular_sales);
+                                        promo_sales_sum.push(i.promo_sales);
+                                        cip_sales_sum.push(i.cip_sales);
+                                        historical.push(i.oti_percentage);
+                                    }
+                                }
+                            });
+                        } else if ($(".selected_ico").val() == "NULL" && customer_unique != "NULL") {
+
+                            $(index).each(function(k, i) {
+                                for ($s = 0; $s < (customer_unique).length; $s++) {
+                                    if (i.cust_no_unique == customer_unique[$s]) {
+                                        bulk_sales_sum.push(i.bulk_sales);
+                                        spirit_sales_sum.push(i.spirit_sales);
+                                        regular_sales_sum.push(i.regular_sales);
+                                        promo_sales_sum.push(i.promo_sales);
+                                        cip_sales_sum.push(i.cip_sales);
+                                        historical.push(i.oti_percentage);
+                                    }
+                                }
+                            });
+                        } else {
+                            console.log("Else");
+                            bulk_sales_sum.push(index[0].bulk_sales);
+                            spirit_sales_sum.push(index[0].spirit_sales);
+                            regular_sales_sum.push(index[0].regular_sales);
+                            promo_sales_sum.push(index[0].promo_sales);
+                            cip_sales_sum.push(index[0].cip_sales);
+                            historical.push(index[0].oti_percentage);
+                        }
+                        // console.log(ind_count);
                     });
 
                     //Calculate Sum of all Sales individually
                     var bulk_sum = eval(bulk_sales_sum.join("+"));
+                    console.log(bulk_sum);
                     var spirit_sum = eval(spirit_sales_sum.join("+"));
                     var regular_sum = eval(regular_sales_sum.join("+"));
                     var promo_sum = eval(promo_sales_sum.join("+"));
@@ -1173,7 +1339,12 @@
                         Limit_base.push(cip_sum);
                     }
 
-                    var limit_base_amount = eval(Limit_base.join("+")).toFixed(2);
+                    if (Limit_base.length >= 1) {
+                        var limit_base_amount = eval(Limit_base.join("+")).toFixed(2);
+                    } else {
+                        var limit_base_amount = "0";
+                    }
+
 
                     //Calculate Bonus Base
                     var bonus_base = [];
@@ -1192,48 +1363,130 @@
                     if ($(".cip").val() == "limitAndBonusBase") {
                         bonus_base.push(cip_sum);
                     }
-                    var bonus_base_amount = eval(bonus_base.join("+")).toFixed(2);
+
+                    if (bonus_base.length >= 1) {
+                        var bonus_base_amount = eval(bonus_base.join("+")).toFixed(2);
+                    } else {
+                        var bonus_base_amount = "0";
+                    }
+
+
+                    var err_flag = 0;
 
                     //Check if Amount/Percent is added then calculate BackBonus
                     var bonus_amount = $(".amount").val().replace("€", "");
                     var bonus_percent = $(".percent").val().replace("%", "");
-                    var back_bonus = 0;
-                    if (limit_base_amount && bonus_percent != "") {
+                    var back_bonus = "";
+                    if (limit_base_amount && bonus_amount != "" && bonus_percent != "") {
                         if (parseFloat(limit_base_amount) > parseFloat(bonus_amount)) {
+                            err_flag = 2;
                             console.log('%' + bonus_percent);
                             var back_bonus = parseFloat(limit_base_amount) * (parseFloat(bonus_percent) / 100);
                             back_bonus = back_bonus.toFixed(2);
+                        } else {
+                            err_flag = 1;
+                            $.alert({
+                                title: 'Alert',
+                                content: 'Bonus_From amount (€' + bonus_amount + ') is greater than limit base amount (€' + limit_base_amount + '), please make sure to enter correct from-amount',
+                                closeIcon: true
+                            });
+                            $(".bb_returns").css('display', 'none');
+                            return false;
                         }
                     }
 
+
+
+                    console.log("from_amount  " + from_amount);
                     //Check if Amount-Levels are added then calculate BackBonus
-                    if (limit_base_amount && percentage != "") {
+                    if (limit_base_amount && percentage != "" && from_amount != "") {
+
                         $(from_amount).each(function(f_key, f_index) {
 
-                            if (parseFloat(limit_base_amount) >= parseFloat(from_amount[f_key]) && parseFloat(limit_base_amount) < parseFloat(to_amount[f_key])) {
-                                var bb = parseFloat(limit_base_amount) * parseFloat(percentage[f_key] / 100);
-                                if (bb == "undefined") {
-                                    back_bonus = 0;
-                                } else {
-                                    back_bonus = bb.toFixed(2);
+                            if (f_index != "" && percentage[f_key] != "" || to_amount[f_key] != "") {
+                                console.log("All is NOT null");
+
+                                // console.log("All Vals " + parseFloat(limit_base_amount) + ">=" + parseFloat(f_index) + "&&" + parseFloat(limit_base_amount) + "<" + parseFloat(to_amount[f_key]));
+
+                                // if (parseFloat(limit_base_amount) < parseFloat(f_index) && parseFloat(limit_base_amount) > parseFloat(to_amount[f_key])) {
+                                if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) || ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
+                                    err_flag = 2;
+
+                                    console.log("All Conditions " + (limit_base_amount >= parseFloat(from_amount[f_key])) + " && " + (limit_base_amount < parseFloat(to_amount[f_key])));
+
+                                    // console.log("parseFloat(limit_base_amount) >= parseFloat(f_index) " + limit_base_amount > f_index && limit_base_amount < to_amount[f_key]);
+
+                                    console.log("f_key " + f_key);
+                                    console.log("f_index " + f_index);
+                                    console.log("limit_base_amount " + limit_base_amount);
+                                    console.log("from_amount[f_key] " + from_amount[f_key]);
+                                    console.log("to_amount[f_key] " + to_amount[f_key]);
+
+                                    // || parseFloat(limit_base_amount) < parseFloat(to_amount[f_key])) {
+                                    var bb = parseFloat(limit_base_amount) * (parseFloat(percentage[f_key]) / 100);
+                                    if (bb == "undefined") {
+                                        back_bonus = "";
+                                        $.alert({
+                                            title: 'Error',
+                                            content: 'Oops !! Something Went wrong',
+                                            closeIcon: true
+                                        });
+                                        return false;
+                                    } else {
+                                        console.log("bb und Else " + bb);
+                                        back_bonus = bb.toFixed(2);
+                                        return false;
+                                    }
                                 }
+
+                            } else if (f_index != "" && percentage[f_key] == "" || to_amount[f_key] != "") {
+                                err_flag = 3;
+                                $.alert({
+                                    title: 'Alert',
+                                    content: 'Add Percentage for from amount ' + f_index,
+                                    closeIcon: true
+                                });
+                                $(".bb_returns").css('display', 'none');
+                                return false;
                             }
+
                         });
+
+                        // if ( (err_flag != 2 && err_flag != 3) || (err_flag != 2) ) {
+
+                        if ((err_flag != 2 && err_flag != 3)) {
+                            err_flag = 1;
+                            console.log("bb Else - False(Show Alert)");
+                            $.alert({
+                                title: 'Error',
+                                content: 'Bonus_From amount is greater than limit base amount (€' + limit_base_amount + '), please make sure to enter correct from-amount',
+                                closeIcon: true
+                            });
+
+                            $(".bb_returns").css('display', 'none');
+                            return false;
+                        }
+
                     }
 
-                    //Append Result to div 
-                    $(".bb_returns").show("slide", {
-                        direction: "left"
-                    }, 1000);
 
-                    $("#backBonus").text(" = € " + back_bonus);
-                    $("#backBonus_amt").text(back_bonus);
-                    $("#limitBase").text(" = € " + limit_base_amount);
-                    $("#bonusBase").text(" = € " + bonus_base_amount);
-                    $("#historical_oti").text(" = " + historical_otiSum.toFixed(2) + "%");
+                    if (err_flag == 0 || err_flag == 2) {
 
-                    //   $("#calculate_backBonus").prop("disabled", true);
-                    $("#calculate").prop("disabled", false);
+                        //Append Result to div 
+                        $(".bb_returns").show("slide", {
+                            direction: "left"
+                        }, 1000);
+
+                        $("#backBonus").text(" = € " + back_bonus);
+                        $("#backBonus_amt").text(back_bonus);
+                        $("#limitBase").text(" = € " + limit_base_amount);
+                        $("#bonusBase").text(" = € " + bonus_base_amount);
+                        $("#historical_oti").text(" = " + historical_otiSum.toFixed(2) + "%");
+
+                        //   $("#calculate_backBonus").prop("disabled", true);
+                        $("#calculate").prop("disabled", false);
+
+                    }
 
                 }
 
@@ -1253,7 +1506,6 @@
                     $('.percent').prop("required", true);
                     $('.BonusType_error').fadeOut("fast", function() {});
                 }
-
             } else {
                 if ($('.percent').val().length > 0) {
                     $('.BonusType_error').fadeOut("fast", function() {});
@@ -1271,17 +1523,17 @@
                 } else {
                     $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
                     $('.percentage').prop("required", true);
+                    $('.error').fadeOut("fast", function() {});
                 }
                 $('.BonusType_error').fadeOut("fast", function() {});
             } else {
                 if ($('.percentage').val().length > 0) {
                     $('.BonusType_error').fadeOut("fast", function() {});
-                    $('<div class="error"> Enter amount(€) </div>').insertAfter(".BonusType_error");
+                    $('<div class="error"> Enter From and To amount(€) </div>').insertAfter(".BonusType_error");
                 } else {
-
                     if ($('.amount').val().length > 0 && $('.percent').val().length > 0) {
                         $('.BonusType_error').fadeOut("fast", function() {});
-                        cal_bb();
+                        //   cal_bb();
                     } else if ($('.amount').val().length > 0 && $('.percent').val().length <= 0) {
                         $('.BonusType_error').fadeOut("fast", function() {});
                     } else if ($('.amount').val().length <= 0 && $('.percent').val().length > 0) {

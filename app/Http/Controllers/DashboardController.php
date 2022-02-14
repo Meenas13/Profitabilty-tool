@@ -10,6 +10,8 @@ use App\tbl_Articlewise_Sale_Colli;
 use App\category_share;
 use App\nnnbp_source;
 use Carbon;
+use Illuminate\Broadcasting\Channel;
+use PhpOffice\PhpSpreadsheet\Calculation\TextData\Replace;
 
 class DashboardController extends Controller
 {
@@ -34,6 +36,13 @@ class DashboardController extends Controller
     public function customers()
     {
         $id = '';
+        $from_year = '';
+        $to_year = '';
+        $article_category_type = '';
+        $channel_type = '';
+        $month_id = '';
+        $quater = array();
+
         $unique_number = array();
         $unique_implode = implode(',', $unique_number);
 
@@ -45,13 +54,14 @@ class DashboardController extends Controller
         $year_range = "NULL";
         $monthId = "NULL";
 
+
         $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
         $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
         $cust_allUniqueList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');;
         $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
 
-        return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'quater_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'cust_uniqueList', 'cust_icoList', 'cust_allUniqueList', 'catmanager_groupList'));
+        return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'quater_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'cust_uniqueList', 'cust_icoList', 'cust_allUniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
     }
 
 
@@ -60,7 +70,6 @@ class DashboardController extends Controller
 
         //dd($request);
         $unique_number = array();
-        $quater = array();
 
         if ($request->customer_ico) {
             $id = $request->customer_ico;
@@ -69,10 +78,13 @@ class DashboardController extends Controller
         }
 
         $unique_number = $request->customer_unique;
-
-        $unique_implode = implode(',', $unique_number);
-        $unique_number_implode = "'" . $unique_implode . "'";
-
+        if ($unique_number) {
+            $unique_implode = implode(',', $unique_number);
+            $unique_number_implode = "'" . $unique_implode . "'";
+        } else {
+            $unique_implode = "NULL";
+            $unique_number_implode = "NULL";
+        }
         $quater = array();
         $quater = $request->quater;
         if ($quater) {
@@ -82,6 +94,7 @@ class DashboardController extends Controller
             $sel_quater_implode = "NULL";
         }
 
+        $article_category_type = $request->category;
         $article_category = $request->category;
         if (!empty($article_category)) {
             $article_category = "'" . $request->category . "'";
@@ -89,6 +102,7 @@ class DashboardController extends Controller
             $article_category = "NULL";
         }
 
+        $channel_type = $request->channel;
         $channel = $request->channel;
         if ($channel == "both") {
             $channel = "NULL";
@@ -128,21 +142,19 @@ class DashboardController extends Controller
         if (!empty($request->customer_ico)) {
             $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
         } else {
-            $cust_uniqueList = tbl_Articlewise_Sale_Colli::select('cust_no_unique')->distinct()->get();
+            $cust_uniqueList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');
         }
 
         $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $id . " , " . $unique_number_implode . " , " . $article_category . ",  " . $channel . ", " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL  ");
 
         $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
         $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category . " ");
-
         $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
-
         $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
         // return json_encode($cust_uniqueList) ;
 
-        return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList'));
+        return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
     }
 
     public function get_uniqueCustomer(Request $request)
@@ -163,12 +175,8 @@ class DashboardController extends Controller
         return json_encode($cust_no_unique);
     }
 
-
-
     public function customersOffer(Request $request)
     {
-
-
         if ($request->cust_id == "NULL") {
             $cust_id =  $request->cust_id;
         } else {
@@ -185,10 +193,19 @@ class DashboardController extends Controller
         $buyer_arr_implode = implode(",", $buyer_arr);
         $buyer_arr_IDs = "'" . $buyer_arr_implode . "'";
 
-
-        $cust_unique = preg_split("/\,/", $request->cust_unique);
-        $unique_implode = implode(',', $cust_unique);
-        $cust_uni_implode = "'" . $unique_implode . "'";
+        if ($request->cust_unique == "NULL") {
+            $cust_unique =  array();
+            $unique_implode = "NULL";
+            $cust_uni_implode = "NULL";
+        } elseif ($request->cust_unique == "") {
+            $cust_unique =  array();
+            $unique_implode = "NULL";
+            $cust_uni_implode = "NULL";
+        } else {
+            $cust_unique = preg_split("/\,/", $request->cust_unique);
+            $unique_implode = implode(',', $cust_unique);
+            $cust_uni_implode = "'" . $unique_implode . "'";
+        }
 
         $selected_quarter = preg_split("/\,/", $request->sel_quarter);
         $selected_quarter_implode = implode(',', $selected_quarter);
@@ -196,51 +213,39 @@ class DashboardController extends Controller
         $selected_artCategory = $request->sel_artCategory;
         $selected_channel = $request->sel_channel;
 
-        // if ($request->sel_yearId) {
-        //     $selected_yearId = "'" . $request->sel_yearId . "'";
-        // } else {
-        //     $selected_yearId = "NULL";
-        // }
-
-        // if ($request->sel_monthId) {
-        //     $selected_monthId = "'" . $request->sel_monthId . "'";
-        // } else {
-        //     $selected_monthId = "NULL";
-        // }
-
         $selected_yearId = $request->sel_yearId;
         $selected_monthId = $request->sel_monthId;
-        //  dd($selected_artCategory);
 
         $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
 
         if (!empty($request->cOfferID)) {
 
-            //dd($cust_uni_implode);
-
             $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", " . $buyer_arr_IDs . " ");
 
             if (!empty($request->cust_id)) {
-
                 $cust_id = $request->cust_id;
-
                 // $allList_data = DB::select("SET NOCOUNT ON;  exec usp_get_article_summary @p_ico = " . $cust_id . ", @p_cust_no_unique =" . $cust_uni_implode . ", @p_catmanager_group = NULL, @p_delivery_flag_name = NULL, @p_fy_year_id=NULL, @p_fy_quarter=NULL , @p_month_id=NULL ,  @buy_subsys_no = " . $buyer_arr_IDs . " ");
                 $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL");
-
-                //52397041 , 2300112584,2300702032 
             } else {
                 $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] NULL , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL");
             }
 
             return view('customer.offer', compact('cust_id', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data', 'allList_data', 'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
         } else {
-
-           // $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL ");
+            // $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL ");
             $data = array();
             if (!empty($request->cust_id)) {
                 $cust_id = $request->cust_id;
                 //  DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $cust_id . " , " . $cust_uni_implode . " , NULL, NULL, NULL , NULL, NULL, NULL ");
+
+                //  DB::connection()->enableQueryLog();
+
                 $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL");
+
+                //  $queries = DB::getQueryLog();
+
+                //  dd($queries);
+
             } else {
                 $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] NULL , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", NULL");
             }
@@ -280,7 +285,14 @@ class DashboardController extends Controller
     public function forecastedCal(Request $request)
     {
         $customer_ico = $request->ico;
-        $customer_unique =  trim($request->cust_unique);
+
+
+        if ($request->cust_unique == "NULL") {
+            $customer_unique =  $request->cust_unique;
+        } else {
+            $customer_unique =  "'" . $request->cust_unique . "'";
+        }
+
         $backBonus = $request->backBonus_amount;
         $sum_colli_sp = [];
         $sum_colli_nnnbp = [];
@@ -298,20 +310,45 @@ class DashboardController extends Controller
         $colli_nnnbp_sum = array_sum($sum_colli_nnnbp);
         $forecastedOTI = ($colli_sp_sum  - $colli_nnnbp_sum - $backBonus_amount) / $colli_sp_sum;
 
+        // DB::connection()->enableQueryLog();
 
-
-        //  DB::connection()->enableQueryLog();
-
-        $getprevious_yearSales = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary]  @p_ico ='" . $customer_ico . "' , @p_cust_no_unique = '" . $customer_unique . "' , @p_catmanager_group = NULL, @p_delivery_flag_name = NULL, @p_fy_year_id = '20202021', @p_fy_quarter = NULL , @p_month_id = NULL, @buy_subsys_no = '" . $buy_subsys_implode . "' ");
+        $getprevious_yearSales = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary]  @p_ico ='" . $customer_ico . "' , @p_cust_no_unique = " . $customer_unique . " , @p_catmanager_group = NULL, @p_delivery_flag_name = NULL, @p_fy_year_id = '20202021', @p_fy_quarter = NULL , @p_month_id = NULL, @buy_subsys_no = '" . $buy_subsys_implode . "' ");
 
         // $queries = DB::getQueryLog();
+        // dd($queries);
 
-        //  dd($queries);
+
+        $customer_ico = $request->customer_ico;
+        $customer_unique =  $request->customer_unique;
+        $quater = $request->selected_quarter;
+        $selected_artCategory = $request->selected_artCategory;
+        $selected_channel = $request->selected_channel;
+        $selected_yearId = $request->selected_yearId;
+        $selected_monthId = $request->selected_monthId;
+
+        if ($customer_ico != "NULL") {
+            $customer_ico = "'" . $customer_ico . "'";
+        } else {
+            $customer_ico =  $customer_ico;
+        }
+
+        if ($customer_unique != "NULL") {
+            $mk_un_implode = "'" . $customer_unique . "'";
+        } else {
+            $mk_un_implode =  $customer_unique;
+        }
+
+        $getSalesSum = array();
+
+        $getSales = DB::select("SET NOCOUNT ON; exec [dbo].[usp_get_sales_summary] " . $customer_ico . "," . $mk_un_implode . "," . $selected_artCategory . "," . $selected_channel . "," . $selected_yearId . "," . $quater . "," . $selected_monthId . "");
+        $getSalesSum[] = $getSales;
 
         return response()->json([
             'colli_sp_sum' => $colli_sp_sum,
             'last_yearSales' => $getprevious_yearSales,
-            'forecastedOTI' => round($forecastedOTI, 2),
+            'forecastedOTI' => $forecastedOTI,
+            'sales_sum' => $getSalesSum,
+
         ]);
     }
 
@@ -364,21 +401,48 @@ class DashboardController extends Controller
     {
         if ($request->ajax()) {
 
-            $customer_ico = $request->customer_ico;
+            // if ($request->customer_ico) {
+            //     $customer_ico = "'" . $request->customer_ico . "'";
+            // } else {
+            //     $customer_ico = "NULL";
+            // }
 
-            $customer_unique =  $request->get('customer_unique');
+            $customer_ico = $request->customer_ico;
+            //   dd($customer_ico);
+            $customer_unique =  $request->customer_unique;
             $quater = $request->selected_quarter;
             $selected_artCategory = $request->selected_artCategory;
             $selected_channel = $request->selected_channel;
             $selected_yearId = $request->selected_yearId;
             $selected_monthId = $request->selected_monthId;
 
+            if ($customer_ico != "NULL") {
+                $customer_ico = "'" . $customer_ico . "'";
+            } else {
+                $customer_ico =  $customer_ico;
+            }
+
+            if ($customer_unique != "NULL") {
+                // $un_implode = implode(",", $customer_unique);
+                $mk_un_implode = "'" . $customer_unique . "'";
+            } else {
+                $mk_un_implode =  $customer_unique;
+            }
+
+
             $getSalesSum = array();
 
-            for ($i = 0; $i < count($customer_unique); $i++) {
-                $getSales = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_sales_summary] '" . $customer_ico . "' , '" . $customer_unique[$i] . "', " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . " , " . $quater . ", " . $selected_monthId . " ");
-                $getSalesSum[] = $getSales;
-            }
+            // DB::connection()->enableQueryLog();
+
+            //  for ($i = 0; $i < count($request->customer_unique); $i++) {
+            // $getSales = DB::select("SET NOCOUNT ON; exec [dbo].[usp_get_sales_summary] " . $customer_ico . "," . $customer_unique[$i] . "," . $selected_artCategory . "," . $selected_channel . "," . $selected_yearId . "," . $quater . "," . $selected_monthId . "");
+            $getSales = DB::select("SET NOCOUNT ON; exec [dbo].[usp_get_sales_summary] " . $customer_ico . "," . $mk_un_implode . "," . $selected_artCategory . "," . $selected_channel . "," . $selected_yearId . "," . $quater . "," . $selected_monthId . "");
+            $getSalesSum[] = $getSales;
+            //   }
+
+            // $queries = DB::getQueryLog();
+            // dd($queries);
+
 
             return response()->json([
                 'data' => $getSalesSum,
@@ -392,7 +456,6 @@ class DashboardController extends Controller
         //$buyer_uid = tbl_Articlewise_Sale_Colli::orderBy('fy_year_id')->select('buy_domain', 'fy_year_id')->distinct()->get();
 
         $buyer_uid = nnnbp_source::select('buy_domain', 'buy_domain_no', 'nnnbp_source')->get();
-
         return view('nnnbp.index', compact('buyer_uid'));
     }
 
