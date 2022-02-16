@@ -43,7 +43,7 @@
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
                     <figure class="user--offline">
-                        <img src="<?php echo e(asset('img/user4.jpg')); ?>" class="rounded-circle" alt="">
+                        <img src="<?php echo e(asset('img/user1.jpg')); ?>" class="rounded-circle" alt="">
                     </figure><span><span class="name"><?php echo e(__('Shelly Sullivan')); ?></span>  <span class="username">@shelly</span></span>
                 </a>
             </div>

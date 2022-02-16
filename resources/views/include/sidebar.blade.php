@@ -2,7 +2,8 @@
     <div class="sidebar-header">
         <a class="header-brand" href="{{route('customer')}}">
             <div class="logo-img">
-                <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}">
+                <!-- <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}"> -->
+                <img height="40" src="{{ asset('img/metro-sk-logo.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}">
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>

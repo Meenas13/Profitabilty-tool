@@ -9,7 +9,10 @@
 
 /* Header CSS */
 .header-brand .logo-img {width: 100px !important;}
-
+/* Black sidebar */
+.wrapper .page-wrap .app-sidebar.colored .sidebar-header { height: 80px;background-color: #272d36;}
+.wrapper .page-wrap .app-sidebar {width: 200px;}
+.wrapper .page-wrap .main-content {padding-left: 215px;}
 
 /* Sales OTI & Category Share table CSS */
 .table thead {background-color: #003b7e;color: #fff;text-align: center;}
@@ -28,17 +31,25 @@ select#customer_unique,select#quater {width: 100%;position: relative;overflow-y:
 select#customer_unique option.linked,
 select#quater option.linked {background: transparent;height: 100%;width: 100%;padding: 10px;display: flex;align-items: center;}
 .year_dash {display: flex;width: 4%;align-items: center;justify-content: center;height: 35px;}
+
+/* input[type="month"]::before{content: attr(placeholder) !important;color: #aaa;width: 100%;}
+input[type="month"]:focus::before,
+input[type="month"]:active::before {content: "";width: 100%;} */
+
 .datepicker table tr td span.disabled, .datepicker table tr td span.disabled:hover { display:none; }
 .datepicker th.prev,.datepicker th.next {display: none;}
 
 .datepicker th.datepicker-switch {content: '';position: relative;z-index: 0;font-size: 1px;}
-.datepicker th.datepicker-switch::before {content:'2020-2022';position: absolute;z-index: 9;font-size: 13px;display: flex;align-items: center;justify-content: center;width: 100%;top: 2px;}
+.datepicker th.datepicker-switch::before {content:'2020-2022';position: absolute;z-index: 9;font-size: 13px;display: flex;align-items: center;justify-content: center;width: 100%;top: 2px;
+background-image: url(data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23000000%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23000000%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E);
+background-size: 0.6em;background-position: right 14px top 35%;background-repeat: no-repeat;}
 
 .refresh_unique{display: inline-block;width: 20px;margin:0 5px !important;text-align: center;border: 1px solid red;}
 
 select.bulk, select.spirit,select.regular, select.promo,select.cip {padding-right: 30px;}
 #bb_table select.form-control{background-position: center right 10px;}
 .datepicker table tr td span.month.disabled, .datepicker table tr td span.month.disabled:hover{display: inline !important;}
+.datepicker thead tr:first-child th, .datepicker tfoot tr th {background: #eee;}
 
 /* Offer Page CSS */
 .full_div {display: inline-block;width: 100%;}
@@ -49,7 +60,7 @@ input.percent,
 input.amount {width: 50%;}
 .BonusType_error{color: red;}
 .bt_error{display: none;color: red;}
-#refres_bonusTypes{cursor: pointer;}
+#refresh_bonusTypes{cursor: pointer;}
 input.form-control.collis, input.form-control.selling {border: 1px solid grey !important;}
 /* nnnbp Page CSS */
 /* #nnnbp_updatePage .nnnbp_columns {border: 0;}display: flex;align-items: center;justify-content: center; */

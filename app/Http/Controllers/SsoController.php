@@ -18,8 +18,9 @@ class SsoController extends Controller
         $this->redirect = urlencode(url('sso-redirect'));
         $this->scope = "openid";
         $this->response_type = "id_token";
-        $this->client_id = "Customer_profitability_tool";
-        $this->client_secret = "qu1TyDtvhw";
+        $this->client_id = "LOCK_IN_TOOL";
+        // $this->client_secret = "qu1TyDtvhw";
+        $this->client_secret = "wV8aFsWlr8";
         $this->realm_id = "CUST_PROFIT";
         $this->state = md5(uniqid(rand(), true));
         $this->code_verifier = "AdleUo9ZVcn0J7HkXOdzeqN6pWrW36K3JgVRwMW8BBQazEPV3kFnHyWIZi2jt9gP";

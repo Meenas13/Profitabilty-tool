@@ -147,8 +147,6 @@
 
                         var buy_domain_no = $("." + make_key + " .buy_domain_no ").text();
 
-                        console.log("get_attrId " + get_attrId);
-
                         $.ajax({
 
                             method: "POST",

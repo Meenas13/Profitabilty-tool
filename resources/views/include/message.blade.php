@@ -23,14 +23,24 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>
+        .auth-wrapper {
+            background: #f4f4f4;
+        }
+
+        .auth-wrapper .authentication-form {
+            border: 1px solid #002d72;
+        }
+
         .btn-custom.logout:hover {
             color: #FFF;
             text-decoration: none;
         }
 
-        .button.btn.btn-custom#logout_btnDiv {
+        button#logout_btnDiv {
             padding: 0;
+            background: #002d72;
         }
+
         /* 2400336341 */
         .btn-custom.logout {
             display: inline-flex;
@@ -39,8 +49,9 @@
             width: 100%;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            background-color: #009688;
-            height: 38px;
+            /* background-color: #009688; */
+            background-color: #002d72;
+            height: 30px;
             color: #fff;
             border-radius: 25px;
         }
@@ -52,7 +63,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-4 m-auto">
                         <div class="authentication-form mx-auto">
                             <div class="logo-centered">
-                                <a href="http://radmin.rakibhstu.com"><img height="40" src="{{ asset('img/logo.png') }}" alt="RADMIN"></a>
+                                <a href="http://radmin.rakibhstu.com"><img height="80" src="{{ asset('img/metro-logo-sk.png') }}" alt="RADMIN"></a>
                             </div>
                             {{ session('logout') }}
                             </br>

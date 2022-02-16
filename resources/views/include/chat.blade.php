@@ -43,7 +43,7 @@
                 </a>
                 <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
                     <figure class="user--offline">
-                        <img src="{{ asset('img/user4.jpg')}}" class="rounded-circle" alt="">
+                        <img src="{{ asset('img/user1.jpg')}}" class="rounded-circle" alt="">
                     </figure><span><span class="name">{{ __('Shelly Sullivan')}}</span>  <span class="username">@shelly</span></span>
                 </a>
             </div>

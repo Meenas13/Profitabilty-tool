@@ -85,8 +85,9 @@
 
                             <!-- <select multiple name="customer_unique[]" id="customer_unique" required class="chosen-select1 form-control1 customer_unique" style="width: 100%;">
                                 <option selected="selected" value=""> Linked Customers</option> -->
-                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique select2" style="width: 100%;">
+                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique" style="width: 100%;">
                                 <!-- <option value="" class="linked"> Linked Customers</option> -->
+                                <option></option>
                                 <?php if ($unique_number) { ?>
                                     <?php foreach ($unique_number as $unique) { ?>
                                         <option value="<?php echo $unique ?>" <?php //if ($unique == $cust_uniqueList->toArray()->cust_no_unique) {
@@ -157,19 +158,22 @@
                                 <span class="year_dash">-</span>
                                 <input type='text' class="year_id form-control to_year" name="to_year" placeholder="To Year (yyyy)" <?php if ($to_year) {  ?> value="<?php echo $to_year; ?>" <?php  } ?> style="width:48%">
 
+
+
                                 <!-- <input type="text" class="yearpicker from_year" name="from_year" placeholder="From Year (yyyy)">
                                 <input type="text" class="yearpicker to_year" name="to_year" placeholder="To Year (yyyy)"> -->
 
                             </div>
+                            <div id="year_err" style="color:red;display: none;">Year gap should be 1 year only</div>
                         </div>
 
 
                         <div class="col-md-4">
                             <label for="">Month id </label>
                             <!-- <input type='text' class="month_id form-control" name="month_id" placeholder="Select Month"> -->
-                            <input type='text' class="month_id form-control" name="month_id" placeholder="Select Month" <?php if ($month_id) {
-                                                                                                                            echo "value='$month_id'";
-                                                                                                                        } ?>>
+                            <input type='month' class="month_id form-control" name="month_id" min="2020-01" max="2022-12" placeholder="Select Month" <?php if ($month_id) {
+                                                                                                                                                            echo "value='$month_id'";
+                                                                                                                                                        } ?>>
                         </div>
 
                     </div><br>
@@ -178,8 +182,9 @@
                         <div class="col-md-4">
                             <label for="">Quarter</label>
                             <!-- <p class="custom_placeholder1">Quarter</p> -->
-                            <select multiple="multiple" class="form-control quater select2" data-placeholder="Your Placeholder" name="quater[]" id="quater">
-                                <option value="" class="linked" id="first_quarter"></option>
+                            <select class="form-control quater" data-placeholder="Your Placeholder" name="quater[]" id="quater" multiple="multiple">
+                                <!-- <option value="" class="linked" id="first_quarter"></option> -->
+                                <option></option>
                                 <option <?php
                                         if ($quater) {
                                             foreach ($quater as $qt) {
@@ -209,9 +214,7 @@
                                                 }
                                             }
                                         } ?> value="FQ4">FQ4 (Jul-Sep)</option>
-
                             </select>
-
                         </div>
                     </div><br>
 
@@ -287,7 +290,11 @@
                                             <td><?php echo $value2->Period; ?></td>
                                             <td><?php echo number_format(round($value2->sales, 2)); ?></td>
                                             <td><?php echo round($value2->total_oti_percentage, 2) . "%"; ?></td>
-                                            <td><?php echo $value2->invoice_count; ?></td>
+                                            <td><?php if ($value2->invoice_count) {
+                                                    echo $value2->invoice_count;
+                                                } else {
+                                                    echo "0";
+                                                } ?></td>
                                         </tr>
                                     <?php }  ?>
 
@@ -300,98 +307,98 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
+        <!-- <div class="col-md-12"> -->
+        <div class="card">
 
-                <div class="card-body">
-                    <!-- <table id="advanced_table" class="table table-bordered"> -->
-                    <table id="advanced_table" class="display nowrap final_table table-bordered" style="width:100%">
-                        <thead style="text-align: left;" valign="center">
-                            <tr>
-                                <!-- <th class="nosort" width="10">
+            <div class="card-body">
+                <!-- <table id="advanced_table" class="table table-bordered"> -->
+                <table id="advanced_table" class="display nowrap final_table table-bordered" style="width:100%">
+                    <thead style="text-align: left;" valign="center">
+                        <tr>
+                            <!-- <th class="nosort" width="10">
                                     <label class="custom-control custom-checkbox m-0">
                                         <input type="checkbox" class="custom-control-input" id="selectall" name="" value="option2">
                                         <span class="custom-control-label">&nbsp;</span>
                                     </label>
                                 </th> -->
-                                <th style="display: none;">Id</th>
-                                <th>Buy Domain</th>
-                                <th>Subsys<br>Art. No.</th>
-                                <th>Subsys<br>Art. Name</th>
-                                <th>Status</th>
-                                <th>Qty<br>of<br>Months<br>With<br>Sales</th>
-                                <th>Sales</th>
-                                <th>Colli</th>
-                                <th>Invoices</th>
-                                <th>Sales<br>/<br>Month</th>
-                                <th>Colli<br>/<br>Month</th>
-                                <th>Invoices<br>/<br>Month</th>
+                            <th style="display: none;">Id</th>
+                            <th>Buy Domain</th>
+                            <th>Subsys<br>Art. No.</th>
+                            <th>Subsys<br>Art. Name</th>
+                            <th>Status</th>
+                            <th>Qty<br>of<br>Months<br>With<br>Sales</th>
+                            <th>Sales</th>
+                            <th>Colli</th>
+                            <th>Invoices</th>
+                            <th>Sales<br>/<br>Month</th>
+                            <th>Colli<br>/<br>Month</th>
+                            <th>Invoices<br>/<br>Month</th>
 
-                            </tr>
-                        </thead>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            <?php
-                            // echo "<pre>";
-                            // print_r($final_domainList);
-                            // echo "</pre>";
-                            // die();
+                    <tbody>
+                        <?php
+                        // echo "<pre>";
+                        // print_r($final_domainList);
+                        // echo "</pre>";
+                        // die();
 
-                            if (!empty($final_domainList)) { ?>
-                                <?php foreach ($final_domainList as $key => $value) {
-                                    $rand = rand(1, 5);   ?>
-                                    <tr>
-                                        <!-- <td>
+                        if (!empty($final_domainList)) { ?>
+                            <?php foreach ($final_domainList as $key => $value) {
+                                $rand = rand(1, 5);   ?>
+                                <tr>
+                                    <!-- <td>
                                             <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input select_all_child" id="" name="customer-id" value="">
                                                 <span class="custom-control-label">&nbsp;</span>
                                             </label>
                                         </td> -->
-                                        <td style="display: none;"> {{$value->buy_subsys_no}} </td>
-                                        <td> {{$value->buy_domain}}</td>
-                                        <td>{{$value->subsys_art_no}}</td>
-                                        <td>{{$value->subsys_art_name}}</td>
-                                        <td>{{$value->status_article}}</td>
-                                        <!-- <td>{{ $rand }}</td> -->
-                                        <td>{{ $value->qtymonths }}</td>
-                                        <td>{{number_format(round($value->sales,2))}}</td>
-                                        <td>{{round($value->colli,2)}}</td>
-                                        <td>{{$value->noofinvoice}}</td>
-                                        <td>{{round($value->sales_per_month)}}</td>
-                                        <td>{{round($value->colli_per_month)}}</td>
-                                        <td>{{round($value->invoices_per_month)}}</td>
-                                    </tr>
-                            <?php }
-                            } ?>
+                                    <td style="display: none;"> {{$value->buy_subsys_no}} </td>
+                                    <td> {{$value->buy_domain}}</td>
+                                    <td>{{$value->subsys_art_no}}</td>
+                                    <td>{{$value->subsys_art_name}}</td>
+                                    <td>{{$value->status_article}}</td>
+                                    <!-- <td>{{ $rand }}</td> -->
+                                    <td>{{ $value->qtymonths }}</td>
+                                    <td>{{number_format(round($value->sales,2))}}</td>
+                                    <td>{{round($value->colli,2)}}</td>
+                                    <td>{{$value->noofinvoice}}</td>
+                                    <td>{{round($value->sales_per_month)}}</td>
+                                    <td>{{round($value->colli_per_month)}}</td>
+                                    <td>{{round($value->invoices_per_month)}}</td>
+                                </tr>
+                        <?php }
+                        } ?>
 
-                        </tbody>
+                    </tbody>
 
-                        <tfoot style="text-align: left;" valign="center">
-                            <tr>
-                                <th style="display: none;">Id</th>
-                                <th>Buy Domain</th>
-                                <th>Subsys<br>Art. No</th>
-                                <th>Subsys<br>Art. Name</th>
-                                <th>Status</th>
-                                <th>Qty<br>of<br>Months<br>With<br>Sales</th>
-                                <th>Sales</th>
-                                <th>Colli</th>
-                                <th>Invoices</th>
-                                <th>Sales<br>/<br>Month</th>
-                                <th>Colli<br>/<br>Month</th>
-                                <th>Invoices<br>/<br>Month</th>
+                    <tfoot style="text-align: left;" valign="center">
+                        <tr>
+                            <th style="display: none;">Id</th>
+                            <th>Buy Domain</th>
+                            <th>Subsys<br>Art. No</th>
+                            <th>Subsys<br>Art. Name</th>
+                            <th>Status</th>
+                            <th>Qty<br>of<br>Months<br>With<br>Sales</th>
+                            <th>Sales</th>
+                            <th>Colli</th>
+                            <th>Invoices</th>
+                            <th>Sales<br>/<br>Month</th>
+                            <th>Colli<br>/<br>Month</th>
+                            <th>Invoices<br>/<br>Month</th>
 
-                            </tr>
-                        </tfoot>
+                        </tr>
+                    </tfoot>
 
-                    </table>
-                    <div class="card-options text-right mt-5">
-                        <button type="button" id="customer-offer" class="btn btn-primary mt-5 mb-2">Go To Offer List</button>
-                        <!-- <button id="button">Row count</button> -->
-                    </div>
+                </table>
+                <div class="card-options text-right mt-5">
+                    <button type="button" id="customer-offer" class="btn btn-primary mt-5 mb-2">Go To Offer List</button>
+                    <!-- <button id="button">Row count</button> -->
                 </div>
             </div>
         </div>
+        <!-- </div> -->
     </div>
 
 </div>
@@ -410,39 +417,28 @@
 
 <script type="text/javascript">
     $(window).load(function() {
-        // $(".quater").select2({
-        //     placeholder: {
-        //         id: '-1', // the value of the option
-        //         text: 'Select Quarter'
-        //     }
-        // });
+        $('.quater').select2({
+            placeholder: "Select Quarter",
+            allowClear: true
+        });
+        $('.customer_unique').select2({
+            placeholder: "Select linked customers",
+            allowClear: true
+        });
 
-        // $(".quater").find("option#first_quarter").hide();
-        $(".quater option#first_quarter").remove();
+        // $(".datepicker-months table.table-condensed tr td span.month").prop("disabled", false);
+        $(".datepicker-months table.table-condensed tr td span.month").removeAttr("disabled");
+
     })
 
     $(document).ready(function() {
-        // $(".quater").find("option#first_quarter").css('display','none');
-
-        // $('.customer_unique').selectpicker();
-        // $('.quater').select2({
-        //     minimumResultsForSearch: -1,
-        //     placeholder: function() {
-        //         $(this).data('placeholder');
-        //     }
-        // });
 
         $('.refresh_unique').click(function() {
 
             if ($(".refresh_unique").is(":checked")) {
 
-                // $('select[name="customer_ico[]"]').empty();
-
                 $("#customer").prop("disabled", true);
-                // $('#customer').prop('selectedIndex', 0);
-
                 $('#customer').prop('selectedIndex', 0).trigger("change");
-
                 $('#customer').prop("required", false);
                 $('#customer_unique').prop("required", true);
                 $('#customer_unique').parent().find("span.error").css('display', 'inline-block');
@@ -488,13 +484,27 @@
                 $('.to_year').prop("required", true);
             }
 
+            if ($('.from_year ').val() == "" && $('.to_year ').val() == "") {
+
+            } else {
+                if (($('.to_year ').val() - $('.from_year').val()) == 1) {
+                    $("#year_err").hide();
+                    return true;
+                } else {
+                    $("#year_err").show();
+                    return false;
+                }
+            }
+
+
             $(".customer_unique").select2({
                 placeholder: {
                     id: '-1', // the value of the option
                     text: 'Linked Customers'
                 }
             });
-        });
+        }); //.show_data click end
+
 
         $(function() {
             $('#filterByDate1, #filterByDate2').datepicker({
@@ -511,14 +521,12 @@
                 }
             });
 
-            $(".datepicker-months table.table-condensed tr td span.month").prop("disabled", false);
-            $(".datepicker-months table.table-condensed tr td span.month").removeAttr("disabled");
-
-            $(".month_id").datepicker({
+            /*  $(".month_id").datepicker({
                 numberOfMonths: 12,
                 format: "MM yyyy",
                 viewMode: "months",
                 minViewMode: "months",
+                // yearRange: "2020:2022",
                 startView: 2,
                 defaultViewDate: {
                     year: '1950'
@@ -527,7 +535,7 @@
                 endDate: '-0y', //2021-2011
                 autoclose: true //to close picker once month is selected
             });
-
+*/
 
             $(".year_id.from_year").datepicker({
                 format: "yyyy",
@@ -564,14 +572,6 @@
     // $(window).on('load', function() {
 
     $(document).ready(function() {
-
-        $("#quater").select2({
-            placeholder: {
-                id: '-1', // the value of the option
-                text: 'Quater'
-            },
-        });
-
 
         /*  $('#customer').on('change', function() {
              // var url = "{{url('customer?id=')}}" + this.value;

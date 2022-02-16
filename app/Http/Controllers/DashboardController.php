@@ -54,7 +54,6 @@ class DashboardController extends Controller
         $year_range = "NULL";
         $monthId = "NULL";
 
-
         $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
         $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
@@ -126,6 +125,7 @@ class DashboardController extends Controller
         $month_id = $request->month_id;
         if (!empty($month_id)) {
             $monthId = date("Ym", strtotime($month_id));
+            //  dd($monthId);
         } else {
             $monthId = "NULL";
         }
@@ -145,7 +145,7 @@ class DashboardController extends Controller
             $cust_uniqueList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');
         }
 
-        $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $id . " , " . $unique_number_implode . " , " . $article_category . ",  " . $channel . ", " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL  ");
+        $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $id . " , " . $unique_number_implode . " , " . $article_category . ",  " . $channel . ", " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL");
 
         $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
         $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category . " ");
@@ -316,7 +316,6 @@ class DashboardController extends Controller
 
         // $queries = DB::getQueryLog();
         // dd($queries);
-
 
         $customer_ico = $request->customer_ico;
         $customer_unique =  $request->customer_unique;

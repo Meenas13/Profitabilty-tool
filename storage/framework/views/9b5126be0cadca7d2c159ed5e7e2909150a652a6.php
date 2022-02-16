@@ -207,7 +207,7 @@
                                     </td>
                                     <!-- <td></td> -->
                                     <td>
-                                        <a id="refres_bonusTypes">&#8634; </a>
+                                        <a id="refresh_bonusTypes">&#8634; </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -391,6 +391,9 @@
                     <tbody>
                         <?php if (!empty($allList_data)) { ?>
                             <?php foreach ($allList_data as $key => $value) {
+                                // echo "<pre>";
+                                // print_r($allList_data);
+                                // echo "</pre>";
                                 $rand = rand(1, 5);    ?>
                                 <?php $selected_id = array();
                                 foreach ($data as $offer) :
@@ -402,7 +405,9 @@
                                 <tr <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> class="selected" <?php } ?>>
                                     <!-- <td>
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input select_all_child" <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> checked <?php } ?>id="" name="customer-id" value="<?php echo e($value->buy_subsys_no); ?>">
+                                            <input type="checkbox" class="custom-control-input select_all_child" <?php //if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { 
+                                                                                                                    ?> checked <?php //} 
+                                                                                                                                ?>id="" name="customer-id" value="<?php echo e($value->buy_subsys_no); ?>">
                                             <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </td> -->
@@ -896,9 +901,26 @@
     //Add new row/article to existance table JS
     $(document).ready(function() {
         var table = $('.final_table').DataTable({
+            // "scrollY": "auto",
+            // "scrollX": true,
+            // "ordering": false,
+            // "lengthMenu": [
+            //     [50, 150, 200, -1],
+            //     [50, 150, 200, "All"]
+            // ]
             "scrollY": "auto",
             "scrollX": true,
-            "ordering": false,
+            // "ordering": false,
+            columnDefs: [{
+                    orderable: true,
+                    // className: 'reorder',
+                    targets: 1
+                },
+                {
+                    orderable: false,
+                    targets: '_all'
+                }
+            ],
             "lengthMenu": [
                 [50, 150, 200, -1],
                 [50, 150, 200, "All"]
@@ -957,13 +979,17 @@
     // Backcbonus Calculation JS
     $(document).ready(function() {
 
-        $('#refres_bonusTypes').click(function() {
+        $('#refresh_bonusTypes').click(function() {
             $('input.amount, input.percent, input.from_amount, input.to_amount ,  input.percentage').val("");
 
             $(".row_count1 td.type1_bb").find('.amount').prop('disabled', false);
             $(".row_count1 td.type1_bb ").find('.percent').prop('disabled', false);
-
             $(".row_count1 td.type2_bb").find('.addLevel').prop('disabled', false);
+
+            $(".bb_returns").fadeOut('slow', function() {});
+
+            $('.error').fadeOut("fast", function() {});
+            $('.BonusType_error').fadeOut("fast", function() {});
 
         });
 
@@ -1371,13 +1397,15 @@
                     }
 
 
-                    var err_flag = 0;
 
+                    var err_flag = 0;
                     //Check if Amount/Percent is added then calculate BackBonus
                     var bonus_amount = $(".amount").val().replace("€", "");
+
                     var bonus_percent = $(".percent").val().replace("%", "");
                     var back_bonus = "";
-                    if (limit_base_amount && bonus_amount != "" && bonus_percent != "") {
+                    if (limit_base_amount && bonus_amount && bonus_percent) {
+                        console.log(bonus_amount);
                         if (parseFloat(limit_base_amount) > parseFloat(bonus_amount)) {
                             err_flag = 2;
                             console.log('%' + bonus_percent);
@@ -1387,29 +1415,51 @@
                             err_flag = 1;
                             $.alert({
                                 title: 'Alert',
-                                content: 'Bonus_From amount (€' + bonus_amount + ') is greater than limit base amount (€' + limit_base_amount + '), please make sure to enter correct from-amount',
+                                content: 'Bonus_From amount (€' + bonus_amount + ') is greater than Limit Base amount (€' + limit_base_amount + '), please make sure to enter correct Bonus_From amount',
                                 closeIcon: true
                             });
+                            $(".bb_returns").css('display', 'none');
+                            return false;
+                        }
+                    } else if (limit_base_amount && bonus_amount && !(bonus_percent)) {
+                        $('<div class="error"> Enter percent(%) </div>').insertAfter(".BonusType_error");
+                        $(".bb_returns").css('display', 'none');
+                        return false;
+                    } else if (limit_base_amount && !(bonus_amount) && bonus_percent) {
+                        $('<div class="error"> Enter Amount(€) </div>').insertAfter(".BonusType_error");
+                        $(".bb_returns").css('display', 'none');
+                        return false;
+                    } else if (limit_base_amount && !(bonus_amount) && !(bonus_percent)) {
+                        var isDisabled = $('.amount,.percent').prop('disabled');
+                        if (isDisabled == false) {
+                            $('<div class="error"> Enter Amount(€) & percent(%) </div>').insertAfter(".BonusType_error");
                             $(".bb_returns").css('display', 'none');
                             return false;
                         }
                     }
 
 
-
-                    console.log("from_amount  " + from_amount);
                     //Check if Amount-Levels are added then calculate BackBonus
-                    if (limit_base_amount && percentage != "" && from_amount != "") {
+                    if (limit_base_amount && percentage && from_amount) {
+
+                        console.log("from_amount  " + from_amount.length);
 
                         $(from_amount).each(function(f_key, f_index) {
 
-                            if (f_index != "" && percentage[f_key] != "" || to_amount[f_key] != "") {
+                            //if (f_index != "" && percentage[f_key] != "" || to_amount[f_key] != "") {
+
+                            // if (f_index != "" && percentage[f_key] != "") {
+
+                            if (((f_index && percentage[f_key]) || to_amount[f_key]) ||
+                                ((f_index && percentage[f_key]) && to_amount[f_key])) {
+
                                 console.log("All is NOT null");
 
                                 // console.log("All Vals " + parseFloat(limit_base_amount) + ">=" + parseFloat(f_index) + "&&" + parseFloat(limit_base_amount) + "<" + parseFloat(to_amount[f_key]));
 
                                 // if (parseFloat(limit_base_amount) < parseFloat(f_index) && parseFloat(limit_base_amount) > parseFloat(to_amount[f_key])) {
-                                if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) || ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
+                                if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) ||
+                                    ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
                                     err_flag = 2;
 
                                     console.log("All Conditions " + (limit_base_amount >= parseFloat(from_amount[f_key])) + " && " + (limit_base_amount < parseFloat(to_amount[f_key])));
@@ -1438,25 +1488,55 @@
                                         return false;
                                     }
                                 }
+                                // else if ((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount > parseFloat(to_amount[f_key])) && err_flag != 2) {
+                                //     err_flag = 3;
+                                //     console.log("check here");
+                                //     $(".bb_returns").css('display', 'none');
+                                //     $.alert({
+                                //         title: 'Error',
+                                //         content: 'Bonus_From and To amount range is not matching for Limit Base amount (€' + limit_base_amount + '), Please make sure to enter correct range',
+                                //         closeIcon: true
+                                //     });
+                                //     return false;
+                                // } 
 
-                            } else if (f_index != "" && percentage[f_key] == "" || to_amount[f_key] != "") {
+                                if ((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount > parseFloat(to_amount[f_key]))) {
+                                    err_flag = 5;
+                                }
+
+                            }
+                            //  else if (f_index != "" && percentage[f_key] == "" || to_amount[f_key] != "") {
+                            if (f_index != "" && percentage[f_key] == "") {
+
+                                // else if (((f_index != "" && percentage[f_key] == "") || to_amount[f_key] != "") ||
+                                //     ((f_index != "" && percentage[f_key] == "") && to_amount[f_key] != "")) {
+
+
                                 err_flag = 3;
-                                $.alert({
-                                    title: 'Alert',
-                                    content: 'Add Percentage for from amount ' + f_index,
-                                    closeIcon: true
-                                });
+                                $('<div class="error"> Enter percentage(%) for from-amount ' + f_index + '</div>').insertAfter(".BonusType_error");
+                                $(".bb_returns").css('display', 'none');
+                                return false;
+                            }
+                            // else if (f_index == "" && percentage[f_key] != "" || to_amount[f_key] != "") {
+                            // else if (((f_index == "" && percentage[f_key] != "") || to_amount[f_key] != "") ||
+                            //     ((f_index == "" && percentage[f_key] != "") && to_amount[f_key] != "")) {
+
+                            if (f_index == "" && percentage[f_key] != "") {
+
+                                err_flag = 3;
+                                $('<div class="error"> Enter From amount(€) for ' + percentage[f_key] + ' percentage </div>').insertAfter(".BonusType_error");
                                 $(".bb_returns").css('display', 'none');
                                 return false;
                             }
 
-                        });
+
+                        }); //each end
+
 
                         // if ( (err_flag != 2 && err_flag != 3) || (err_flag != 2) ) {
-
-                        if ((err_flag != 2 && err_flag != 3)) {
-                            err_flag = 1;
-                            console.log("bb Else - False(Show Alert)");
+                        if ((err_flag != 1 && err_flag != 2 && err_flag != 3 && err_flag != 5)) {
+                            console.log("bb Else - False(Show Alert) Flag:" + err_flag);
+                            err_flag = 4;
                             $.alert({
                                 title: 'Error',
                                 content: 'Bonus_From amount is greater than limit base amount (€' + limit_base_amount + '), please make sure to enter correct from-amount',
@@ -1465,8 +1545,25 @@
 
                             $(".bb_returns").css('display', 'none');
                             return false;
+                        } else if (err_flag == 5) {
+                            $(".bb_returns").css('display', 'none');
+                            $.alert({
+                                title: 'Error',
+                                content: 'Bonus_From and To amount range is not matching for Limit Base amount (€' + limit_base_amount + '), Please make sure to enter correct range',
+                                closeIcon: true
+                            });
+                            return false;
+
                         }
 
+                    } else if (limit_base_amount && from_amount && !(percentage)) {
+                        $('<div class="error"> Enter percentage(%) </div>').insertAfter(".BonusType_error");
+                        $(".bb_returns").css('display', 'none');
+                        return false;
+                    } else if (limit_base_amount && !(from_amount) && percentage) {
+                        $('<div class="error"> Enter From amount(€) </div>').insertAfter(".BonusType_error");
+                        $(".bb_returns").css('display', 'none');
+                        return false;
                     }
 
 
@@ -1496,10 +1593,59 @@
 
         //Function to Check for bonus type Amount and Percentage is entered or not 
         function check_inputVal() {
+            $('.BonusType_error').fadeOut("fast", function() {});
+
+
+
+            /*
+                        //Check if Type 2 is entered
+                        if (($('.from_amount').val().length > 0) || ($('.to_amount').val().length > 0 && $('.from_amount').val().length > 0)) {
+
+                            console.log($('.from_amount').val().length);
+
+                            if ($('.percentage').val().length > 0) {
+                                $('.BonusType_error').fadeOut("fast", function() {});
+                                $('.error').fadeOut("fast", function() {});
+                                cal_bb();
+                            } else {
+                                $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
+                                $('.percentage').prop("required", true);
+                                $('.error').fadeOut("fast", function() {});
+                            }
+
+                        } else {
+                            $('.BonusType_error').fadeOut("fast", function() {});
+                            if ($('.percentage').val().length > 0) {
+                                $('.BonusType_error').fadeOut("fast", function() {});
+                                $('<div class="error"> Enter From and To amount(€) </div>').insertAfter(".BonusType_error");
+                            } else {
+                                if ($('.amount').val().length > 0 && $('.percent').val().length > 0) {
+                                    $('.BonusType_error').fadeOut("fast", function() {});
+                                } else if ($('.amount').val().length > 0 && $('.percent').val().length <= 0) {
+                                    $('.BonusType_error').fadeOut("fast", function() {});
+                                } else if ($('.amount').val().length <= 0 && $('.percent').val().length > 0) {
+                                    $('.BonusType_error').fadeOut("fast", function() {});
+                                } else if ($('.from_amount').val().length > 0) {
+                                    $('.BonusType_error').fadeOut("fast", function() {});
+                                    $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
+                                } else if ($('.to_amount').val().length > 0) {
+                                    $('.BonusType_error').fadeOut("fast", function() {});
+                                    // $('<div class="error"> Enter From amount(€) & percentage (%) </div>').insertAfter(".BonusType_error");
+                                } else {
+                                    //  $('.BonusType_error').fadeIn("slow", function() {});
+                                }
+                                $('.BonusType_error').fadeOut("fast", function() {});
+                            }
+                        } //else 
+
+            */
+
+
             //Check if Type 1 is entered
             if ($('.amount').val().length > 0) {
                 if ($('.percent').val().length > 0) {
                     $('.error').fadeOut("fast", function() {});
+                    $('.BonusType_error').fadeOut("fast", function() {});
                     cal_bb();
                 } else {
                     $('<div class="error"> Enter percent(%) </div>').insertAfter(".BonusType_error");
@@ -1511,46 +1657,42 @@
                     $('.BonusType_error').fadeOut("fast", function() {});
                     $('<div class="error"> Enter amount(€) </div>').insertAfter(".BonusType_error");
                 } else {
-                    $('.BonusType_error').fadeIn("slow", function() {});
+                    if ($('.from_amount').val().length > 0 && $('.percentage').val().length > 0) {
+                        $('.error').fadeOut("fast", function() {});
+                        $('.BonusType_error').fadeOut("fast", function() {});
+                        cal_bb();
+                    } else if ($('.to_amount').val().length > 0) {
+                        $('.BonusType_error').fadeOut("fast", function() {});
+                        if ($('.from_amount').val().length > 0) {
+                            $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
+                        } else {
+                            $('<div class="error"> Enter From amount(€) & percentage (%) </div>').insertAfter(".BonusType_error");
+                        }
+
+                    } else if ($('.from_amount').val().length > 0) {
+                        $('.BonusType_error').fadeOut("fast", function() {});
+                        $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
+                    } else if ($('.percentage').val().length > 0) {
+                        $('.BonusType_error').fadeOut("fast", function() {});
+                        $('<div class="error"> Enter From amount(€) </div>').insertAfter(".BonusType_error");
+                    } else {
+                        $('.BonusType_error').fadeIn("fast", function() {});
+                    }
+
                 }
             }
 
-            //Check if Type 2 is entered
-            if ($('.from_amount').val().length > 0 || $('.to_amount').val().length > 0) {
-                if ($('.percentage').val().length > 0) {
-                    $('.error').fadeOut("fast", function() {});
-                    cal_bb();
-                } else {
-                    $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
-                    $('.percentage').prop("required", true);
-                    $('.error').fadeOut("fast", function() {});
-                }
-                $('.BonusType_error').fadeOut("fast", function() {});
-            } else {
-                if ($('.percentage').val().length > 0) {
-                    $('.BonusType_error').fadeOut("fast", function() {});
-                    $('<div class="error"> Enter From and To amount(€) </div>').insertAfter(".BonusType_error");
-                } else {
-                    if ($('.amount').val().length > 0 && $('.percent').val().length > 0) {
-                        $('.BonusType_error').fadeOut("fast", function() {});
-                        //   cal_bb();
-                    } else if ($('.amount').val().length > 0 && $('.percent').val().length <= 0) {
-                        $('.BonusType_error').fadeOut("fast", function() {});
-                    } else if ($('.amount').val().length <= 0 && $('.percent').val().length > 0) {
-                        $('.BonusType_error').fadeOut("fast", function() {});
-                    } else {
-                        //  $('.BonusType_error').fadeIn("slow", function() {});
-                    }
-                }
-            } //else
+
+
 
         }
 
 
         $("#calculate_backBonus").on('click', function() {
             if ($('.bulk option:selected').val().trim() && $('.spirits option:selected').val().trim() && $('.regular option:selected').val().trim() && $('.promo option:selected').val().trim() && $('.cip option:selected').val().trim()) {
-                $(".bt_error").fadeOut("fast", function() {});
+                $('.BonusType_error').fadeOut("fast", function() {});
                 check_inputVal();
+                $(".bt_error").fadeOut("fast", function() {});
             } else {
                 $(".bt_error").fadeIn("slow", function() {});
                 return false;
