@@ -1,9 +1,9 @@
-<div class="app-sidebar colored">
+<div class="app-sidebar">
     <div class="sidebar-header">
         <a class="header-brand" href="<?php echo e(route('customer')); ?>">
             <div class="logo-img">
-                <!-- <img height="40" src="<?php echo e(asset('img/logo_white.png')); ?>" class="header-brand-img" title="<?php echo e(env('APP_NAME')); ?>"> -->
-                <img height="40" src="<?php echo e(asset('img/metro-sk-logo.png')); ?>" class="header-brand-img" title="<?php echo e(env('APP_NAME')); ?>">
+                <img  src="<?php echo e(asset('images/logo/metro-logo.png')); ?>" class="header-brand-img metro-logo-head" title="<?php echo e(env('APP_NAME')); ?>">
+                <img  src="<?php echo e(asset('img/metro-sk-logo.png')); ?>" class="header-brand-img country-flag-head" title="<?php echo e(env('APP_NAME')); ?>">
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>
@@ -44,7 +44,7 @@
 
 
                 <?php $user = Auth::User();
-                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in" || $user->email == "archanaaditya.deokar@metro-gsc.in") { ?>
+                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in" || $user->email == "archanaaditya.deokar@metro-gsc.in" || $user->email == "a.mhasagar@metro-gsc.in") { ?>
 
                     <div class="nav-item <?php echo e(($segment1 == 'nnnbp_screen') ? 'active' : ''); ?>">
                         <a href="<?php echo e(route('nnnbp_screen')); ?>"><i class="ik ik-list"></i><span> <?php echo e(__('NNNBP Update')); ?></span></a>

@@ -8,7 +8,7 @@
 /* ================ NEW CSS Changes by developer Piyusha ============== */
 
 /* Header CSS */
-.header-brand .logo-img {width: 100px !important;}
+
 /* Black sidebar */
 .wrapper .page-wrap .app-sidebar.colored .sidebar-header { height: 80px;background-color: #272d36;}
 .wrapper .page-wrap .app-sidebar {width: 200px;}
@@ -77,3 +77,117 @@ input.form-control.collis, input.form-control.selling {border: 1px solid grey !i
 #nnnbp_updatePage .slider.round {border-radius: 34px;}
 #nnnbp_updatePage .slider.round:before {border-radius: 50%;}
 
+.metro-logo-head{
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin-bottom: 5px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.country-flag-head{
+    max-width: 26px;
+    height: auto;
+    display: block;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.wrapper .page-wrap .app-sidebar .sidebar-header{
+    padding: 8px 10px;
+    height: auto;
+    background-color: #ededed;
+}
+.logo-img{
+    margin-left:auto;
+    margin-right: auto;
+    display: block;
+}
+.wrapper .page-wrap .app-sidebar .sidebar-header .header-brand .logo-img{
+    display: block;
+    width: 100%;
+    max-width: 300px;
+}
+.sidebar-action{
+    position: absolute;
+    right: 10px;
+    font-size: 22px;
+    color: #c7c7c7;
+    cursor: pointer;
+}
+
+
+.wrapper .page-wrap .app-sidebar{
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.75);
+    /* border-radius: 12px; */
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1)
+}
+.wrapper .header-top[header-theme="light"]{
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.75);
+    /* border-radius: 12px; */
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1)
+}
+.card{
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.75);
+    /* border-radius: 12px; */
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1)
+}
+.wrapper .page-wrap .app-sidebar .sidebar-content .nav-container .navigation-main .nav-item.active a{
+    background-color: #003b7e;
+    color: #f9ae00;
+    align-items: center;
+    display: flex;
+}
+.wrapper .page-wrap .app-sidebar .sidebar-header .header-brand{
+    width: 100%;
+}
+.btn{
+    background-image: none !important;
+}
+.wrapper .page-wrap .app-sidebar .sidebar-content .nav-container .navigation-main .nav-item a span{
+    font-weight: bold;
+    font-size: 14px;
+}
+.page-header-title{
+    display: flex;
+    align-items: center;
+}
+.wrapper .page-wrap .main-content .page-header .page-header-title i{
+    box-shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1);
+}
+.wrapper .page-wrap .main-content .page-header{
+    margin-bottom: 10pxSS;
+}
+#nnnbp_updatePage input:checked+.slider{
+    background-color:#0089cb; 
+}
+.wrapper .page-wrap .footer{
+    padding: 8px 15px;
+    padding-left: 40px;
+}
+.wrapper .header-top{
+    padding-left: 215px;
+}
+.wrapper .page-wrap .app-sidebar .sidebar-content .nav-container .navigation-main .nav-item a:hover{
+    color: #f9ae00 ;
+background-color: #f2f2f2;
+}
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td{
+    padding: 6px 12px;
+    line-height: 1.4;
+    border: 2px solid #f2f5f7;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    background: #f2f5f7;
+    border: 2px solid #f2f2f2;
+}

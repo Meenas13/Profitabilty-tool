@@ -9,7 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,24 @@ Route::get('/', 'SsoController@index')->name('login');
 
 // Route::get('/', [LoginController::class,'showLoginForm'])->name('login');
 Route::get('login', 'SsoController@index')->name('login');
+
+// Route::get('login2', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::post('login2', [LoginController::class,'login']);
+
+// Route::get('login2', [DashboardController::class, 'index'])->name('login');
+
+// Route::get('login2',  function () {
+// 	if (Auth::check()) {
+// 		return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
+// 		//	return view('auth.login');
+// 		//	return view('dashboard.index');
+// 	}
+// 	// return view('dashboard.index');
+// 	return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
+
+// 	//	return view('dashboard.index');
+// })->name('login');
+
 
 // Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 // Route::post('login', [LoginController::class, 'login']);
@@ -82,26 +100,13 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 	});
 
-	Route::post('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
-	Route::get('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
-
-	// Route::get('/bb_preRequestedData', [DashboardController::class, 'bb_preRequestedData'])->name('bb_preRequestedData');
-	Route::get('/get_allUniqueCustomer', [DashboardController::class, 'get_allUniqueCustomer'])->name('get_allUniqueCustomer');
-
 	Route::get('/customer', [DashboardController::class, 'customers'])->name('customer');
-	//	Route::get('/customer-offer', function () { return view('customer.offer'); })->name('customer-offer'); 
-
+	Route::get('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
+	Route::get('/get_allUniqueCustomer', [DashboardController::class, 'get_allUniqueCustomer'])->name('get_allUniqueCustomer');
 	Route::post('/full_domainList', [DashboardController::class, 'full_domainList'])->name('full_domainList');
-
-
 	Route::post('/customer-offer-data', [DashboardController::class, 'customersOffer'])->name('customer-offer-data');
-	Route::get('/customer-offer-data', [DashboardController::class, 'customersOffer'])->name('customer-offer-data');
-	Route::post('/forcasted-cal', [DashboardController::class, 'forecastedCal'])->name('forcasted-cal');
-	Route::post('/insertCustomer', [DashboardController::class, 'insertCustomer'])->name('insertCustomer');
+	Route::get('/calculate_backBonus', [DashboardController::class, 'calculate_backBonus'])->name('calculate_backBonus');
+	Route::get('/forcasted-cal', [DashboardController::class, 'forecastedCal'])->name('forcasted-cal');
 	Route::get('/nnnbp_screen', [DashboardController::class, 'nnnbp_screen'])->name('nnnbp_screen');
-	// Route::post('/update_nnnbpSrc/{selected_src}/{buy_domain_no}', [DashboardController::class, 'update_nnnbpSrc'])->name('update_nnnbpSrc');
 	Route::post('/update_nnnbpSrc', [DashboardController::class, 'update_nnnbpSrc'])->name('update_nnnbpSrc');
-
-	Route::post('/calculate_backBonus', [DashboardController::class, 'calculate_backBonus'])->name('calculate_backBonus');
-
 });

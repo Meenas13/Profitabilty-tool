@@ -8,7 +8,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-user-plus bg-blue"></i>
+                        <i class="ik ik-user-plus bg-primary"></i>
                         <div class="d-inline">
                             <h5>Suppliers</h5>
                             <span></span>

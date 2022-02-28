@@ -1,9 +1,9 @@
-<div class="app-sidebar colored">
+<div class="app-sidebar">
     <div class="sidebar-header">
         <a class="header-brand" href="{{route('customer')}}">
             <div class="logo-img">
-                <!-- <img height="40" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}"> -->
-                <img height="40" src="{{ asset('img/metro-sk-logo.png')}}" class="header-brand-img" title="{{ env('APP_NAME')}}">
+                <img  src="{{ asset('images/logo/metro-logo.png')}}" class="header-brand-img metro-logo-head" title="{{ env('APP_NAME')}}">
+                <img  src="{{ asset('img/metro-sk-logo.png')}}" class="header-brand-img country-flag-head" title="{{ env('APP_NAME')}}">
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>
@@ -44,7 +44,7 @@
 
 
                 <?php $user = Auth::User();
-                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in" || $user->email == "archanaaditya.deokar@metro-gsc.in") { ?>
+                if ($user->email == "matej.sklar@metro.sk" || $user->email == "martin.ovcik@metro.sk" || $user->email == "p.suryawanshi@metro-gsc.in" || $user->email == "archanaaditya.deokar@metro-gsc.in" || $user->email == "a.mhasagar@metro-gsc.in") { ?>
 
                     <div class="nav-item {{ ($segment1 == 'nnnbp_screen') ? 'active' : '' }}">
                         <a href="{{route('nnnbp_screen')}}"><i class="ik ik-list"></i><span> {{ __('NNNBP Update')}}</span></a>

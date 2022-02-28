@@ -12,7 +12,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-user-plus bg-blue"></i>
+                        <i class="ik ik-user-plus bg-primary"></i>
                         <div class="d-inline">
                             <h5><?php echo e(__('Add User')); ?></h5>
                             <span><?php echo e(__('Create new user, assign roles & permissions')); ?></span>

@@ -6,7 +6,7 @@
         <div class="row align-items-end">
             <div class="col-lg-8">
                 <div class="page-header-title">
-                    <i class="ik ik-user-plus bg-blue"></i>
+                    <i class="ik ik-user-plus bg-primary"></i>
                     <div class="d-inline">
                         <h5>Offer</h5>
 
@@ -35,7 +35,7 @@
             <div class="card" >
                 <br>
                 <div style="text-align: center !important;" class="card-options">
-                    <h3 style="border: 3px solid #007bff;">Forecasted OTI = <span id="forecasted">0%</span></h3>
+                    <h3 style="border: 3px solid #003b7e;">Forecasted OTI = <span id="forecasted">0%</span></h3>
                 </div>
                 <div class="card-body">
                     <table id="advanced_table" class="table table-striped table-bordered nowrap dataTable">

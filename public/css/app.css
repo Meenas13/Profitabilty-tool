@@ -17,14 +17,14 @@
   --yellow: #ffed4a;
   --green: #38c172;
   --teal: #4dc0b5;
-  --cyan: #6cb2eb;
+  --cyan: #0089cb;
   --white: #fff;
   --gray: #6c757d;
   --gray-dark: #343a40;
   --primary: #3490dc;
   --secondary: #6c757d;
   --success: #38c172;
-  --info: #6cb2eb;
+  --info: #0089cb;
   --warning: #ffed4a;
   --danger: #e3342f;
   --light: #f8f9fa;
@@ -2809,8 +2809,8 @@ fieldset:disabled a.btn {
 
 .btn-info {
   color: #212529;
-  background-color: #6cb2eb;
-  border-color: #6cb2eb;
+  background-color: #0089cb;
+  border-color: #0089cb;
 }
 
 .btn-info:hover {
@@ -2830,8 +2830,8 @@ fieldset:disabled a.btn {
 .btn-info.disabled,
 .btn-info:disabled {
   color: #212529;
-  background-color: #6cb2eb;
-  border-color: #6cb2eb;
+  background-color: #0089cb;
+  border-color: #0089cb;
 }
 
 .btn-info:not(:disabled):not(.disabled):active,
@@ -3121,14 +3121,14 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-info {
-  color: #6cb2eb;
-  border-color: #6cb2eb;
+  color: #0089cb;
+  border-color: #0089cb;
 }
 
 .btn-outline-info:hover {
   color: #212529;
-  background-color: #6cb2eb;
-  border-color: #6cb2eb;
+  background-color: #0089cb;
+  border-color: #0089cb;
 }
 
 .btn-outline-info:focus,
@@ -3138,7 +3138,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-info.disabled,
 .btn-outline-info:disabled {
-  color: #6cb2eb;
+  color: #0089cb;
   background-color: transparent;
 }
 
@@ -3146,8 +3146,8 @@ fieldset:disabled a.btn {
 .btn-outline-info:not(:disabled):not(.disabled).active,
 .show > .btn-outline-info.dropdown-toggle {
   color: #212529;
-  background-color: #6cb2eb;
-  border-color: #6cb2eb;
+  background-color: #0089cb;
+  border-color: #0089cb;
 }
 
 .btn-outline-info:not(:disabled):not(.disabled):active:focus,
@@ -5391,7 +5391,7 @@ a.badge-success.focus {
 
 .badge-info {
   color: #212529;
-  background-color: #6cb2eb;
+  background-color: #0089cb;
 }
 
 a.badge-info:hover,
@@ -6978,7 +6978,7 @@ button.bg-success:focus {
 }
 
 .bg-info {
-  background-color: #6cb2eb !important;
+  background-color: #0089cb !important;
 }
 
 a.bg-info:hover,
@@ -7093,7 +7093,7 @@ button.bg-dark:focus {
 }
 
 .border-info {
-  border-color: #6cb2eb !important;
+  border-color: #0089cb !important;
 }
 
 .border-warning {
@@ -10683,7 +10683,7 @@ a.text-success:focus {
 }
 
 .text-info {
-  color: #6cb2eb !important;
+  color: #0089cb !important;
 }
 
 a.text-info:hover,
