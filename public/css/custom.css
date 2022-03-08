@@ -31,6 +31,9 @@ select#customer_unique,select#quater {width: 100%;position: relative;overflow-y:
 select#customer_unique option.linked,
 select#quater option.linked {background: transparent;height: 100%;width: 100%;padding: 10px;display: flex;align-items: center;}
 .year_dash {display: flex;width: 4%;align-items: center;justify-content: center;height: 35px;}
+.year_column {display: inline-block;width: 100%;}
+.year_column label{display: block;}
+.year_column .yearRange_div{display: inline-flex;width: 100%;}
 
 /* input[type="month"]::before{content: attr(placeholder) !important;color: #aaa;width: 100%;}
 input[type="month"]:focus::before,

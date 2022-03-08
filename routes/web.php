@@ -49,6 +49,15 @@ Route::get('login', 'SsoController@index')->name('login');
 // Route::post('login', [LoginController::class, 'login']);
 // Route::post('register', [RegisterController::class, 'register']);
 
+
+Route::get('sso-login', 'SsoController@index');
+Route::get('sso-redirect', 'SsoController@redirect');
+Route::get('sso-action', 'SsoController@action');
+Route::get('message', 'SsoController@message');
+
+Route::get('admin', [LoginController::class, 'showLoginForm'])->name('admin');
+Route::post('login', [LoginController::class, 'login']);
+
 Route::get('password/forget',  function () {
 	return view('pages.forgot-password');
 })->name('password.forget');
@@ -57,10 +66,6 @@ Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEm
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::get('sso-login', 'SsoController@index');
-Route::get('sso-redirect', 'SsoController@redirect');
-Route::get('sso-action', 'SsoController@action');
-Route::get('message', 'SsoController@message');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -105,8 +110,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get_allUniqueCustomer', [DashboardController::class, 'get_allUniqueCustomer'])->name('get_allUniqueCustomer');
 	Route::post('/full_domainList', [DashboardController::class, 'full_domainList'])->name('full_domainList');
 	Route::post('/customer-offer-data', [DashboardController::class, 'customersOffer'])->name('customer-offer-data');
+	Route::post('/customer-offer-data-all', [DashboardController::class, 'customersOffer_all'])->name('customer-offer-data-all');
 	Route::get('/calculate_backBonus', [DashboardController::class, 'calculate_backBonus'])->name('calculate_backBonus');
-	Route::get('/forcasted-cal', [DashboardController::class, 'forecastedCal'])->name('forcasted-cal');
+	Route::post('/forcasted-cal', [DashboardController::class, 'forecastedCal'])->name('forcasted-cal');
 	Route::get('/nnnbp_screen', [DashboardController::class, 'nnnbp_screen'])->name('nnnbp_screen');
 	Route::post('/update_nnnbpSrc', [DashboardController::class, 'update_nnnbpSrc'])->name('update_nnnbpSrc');
 });

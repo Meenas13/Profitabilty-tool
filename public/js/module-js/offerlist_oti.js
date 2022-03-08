@@ -1,5 +1,3 @@
-
-//Add new row/article to existance table JS
 $(document).ready(function () {
   var oldStart = 0;
   var table = $('.final_table').DataTable({
@@ -29,12 +27,15 @@ $(document).ready(function () {
         oldStart = o._iDisplayStart;
       }
     }
-  });
-
+  }); //datatable end
 
   $('.final_table.AddArticle tbody').on('click', 'tr', function () {
     $(this).toggleClass('selected');
   });
+
+
+  //Add new row/article to existance table JS
+
 
 
   $("#customer-offer").click(function () {
@@ -49,12 +50,13 @@ $(document).ready(function () {
     });
 
     cOfferIDs = ids;
-
-    if (cOfferIDs.length > 0) {
+    console.log(cOfferIDs);
+    
+    // if (cOfferIDs.length > 0) {
       $('#customer-offer').prop('disabled', true);
       var token = $('meta[name="_token"]').attr('content');
 
-      var cust_id = jQuery("#cust_id").val();
+      var cust_id = $(".selected_ico").val();
       console.log(cust_id);
 
       var cust_unique = $(".c_unique").val();
@@ -68,11 +70,11 @@ $(document).ready(function () {
       $('<form>', {
         "id": "customerOfferFrom",
         "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferIDs + '" /> <input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /> <input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" />  <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
-        "action": 'customer-offer-data',
+        "action": 'customer-offer-data-all',
         "method": "POST"
       }).appendTo(document.body).submit();
 
-    }
+    // }
 
   });
 
@@ -309,12 +311,11 @@ $(document).ready(function () {
         var err_flag = 0;
         //Check if Amount/Percent is added then calculate BackBonus
         var bonus_amount = $(".amount").val().replace("€", "");
-
         var bonus_percent = $(".percent").val().replace("%", "");
         var back_bonus = "";;
         if (bonus_base_amount && bonus_amount && bonus_percent) {
           console.log(bonus_amount);
-          if (parseFloat(bonus_base_amount) > parseFloat(bonus_amount)) {
+          if (parseFloat(limit_base_amount) > parseFloat(bonus_amount)) {
             err_flag = 2;
             console.log('%' + bonus_percent);
             var back_bonus = parseFloat(bonus_base_amount) * (parseFloat(bonus_percent) / 100);
@@ -327,7 +328,7 @@ $(document).ready(function () {
             err_flag = 1;
             $.alert({
               title: 'Alert',
-              content: 'Bonus_From amount (€' + bonus_amount + ') is greater than Bonus_base amount (€' + bonus_base_amount + '), please make sure to enter correct Bonus_From amount.',
+              content: 'Bonus_From amount (€' + bonus_amount + ') is greater than Limit-base amount (€' + limit_base_amount + '), please make sure to enter correct Bonus_From amount.',
               closeIcon: true
             });
             $(".bb_returns").css('display', 'none');
@@ -358,7 +359,7 @@ $(document).ready(function () {
 
             if (((f_index && percentage[f_key]) || to_amount[f_key]) || ((f_index && percentage[f_key]) && to_amount[f_key])) {
 
-              if (((bonus_base_amount >= parseFloat(from_amount[f_key])) && (bonus_base_amount < parseFloat(to_amount[f_key]))) || ((bonus_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
+              if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) || ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
                 err_flag = 2;
 
                 var bb = parseFloat(bonus_base_amount) * (parseFloat(percentage[f_key]) / 100);
@@ -380,7 +381,7 @@ $(document).ready(function () {
                 back_bonus = "0";
               }
 
-              if ((bonus_base_amount >= parseFloat(from_amount[f_key])) && (bonus_base_amount > parseFloat(to_amount[f_key]))) {
+              if ((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount > parseFloat(to_amount[f_key]))) {
                 err_flag = 5;
               }
 
@@ -408,7 +409,7 @@ $(document).ready(function () {
             err_flag = 4;
             $.alert({
               title: 'Error',
-              content: 'Bonus_From amount is greater than Bonus_base amount (€' + bonus_base_amount + '), please make sure to enter correct from-amount',
+              content: 'Bonus_From amount is greater than Limit-base amount (€' + limit_base_amount + '), please make sure to enter correct from-amount',
               closeIcon: true
             });
 
@@ -418,7 +419,7 @@ $(document).ready(function () {
             $(".bb_returns").css('display', 'none');
             $.alert({
               title: 'Error',
-              content: 'Bonus_From and To amount range is not matching for Bonus_Base amount (€' + bonus_base_amount + '), Please make sure to enter correct range',
+              content: 'From and To Amount range is not matching for Limit-base amount (€' + limit_base_amount + '), Please make sure to enter correct range',
               closeIcon: true
             });
             return false;
@@ -524,7 +525,6 @@ $(document).ready(function () {
           } else {
             $('<div class="error"> Enter From amount(€) & percentage (%) </div>').insertAfter(".BonusType_error");
           }
-
         } else if ($('.from_amount').val().length > 0) {
           $('.BonusType_error').fadeOut("fast", function () { });
           $('<div class="error"> Enter percentage (%) </div>').insertAfter(".BonusType_error");
@@ -565,12 +565,16 @@ $(document).ready(function () {
     if ($('.collis').length && $('.selling').length) {
 
       if ($('.collis').val().length <= 0 && $('.selling').val().length <= 0) {
+
         $.alert({
           title: 'Error',
           content: 'Please enter Colli & Requested Price/MU of an article(s)',
           closeIcon: true
         });
+
+        // $('html,body').animate({ scrollTop: $(window).scrollTop(0) }, 1500);
         return false;
+
       } else if ($('.collis').val().length > 0 && $('.selling').val().length <= 0) {
         $.alert({
           title: 'Error',
@@ -579,6 +583,7 @@ $(document).ready(function () {
         });
         return false;
       } else if ($('.collis').val().length <= 0 && $('.selling').val().length > 0) {
+
         $.alert({
           title: 'Error',
           content: 'Please enter Colli of an article(s)',
@@ -586,9 +591,7 @@ $(document).ready(function () {
         });
         return false;
       } else {
-
         $('#calculate').prop('disabled', true);
-
         if ($('#backBonus_amt').text()) {
           var backBonus_amount = $('#backBonus_amt').text();
         } else {
@@ -633,7 +636,7 @@ $(document).ready(function () {
         $.ajax({
           // type: "POST",
           url: 'forcasted-cal',
-          type: "GET",
+          method: "POST",
           dataType: "json",
           data: {
             '_token': $('meta[name="_token"]').attr('content'),

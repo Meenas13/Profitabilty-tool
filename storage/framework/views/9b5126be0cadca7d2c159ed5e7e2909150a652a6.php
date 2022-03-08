@@ -86,7 +86,7 @@
                 <div class="card-body">
                     <div class="card-options">
                         <div class="row">
-                            <div class="col-md-4"><label> ICO: </label><input readonly type="text" class="selected_ico form-control" value="<?php echo $cust_id; ?>"></div>
+                            <div class="col-md-4"><label> ICO: </label><input readonly type="text" class="selected_ico form-control" value="<?php echo $cust_ico; ?>"></div>
                             <div class="col-md-4"><label> Unique No. : </label><input readonly type="text" class="form-control c_unique" value="<?php echo $unique_implode;  ?>"></div>
                             <div class="col-md-4"><label> Quarters :</label><input readonly type="text" value="<?php echo str_replace("'", "", $selected_quarter_implode); ?>" class="form-control"></div>
                             <input readonly type="hidden" value="<?php echo $selected_artCategory; ?>" name="selected_artCategory[]" class="selected_artCategory">
@@ -307,7 +307,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table id="advanced_table" class="AddArticle display nowrap final_table" style="width:100%">
+                <table id="advanced_table" class="table table-bordered AddArticle display nowrap final_table" style="width:100%">
                     <thead style="text-align: center;" valign="center">
                         <tr>
                             <!-- <th class="nosort" width="10">

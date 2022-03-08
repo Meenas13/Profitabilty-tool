@@ -149,7 +149,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 year_column">
                             <label for="">Year id</label>
                             <div class="yearRange_div" style="display: inline-flex;">
                                 <input type='text' class="year_id form-control from_year" name="from_year" format="yyyy" placeholder="From Year (yyyy)" <?php if ($from_year) {  ?> value="<?php echo $from_year; ?>" <?php  } ?> style="width:48%">
@@ -269,7 +269,7 @@
                                             <td><?php echo number_format(round($value2->sales, 2)); ?></td>
                                             <td><?php echo round($value2->total_oti_percentage, 2) . "%"; ?></td>
                                             <td><?php if ($value2->invoice_count) {
-                                                    echo $value2->invoice_count;
+                                                    echo round($value2->invoice_count, 2);
                                                 } else {
                                                     echo "0";
                                                 } ?></td>
