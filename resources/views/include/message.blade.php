@@ -1,25 +1,4 @@
-    @if (session('success'))
-    <div class="col-md-12">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="ik ik-x"></i>
-            </button>
-        </div>
-    </div>
-    @endif
-    @if (session('error'))
-    <div class="col-md-12">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="ik ik-x"></i>
-            </button>
-        </div>
-    </div>
-    @endif
-
-    @if (session('logout'))
+    @if (session('logout') || session('error') || session('success'))
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>
@@ -65,7 +44,18 @@
                             <div class="logo-centered">
                                 <a href="http://radmin.rakibhstu.com"><img height="80" src="{{ asset('img/metro-logo-sk.png') }}" alt="RADMIN"></a>
                             </div>
+                            @if (session('success'))
+                            {{ session('success') }}
+                            @endif
+
+                            @if (session('logout'))
                             {{ session('logout') }}
+                            @endif
+
+                            @if (session('error'))
+                            {{ session('error') }}
+                            @endif
+
                             </br>
                             <div class="sign-btn text-center">
                                 <br>

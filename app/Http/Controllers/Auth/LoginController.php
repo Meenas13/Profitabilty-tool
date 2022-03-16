@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Session;
+
+use Session;
 
 class LoginController extends Controller
 {
@@ -64,7 +66,7 @@ class LoginController extends Controller
     // redirect to login page
     public function logout(Request $request)
     {
-        $all = Session::get('auth');
+        $all = Session::get('authLogin');
         //dd($all);
         $this->guard()->logout();
 
@@ -73,11 +75,11 @@ class LoginController extends Controller
 
 
         if ($response = $this->loggedOut($request)) {
-            Session::put('auth', $all);
+            Session::put('authLogin', $all);
             return $response;
         }
 
-        Session::put('auth', $all);
+        Session::put('authLogin', $all);
         // Auth::logout();
         // $request->Session::flush();
         return redirect('message')->with('logout', __('You have successfully logged out.'));
@@ -88,4 +90,5 @@ class LoginController extends Controller
         //     ? new Response('', 204)
         //     : redirect('/message');
     }
+
 }

@@ -35,7 +35,6 @@ class SsoController extends Controller
 
     public function index(Request $request)
     {
-
         $all = Session::get('authLogin');
 
         if (!empty($all->access_token)) {
@@ -59,7 +58,6 @@ class SsoController extends Controller
 
     public function checkAccessToken($requestData = array())
     {
-
         if (!empty($requestData)) {
 
             $para['method'] = "post";
@@ -152,7 +150,6 @@ class SsoController extends Controller
 
     public function action(Request $request)
     {
-
         $all = Session::get('authLogin');
         if (!empty($all->access_token)) {
             $accessToken = $all->access_token;
@@ -172,7 +169,8 @@ class SsoController extends Controller
                         'name'     => $result['data']->displayname,
                         'email'    => $result['data']->mail,
                         'empId'    => $result['data']->employeenumber,
-                        'password' => Hash::make('metroservices1$#$'),
+                        // 'password' => Hash::make('metroservices1$#$'),
+                        'password' => Hash::make($request->password),
                     ]);
 
                     //  $authUser->syncRoles($role);
@@ -192,7 +190,7 @@ class SsoController extends Controller
                         Auth::login($authUser, true);
                         return redirect('customer');
                     } else {
-                        return redirect('landing')->with('error', 'Sorry, Your account is not active yet.');
+                        return redirect('message')->with('error', 'Sorry, Your account is not active yet.');
                     }
                 } else {
                     return redirect('message')->with('error', 'Sorry, Your record not found in our system');

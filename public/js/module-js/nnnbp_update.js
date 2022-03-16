@@ -67,8 +67,8 @@ $(document).ready(function () {
 
               $(response).each(function (k, i) {
                 $.alert({
-                  title: 'Great..!!',
-                  content: 'Source Updated',
+                  title: 'Skvelé..!',
+                  content: 'Aktualizovaný zdroj..!!',
                   closeIcon: true
                 });
                 return false;
@@ -78,7 +78,7 @@ $(document).ready(function () {
             fail: function (response) {
               $.alert({
                 title: 'ohh..',
-                content: 'Source could not updated',
+                content: 'Nepodarilo sa aktualizovať zdroj',
                 closeIcon: true
               });
             }

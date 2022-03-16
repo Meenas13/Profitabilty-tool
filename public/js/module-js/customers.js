@@ -16,7 +16,7 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
-  // JS to get all Unique customers starts
+  // JS to get all Unique customers on checkbox click - starts
   $('.refresh_unique').click(function () {
 
     if ($(".refresh_unique").is(":checked")) {
@@ -52,7 +52,9 @@ $(document).ready(function () {
     } else {
       $('#customer').prop("required", true);
       $("#customer").prop("disabled", false);
+      $('#customer_unique').prop("required", false);
       $('#customer').parent().find("span.error").css('display', 'inline-block');
+      $('#customer_unique').parent().find("span.error").hide();
       $('#customer_unique').prop("multiple", true);
       $('select[name="customer_unique[]"]').empty();
     }
@@ -173,10 +175,6 @@ $(document).ready(function () {
       }
     }
   }); //datatable end
-
-
-
- 
 
 
   //Datatable add class to select Article Row

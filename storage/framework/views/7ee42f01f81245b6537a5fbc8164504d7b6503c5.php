@@ -156,7 +156,7 @@
                                 <span class="year_dash">-</span>
                                 <input type='text' class="year_id form-control to_year" name="to_year" placeholder="To Year (yyyy)" <?php if ($to_year) {  ?> value="<?php echo $to_year; ?>" <?php  } ?> style="width:48%">
                             </div>
-                            <div id="year_err" style="color:red;display: none;">Year gap should be 1 year only</div>
+                            <div id="year_err" style="color:red;display: none;">Zvolené obdobie je dlhšie ako 1 rok</div>
                         </div>
 
 
@@ -363,9 +363,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 
 <?php $__env->startPush('script'); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -376,6 +374,6 @@
 
 <script src="<?php echo e(asset('js/module-js/customers.js')); ?>"></script>
 <?php $__env->stopPush(); ?>
-
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\profitability-tool\resources\views/customer/index.blade.php ENDPATH**/ ?>

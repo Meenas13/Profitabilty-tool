@@ -23,33 +23,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'SsoController@index')->name('login');
-
-// Route::get('/', [LoginController::class,'showLoginForm'])->name('login');
 Route::get('login', 'SsoController@index')->name('login');
-
-// Route::get('login2', [LoginController::class, 'showLoginForm'])->name('login');
-// Route::post('login2', [LoginController::class,'login']);
-
-// Route::get('login2', [DashboardController::class, 'index'])->name('login');
-
-// Route::get('login2',  function () {
-// 	if (Auth::check()) {
-// 		return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
-// 		//	return view('auth.login');
-// 		//	return view('dashboard.index');
-// 	}
-// 	// return view('dashboard.index');
-// 	return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
-
-// 	//	return view('dashboard.index');
-// })->name('login');
-
-
-// Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-// Route::post('login', [LoginController::class, 'login']);
-// Route::post('register', [RegisterController::class, 'register']);
-
-
 Route::get('sso-login', 'SsoController@index');
 Route::get('sso-redirect', 'SsoController@redirect');
 Route::get('sso-action', 'SsoController@action');
@@ -65,7 +39,6 @@ Route::get('password/forget',  function () {
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
 
 Route::group(['middleware' => 'auth'], function () {
 

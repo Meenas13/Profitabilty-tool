@@ -126,7 +126,7 @@
                             <tbody>
                                 <tr class="row_count1" id='row1'>
                                     <td>
-                                        <select contenteditable="true" required class="form-control bulk" name="country">
+                                        <select contenteditable="true" required class="form-control bulk" name="bulk">
                                             <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
@@ -134,7 +134,7 @@
                                         </select>
 
                                     </td>
-                                    <td> <select contenteditable="true" required class="form-control spirits" name="country">
+                                    <td> <select contenteditable="true" required class="form-control spirits" name="spirits">
                                             <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
@@ -142,21 +142,21 @@
                                         </select>
 
                                     </td>
-                                    <td> <select contenteditable="true" required class="form-control regular" name="country">
+                                    <td> <select contenteditable="true" required class="form-control regular" name="regular">
                                             <option selected="selected" value=""> Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select>
                                     </td>
-                                    <td> <select contenteditable="true" required class="form-control promo" name="country">
+                                    <td> <select contenteditable="true" required class="form-control promo" name="promo">
                                             <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
                                             <option value="excluded">Excluded</option>
                                         </select>
                                     </td>
-                                    <td> <select contenteditable="true" required class="form-control cip" name="country">
+                                    <td> <select contenteditable="true" required class="form-control cip" name="cip">
                                             <option selected="selected" value="">Select </option>
                                             <option value="limitBase">Limit Base </option>
                                             <option value="limitAndBonusBase">Limit & Bonus Base </option>
@@ -176,14 +176,14 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <span class="bt_error">Select All Types</span>
+                        <span class="bt_error">Vyberte Všetky typy</span>
 
                         <div class="col-12 col-md-12 col-lg-12" align="right">
                             <button type="button" name="addNewCustBB" id="addNewCustBB" style="display: none;" class="btn btn-success btn-sm">+</button>
                         </div>
                         <br>
 
-                        <div class="BonusType_error" style="display: none;"> * Enter either bonus type 1 or type 2 </div>
+                        <div class="BonusType_error" style="display: none;"> * Zadajte buď bonus typu 1 alebo typu 2 </div>
                         <div class="bb_returns" style="display: none;">
                             <h5> Back Bonus <span id="backBonus"></span> </h5>
                             <h5> Limit Base <span id="limitBase"></span> </h5>

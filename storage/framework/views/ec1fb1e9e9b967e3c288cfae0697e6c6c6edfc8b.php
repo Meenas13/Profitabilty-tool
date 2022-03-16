@@ -1,27 +1,4 @@
-    <?php if(session('success')): ?>
-    <div class="col-md-12">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo e(session('success')); ?>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="ik ik-x"></i>
-            </button>
-        </div>
-    </div>
-    <?php endif; ?>
-    <?php if(session('error')): ?>
-    <div class="col-md-12">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo e(session('error')); ?>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="ik ik-x"></i>
-            </button>
-        </div>
-    </div>
-    <?php endif; ?>
-
-    <?php if(session('logout')): ?>
+    <?php if(session('logout') || session('error') || session('success')): ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('plugins/bootstrap/dist/css/bootstrap.min.css')); ?>">
     <style>
@@ -67,7 +44,20 @@
                             <div class="logo-centered">
                                 <a href="http://radmin.rakibhstu.com"><img height="80" src="<?php echo e(asset('img/metro-logo-sk.png')); ?>" alt="RADMIN"></a>
                             </div>
+                            <?php if(session('success')): ?>
+                            <?php echo e(session('success')); ?>
+
+                            <?php endif; ?>
+
+                            <?php if(session('logout')): ?>
                             <?php echo e(session('logout')); ?>
+
+                            <?php endif; ?>
+
+                            <?php if(session('error')): ?>
+                            <?php echo e(session('error')); ?>
+
+                            <?php endif; ?>
 
                             </br>
                             <div class="sign-btn text-center">
