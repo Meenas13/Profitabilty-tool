@@ -127,6 +127,7 @@ $(document).ready(function () {
 
   //calculate Backbonus function 
   function cal_bb() {
+    $(".loader").show();
     var row = [];
     var customer_unique = [];
     // var bulk = $(".bulk").val();
@@ -202,6 +203,7 @@ $(document).ready(function () {
       },
 
       success: function (data) {
+        $(".loader").hide();
         var bulk_sales_sum = [];
         var spirit_sales_sum = [];
         var regular_sales_sum = [];
@@ -390,37 +392,55 @@ $(document).ready(function () {
 
           $(from_amount).each(function (f_key, f_index) {
 
-            if (((f_index && percentage[f_key]) || to_amount[f_key]) || ((f_index && percentage[f_key]) && to_amount[f_key])) {
+            var prev_key = f_key - 1;
 
-              if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) || ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
-                err_flag = 2;
+            console.log(prev_key);
 
-                var bb = parseFloat(bonus_base_amount) * (parseFloat(percentage[f_key]) / 100);
-                if (bb == "undefined") {
-                  back_bonus = "";
-                  $.alert({
-                    title: 'Error',
-                    content: 'Oops !! Something Went wrong',
-                    closeIcon: true
-                  });
-                  return false;
-                } else {
-                  console.log("bb und Else " + bb);
-                  back_bonus = bb.toFixed(2);
-                  // return false;
+            if (f_index && parseFloat(from_amount[f_key]) < parseFloat((from_amount[prev_key]))) {
+
+              err_flag = 3;
+
+              $('<div class="error"> V rozsahu boli zadané nesprávne hodnoty </div>').insertAfter(".BonusType_error");
+
+              $(".bb_returns").css('display', 'none');
+              return false;
+
+            } else {
+
+              console.log("from_amount[f_key] > from_amount[prev_key]" + from_amount[f_key] + ">" + from_amount[prev_key]);
+
+              if (((f_index && percentage[f_key]) || to_amount[f_key]) || ((f_index && percentage[f_key]) && to_amount[f_key])) {
+
+                if (((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount < parseFloat(to_amount[f_key]))) || ((limit_base_amount >= parseFloat(from_amount[f_key])) && (to_amount[f_key] == ""))) {
+                  err_flag = 2;
+
+                  var bb = parseFloat(bonus_base_amount) * (parseFloat(percentage[f_key]) / 100);
+                  if (bb == "undefined") {
+                    back_bonus = "";
+                    $.alert({
+                      title: 'Error',
+                      content: 'Oops !! Something Went wrong',
+                      closeIcon: true
+                    });
+                    return false;
+                  } else {
+                    console.log("bb und Else " + bb);
+                    back_bonus = bb.toFixed(2);
+                    // return false;
+                  }
+                } else if (parseFloat(bonus_base_amount) == "0") {
+                  err_flag = 2;
+                  back_bonus = "0";
                 }
-              } else if (parseFloat(bonus_base_amount) == "0") {
-                err_flag = 2;
-                back_bonus = "0";
-              }
 
-              if ((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount > parseFloat(to_amount[f_key]))) {
-                // err_flag = 5;
-                err_flag = 2;
-                back_bonus = "0";
-              }
+                if ((limit_base_amount >= parseFloat(from_amount[f_key])) && (limit_base_amount > parseFloat(to_amount[f_key]))) {
+                  err_flag = 2;
+                  back_bonus = "0";
+                }
 
+              }
             }
+
             if (f_index != "" && percentage[f_key] == "") {
 
               err_flag = 3;
@@ -438,8 +458,8 @@ $(document).ready(function () {
 
           }); //each end
 
-          // if ( (err_flag != 2 && err_flag != 3) || (err_flag != 2) ) {
-          if ((err_flag != 1 && err_flag != 2 && err_flag != 3 && err_flag != 5)) {
+          // if ( (err_flag != 1 && err_flag != 2 && err_flag != 3 && err_flag != 5 ) {
+          if ((err_flag != 2 && err_flag != 3)) {
             console.log("bb Else - False(Show Alert) Flag:" + err_flag);
             // err_flag = 4;
 
@@ -557,6 +577,7 @@ $(document).ready(function () {
           $('.error').fadeOut("fast", function () { });
           $('.BonusType_error').fadeOut("fast", function () { });
           cal_bb();
+
         } else if ($('.to_amount').val().length > 0) {
           $('.BonusType_error').fadeOut("fast", function () { });
           if ($('.from_amount').val().length > 0) {
@@ -581,6 +602,7 @@ $(document).ready(function () {
       }
     }
   } //check_inputVal function end
+
 
 
   $("#calculate_backBonus").on('click', function () {
@@ -635,6 +657,9 @@ $(document).ready(function () {
         });
         return false;
       } else {
+
+        $(".loader").show();
+
         $('#calculate').prop('disabled', true);
         if ($('#backBonus_amt').text()) {
           var backBonus_amount = $('#backBonus_amt').text();
@@ -704,6 +729,7 @@ $(document).ready(function () {
 
           },
           success: function (response) {
+            $(".loader").hide();
             console.log(response);
             console.log(response.last_yearSales);
             var fc = parseFloat(response.forecastedOTI) * 100;
@@ -840,7 +866,7 @@ $(document).ready(function () {
             }
           },
           fail: function (response) {
-
+            $(".loader").hide();
           }
         });
         $('#calculate').prop('disabled', false);

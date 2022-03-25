@@ -7,6 +7,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 <?php $__env->stopSection(); ?>
 
+
 <!-- This customer's page view  -->
 <div class="container-fluid">
     <div class="page-header">
@@ -49,8 +50,9 @@
                             <input type="hidden" value="<?php echo $year_range; ?>" name="selected_yearId" class="selected_yearId">
                             <input type="hidden" value="<?php echo $monthId; ?>" name="selected_monthId" class="selected_monthId">
 
-                            <select class="form-control select2 mb-2" name="customer_ico" id="customer" required>
-                                <option value="" selected="selected">Customer</option>
+                            <select class="form-control select21 mb-2" name="customer_ico" id="customer" required>
+                                <!-- <option value="" selected="selected">Customer</option> -->
+                                <option></option>
                                 <?php $__currentLoopData = $cust_icoList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cust_ico_no): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($cust_ico_no->ico); ?>" <?php if ($id == "$cust_ico_no->ico") {
                                                                             echo 'selected';
@@ -375,5 +377,4 @@
 <script src="<?php echo e(asset('js/module-js/customers.js')); ?>"></script>
 <?php $__env->stopPush(); ?>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\profitability-tool\resources\views/customer/index.blade.php ENDPATH**/ ?>

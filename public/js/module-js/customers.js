@@ -1,4 +1,8 @@
 $(window).load(function () {
+  $('#customer').select2({
+    placeholder: "Select Customer",
+    allowClear: true
+  });
   $('.quater').select2({
     placeholder: "Select Quarter",
     allowClear: true
@@ -19,7 +23,10 @@ $(document).ready(function () {
   // JS to get all Unique customers on checkbox click - starts
   $('.refresh_unique').click(function () {
 
+    $("#loader").show();
+
     if ($(".refresh_unique").is(":checked")) {
+      $("#loader").show();
       $("#customer").prop("disabled", true);
       $('#customer').prop('selectedIndex', 0).trigger("change");
       $('#customer').prop("required", false);
@@ -34,6 +41,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (data) {
           console.log(data);
+          $("#loader").hide();
           $('select[name="customer_unique[]"]').empty();
           $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>').fadeIn("fast");
           jQuery.each(data, function (key, value) {
@@ -50,6 +58,7 @@ $(document).ready(function () {
       }); // Ajax to get all Unique customers End
 
     } else {
+      $("#loader").hide();
       $('#customer').prop("required", true);
       $("#customer").prop("disabled", false);
       $('#customer_unique').prop("required", false);
@@ -117,6 +126,8 @@ $(document).ready(function () {
 
   // get Linked customers list onChange of Ico no. starts
   $('select[name="customer_ico"]').on('change', function () {
+    $("#loader").show();
+
     $(".selected_ico").val(this.value);
     var selected_ico = $(this).val();
     if (selected_ico) {
@@ -128,6 +139,7 @@ $(document).ready(function () {
         type: "GET",
         dataType: "json",
         success: function (data) {
+          $("#loader").hide();
           $('select[name="customer_unique[]"]').empty();
           jQuery.each(data, function (key, value) {
             $('select[name="customer_unique[]"]').append('<option value="' + value.cust_no_unique + '">' + value.cust_no_unique + '</option>');
@@ -143,6 +155,7 @@ $(document).ready(function () {
       }); //ajax
 
     } else {
+      $("#loader").hide();
       $('select[name="customer_unique[]"]').append('<option value="">Linked Customers</option>');
     }
   }) // get Linked customers list onChange of Ico no. end

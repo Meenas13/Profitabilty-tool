@@ -63,10 +63,12 @@ class DashboardController extends Controller
             $year_range = "NULL";
             $monthId = "NULL";
 
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            // $cust_icoList_old = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
-            $cust_allUniqueList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');;
+            // $cust_allUniqueList_old = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');;
+            $cust_allUniqueList = tbl_Articlewise_Sale_Colli::select('cust_no_unique')->distinct()->get();
             $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
 
             return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'quater_implode', 'sel_quater_implode', 'article_category', 'article_category_imp', 'channel', 'year_range', 'monthId', 'cust_uniqueList', 'cust_icoList', 'cust_allUniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
@@ -159,14 +161,14 @@ class DashboardController extends Controller
             if (!empty($request->customer_ico)) {
                 $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
             } else {
-                $cust_uniqueList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique')->get()->unique('ico');
+                $cust_uniqueList = tbl_Articlewise_Sale_Colli::select('cust_no_unique')->distinct()->get();
             }
 
             $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $id . " , " . $unique_number_implode . " , " . $article_category_imp . ",  " . $channel . ", " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL");
 
             $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
             $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . " ");
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
             // return json_encode($cust_uniqueList) ;
@@ -183,7 +185,7 @@ class DashboardController extends Controller
     {
         try {
             $id = $request->selected_ico;
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             $catmanager_goupeList = category_share::select('catmanager_group')->distinct()->get();
             if (!empty($id)) {
                 $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
@@ -200,7 +202,7 @@ class DashboardController extends Controller
     public function get_allUniqueCustomer()
     {
         try {
-            $cust_no_unique = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('cust_no_unique', 'month_id')->get()->unique('cust_no_unique');
+            $cust_no_unique = tbl_Articlewise_Sale_Colli::select('cust_no_unique')->distinct()->get();
             return json_encode($cust_no_unique);
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
@@ -251,7 +253,7 @@ class DashboardController extends Controller
             $selected_yearId = $request->sel_yearId;
             $selected_monthId = $request->sel_monthId;
 
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
 
             if (!empty($request->cOfferID)) {
                 $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", " . $buyer_arr_IDs . " ");
@@ -312,7 +314,7 @@ class DashboardController extends Controller
             $selected_yearId = $request->sel_yearId;
             $selected_monthId = $request->sel_monthId;
 
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
 
             if (!empty($request->cOfferID)) {
 
@@ -342,7 +344,7 @@ class DashboardController extends Controller
     public function bb_preRequestedData(Request $request)
     {
         try {
-            $cust_icoList = tbl_Articlewise_Sale_Colli::orderBy('month_id')->select('ico', 'month_id')->get()->unique('ico');
+            $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             return json_encode($cust_icoList);
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
@@ -480,8 +482,6 @@ class DashboardController extends Controller
 
     public function nnnbp_screen()
     {
-        //  $buyer_uid = tbl_Articlewise_Sale_Colli::orderBy('fy_year_id')->select('buy_domain', 'fy_year_id')->get()->unique('buy_domain');;
-        //$buyer_uid = tbl_Articlewise_Sale_Colli::orderBy('fy_year_id')->select('buy_domain', 'fy_year_id')->distinct()->get();
         try {
             $buyer_uid = nnnbp_source::select('buy_domain', 'buy_domain_no', 'nnnbp_source')->get();
             return view('nnnbp.index', compact('buyer_uid'));

@@ -74,7 +74,7 @@
 </div>
 
 <!-- Back Bonus Calculations container -->
-<div class="container-fluid">
+<div class="container-fluid backbonus_contfluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card">

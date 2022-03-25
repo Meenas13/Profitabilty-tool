@@ -7,6 +7,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 @stop
 
+
 <!-- This customer's page view  -->
 <div class="container-fluid">
     <div class="page-header">
@@ -49,8 +50,9 @@
                             <input type="hidden" value="<?php echo $year_range; ?>" name="selected_yearId" class="selected_yearId">
                             <input type="hidden" value="<?php echo $monthId; ?>" name="selected_monthId" class="selected_monthId">
 
-                            <select class="form-control select2 mb-2" name="customer_ico" id="customer" required>
-                                <option value="" selected="selected">Customer</option>
+                            <select class="form-control select21 mb-2" name="customer_ico" id="customer" required>
+                                <!-- <option value="" selected="selected">Customer</option> -->
+                                <option></option>
                                 @foreach($cust_icoList as $cust_ico_no)
                                 <option value="{{$cust_ico_no->ico}}" <?php if ($id == "$cust_ico_no->ico") {
                                                                             echo 'selected';

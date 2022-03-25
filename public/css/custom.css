@@ -18,6 +18,10 @@
 .table thead {background-color: #003b7e;color: #fff;text-align: center;}
 .table thead th {font-weight: 600;color: #fff;font-size: 14px;}
 
+/* loader css */
+.loader{position: absolute;padding-top: 50vh;z-index: 99;padding-left: 49%;background: rgb(0 0 0 / 20%);height: 100%;width: 100%;display:none;}
+/* .backbonus_contfluid{position: relative;} */
+
 /* Customer Filter and Summery Page */
 table.dataTable#advanced_table tbody tr {cursor: pointer;}
 .ui-datepicker-calendar {display: none;}
@@ -58,7 +62,7 @@ select.bulk, select.spirit,select.regular, select.promo,select.cip {padding-righ
 .full_div {display: inline-block;width: 100%;}
 .half_div {display: inline-block;width: 40%;}
 .half_div.first {width: 57%;}
-td.type1_bb {display: inline-flex;}
+td.type1_bb {display: inline-flex;width: 100%;}
 input.percent,
 input.amount {width: 50%;}
 .BonusType_error{color: red;}
