@@ -19,7 +19,7 @@
 .table thead th {font-weight: 600;color: #fff;font-size: 14px;}
 
 /* loader css */
-.loader{position: absolute;padding-top: 50vh;z-index: 99;padding-left: 49%;background: rgb(0 0 0 / 20%);height: 100%;width: 100%;display:none;}
+.loader{position: fixed;padding-top: 42vh;z-index: 9999;padding-left: 49%;background: rgb(0 0 0 / 20%);height: 100%;width: 100%;display:none;}
 /* .backbonus_contfluid{position: relative;} */
 
 /* Customer Filter and Summery Page */

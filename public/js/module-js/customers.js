@@ -23,7 +23,7 @@ $(document).ready(function () {
   // JS to get all Unique customers on checkbox click - starts
   $('.refresh_unique').click(function () {
 
-    $("#loader").show();
+    // $("#loader").show();
 
     if ($(".refresh_unique").is(":checked")) {
       $("#loader").show();
@@ -72,6 +72,9 @@ $(document).ready(function () {
 
   //If from-year is selected then add required to select To-year field
   $('.show_data').click(function () {
+
+    $(".loader").show();
+
     if ($('.from_year').val().length == "4") {
       $('.to_year').prop("required", true);
     }
@@ -200,6 +203,8 @@ $(document).ready(function () {
   //Go to OfferList Page JS
   $("#customer-offer").click(function () {
 
+    $(".loader").show();
+
     var cOfferID = [];
     var ids = $.map(table.rows('.selected').data(), function (item) {
       return item[0];
@@ -224,6 +229,8 @@ $(document).ready(function () {
       "action": "customer-offer-data",
       "method": "POST"
     }).appendTo(document.body).submit();
+
+
     //  }
   });
 

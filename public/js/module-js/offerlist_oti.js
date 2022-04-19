@@ -1,6 +1,6 @@
 $(document).ready(function () {
   var oldStart = 0;
-  var table = $('.final_table').DataTable({
+  var table = $('#advanced_table1').DataTable({
     "scrollY": "auto",
     "scrollX": true,
     // "ordering": false,
@@ -22,31 +22,116 @@ $(document).ready(function () {
     "sPaginationType": "full_numbers",
     "fnDrawCallback": function (o) {
       if (o._iDisplayStart != oldStart) {
-        var targetOffset = $('.final_table').offset().top;
+        var targetOffset = $('#advanced_table1').offset().top;
         $('html,body').animate({ scrollTop: targetOffset }, 500);
         oldStart = o._iDisplayStart;
       }
     }
   }); //datatable end
 
-  $('.final_table.AddArticle tbody').on('click', 'tr', function () {
+  $('#advanced_table1.AddArticle tbody').on('click', 'tr', function () {
     $(this).toggleClass('selected');
   });
 
 
+  var oldStart1 = 0;
+  var table1 = $('#advanced_table').DataTable({
+    "scrollY": "auto",
+    // "ordering": false,
+    columnDefs: [
+      {
+        orderable: true,
+        // className: 'reorder',
+        targets: 1,
+      }, {
+        orderable: true,
+        // className: 'reorder',
+        targets: 0,
+        "visible": false,
+      },
+      {
+        orderable: false,
+        targets: '_all'
+      }
+    ],
+    iDisplayLength: 50,
+    "bJQueryUI": true,
+    "sPaginationType": "full_numbers",
+    processing: true,
+    serverSide: true,
+    'searching': false,
+    "lengthChange": false,
+    "info": false,
+    "ordering": false,
+    language: {
+      processing: '<i class="ace-icon fa fa-spinner fa-spin orange bigger-500" style="font-size:60px;margin-top:50px;"></i>'
+    },
+    scroller: {
+      loadingIndicator: false
+    },
+    ajax: {
+      url: 'get-artical-details',
+      type: "get",
+      data: function (data) {
+        data.buy_domain = $('#filterByDomain').val();
+        data.sub_artical = $('#filterBySubArtical').val();
+        data.sub_artical_name = $('#filterBySubArticalName').val();
+      }
+    },
+    columns: [
+      { data: "buy_subsys_no" },
+      { data: "buy_domain" },
+      { data: "subsys_art_no" },
+      { data: "subsys_art_name" },
+      { data: "status_article" },
+    ],
+    "fnDrawCallback": function (o) {
+      if (o._iDisplayStart != oldStart1) {
+        var targetOffset = $('.advanced_table').offset().top;
+        $('html,body').animate({ scrollTop: targetOffset }, 500);
+        oldStart1 = o._iDisplayStart;
+      }
+    }
+  }); //datatable end
+
+  $('#advanced_table.AddArticle tbody').on('click', 'tr', function () {
+    $(this).toggleClass('selected');
+  });
+
+  $("#search").click(function (e) {
+    e.preventDefault();
+    if (!$('#filterByDomain').val() && !$('#filterBySubArtical').val() && !$('#filterBySubArticalName').val()) {
+      $.alert({
+        title: 'Error',
+        content: 'Please enter value for buy domain or sub artical number or name',
+        closeIcon: true
+      });
+      return false;
+    }
+    table1.draw();
+  });
+  $("#reset").click(function (e) {
+    $('#filterByDomain').val('');
+    $('#filterBySubArtical').val('');
+  });
   //Add new row/article to existance table JS
 
-
-
   $("#customer-offer").click(function () {
+
+    $(".loader").show();
+
     var cOfferIDs = [];
 
     // $(".custom-control-input:checked").each(function() {
     //     cOfferIDs.push($(this).val());
     // });
 
-    var ids = $.map(table.rows('.selected').data(), function (item) {
-      return item[0];
+    var ids = $.map(table1.rows('.selected').data(), function (item) {
+      return item['buy_subsys_no'];
+    });
+
+    $.map(table.rows().data(), function (item) {
+      ids.push(item[0]);
     });
 
     cOfferIDs = ids;

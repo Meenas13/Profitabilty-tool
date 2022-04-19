@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -88,4 +89,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/forcasted-cal', [DashboardController::class, 'forecastedCal'])->name('forcasted-cal');
 	Route::get('/nnnbp_screen', [DashboardController::class, 'nnnbp_screen'])->name('nnnbp_screen');
 	Route::post('/update_nnnbpSrc', [DashboardController::class, 'update_nnnbpSrc'])->name('update_nnnbpSrc');
+	Route::get('/get-artical-details', [ArticleController::class, 'getArticalDetails'])->name('getArticalDetails');
+
 });
