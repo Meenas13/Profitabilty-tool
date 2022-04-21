@@ -176,6 +176,7 @@ $(document).ready(function () {
       url: 'get-all-domainlist',
       type: "get",
       data: function (data) {
+        data.filterByKeyword = $("#customer-form").serializeArray().reduce((o, kv) => ({ ...o, [kv.name]: kv.value }), {});
         data.filterByKeyword.customer_unique = $('#customer_unique').val();
         data.filterByKeyword.customer_ico = $('#customer').val();
         data.filterByKeyword.quater = $('#quater').val();
