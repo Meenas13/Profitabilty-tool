@@ -246,13 +246,13 @@ class DashboardController extends Controller
             }
 
             $selected_quarter = preg_split("/\,/", $request->sel_quarter);
-            $selected_quarter_implode = implode(',', $selected_quarter);
+            $selected_quarter_implode =  !empty($request->selected_quarter)? implode(',', $selected_quarter) : "NULL";
 
-            $selected_artCategory = $request->sel_artCategory;
-            $selected_channel = $request->sel_channel;
+            $selected_artCategory = !empty($request->selected_artCategory)? $request->selected_artCategory : "NULL";
+            $selected_channel =  !empty($request->sel_channel)? $request->sel_channel : "NULL";
 
-            $selected_yearId = $request->sel_yearId;
-            $selected_monthId = $request->sel_monthId;
+            $selected_yearId =  !empty($request->sel_yearId)? $request->sel_yearId : "NULL";
+            $selected_monthId =  !empty($request->sel_monthId)? $request->sel_monthId : "NULL";
 
             $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FullDomainListController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
@@ -90,5 +91,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/nnnbp_screen', [DashboardController::class, 'nnnbp_screen'])->name('nnnbp_screen');
 	Route::post('/update_nnnbpSrc', [DashboardController::class, 'update_nnnbpSrc'])->name('update_nnnbpSrc');
 	Route::get('/get-artical-details', [ArticleController::class, 'getArticalDetails'])->name('getArticalDetails');
-
+	Route::get('/get-all-domainlist', [FullDomainListController::class, 'full_domainList'])->name('domainlist');
 });

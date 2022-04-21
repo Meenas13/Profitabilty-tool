@@ -40,7 +40,6 @@ $(document).ready(function () {
         type: "GET",
         dataType: "json",
         success: function (data) {
-          console.log(data);
           $("#loader").hide();
           $('select[name="customer_unique[]"]').empty();
           $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>').fadeIn("fast");
@@ -68,29 +67,6 @@ $(document).ready(function () {
       $('select[name="customer_unique[]"]').empty();
     }
   }); // JS to get all Unique customers starts
-
-
-  //If from-year is selected then add required to select To-year field
-  $('.show_data').click(function () {
-
-    $(".loader").show();
-
-    if ($('.from_year').val().length == "4") {
-      $('.to_year').prop("required", true);
-    }
-
-    if ($('.from_year ').val() == "" && $('.to_year ').val() == "") {
-      //If nothing is added then keep it as it is
-    } else {
-      if (($('.to_year ').val() - $('.from_year').val()) == 1) {
-        $("#year_err").hide();
-        return true;
-      } else {
-        $("#year_err").show();
-        return false;
-      }
-    }
-  }); //.show_data click end
 
 
   $(function () {
@@ -163,7 +139,7 @@ $(document).ready(function () {
     }
   }) // get Linked customers list onChange of Ico no. end
 
-
+  var cOfferID = [];
   var oldStart = 0;
   var table = $('.final_table').DataTable({
     "scrollY": "auto",
@@ -183,55 +159,146 @@ $(document).ready(function () {
     ],
     "bJQueryUI": true,
     "sPaginationType": "full_numbers",
-    "fnDrawCallback": function (o) {
-      if (o._iDisplayStart != oldStart) {
+    processing: true,
+    serverSide: true,
+    'searching': false,
+    "lengthChange": false,
+    "info": false,
+    "ordering": false,
+    "paging": true,
+    language: {
+      processing: ''
+    },
+    scroller: {
+      loadingIndicator: false
+    },
+    ajax: {
+      url: 'get-all-domainlist',
+      type: "get",
+      data: function (data) {
+        data.filterByKeyword.customer_unique = $('#customer_unique').val();
+        data.filterByKeyword.customer_ico = $('#customer').val();
+        data.filterByKeyword.quater = $('#quater').val();
+        data.filterByKeyword.channel = $('#channel').val();
+        data.filterByKeyword.month_id = $('.month_id').val();
+        data.filterByKeyword.from_year = $('.from_year').val();
+        data.filterByKeyword.to_year = $('.to_year').val();
+        data.filterByKeyword.category = $('.category').val();
+        var info = $('.final_table').DataTable().page.info();
+        data.page = info.page + 1;
+        $(".loader").show();
+      }
+    },
+    columns: [
+      { data: "buy_subsys_no" },
+      { data: "buy_domain" },
+      { data: "subsys_art_no" },
+      { data: "subsys_art_name" },
+      { data: "status_article" },
+      { data: "qtymonths" },
+      { data: "sales" },
+      { data: "colli" },
+      { data: "noofinvoice" },
+      { data: "sales_per_month" },
+      { data: "colli_per_month" },
+      { data: "invoices_per_month" }
+    ],
+    'createdRow': function (row, data, dataIndex) {
+      if (typeof cOfferID !== 'undefined' && cOfferID.length > 0) {
+        $.each(cOfferID, function (index, val) {
+          if (data.buy_subsys_no === val) {
+            $(row).addClass('selected');
+          }
+        });
+      }
+    },
+    "fnDrawCallback": function (response) {
+
+      var catSaleShare = response.json.catSaleShare;
+      var salesOti = response.json.salesOti;
+      if (typeof catSaleShare !== 'undefined' && catSaleShare !== null) {
+        $("#catSaleShareTBody").empty();
+        $("#catSaleShareTBody").append(catSaleShare);
+      }
+      if (typeof salesOti !== 'undefined' && salesOti !== null) {
+        $("#salesOtiTBody").empty();
+        $("#salesOtiTBody").append(salesOti);
+      }
+      if (response._iDisplayStart != oldStart) {
         var targetOffset = $('.final_table').offset().top;
         $('html,body').animate({ scrollTop: targetOffset }, 500);
-        oldStart = o._iDisplayStart;
+        oldStart = response._iDisplayStart;
       }
+      $(".loader").hide();
+    },
+    "error": function (xhr, error, thrown) {
+      $(".loader").hide();
     }
   }); //datatable end
+
+  $("#customer-button").click(function (e) {
+    e.preventDefault();
+    if ($('.from_year').val().length == "4") {
+      $('.to_year').prop("required", true);
+    }
+    if ($('.from_year ').val() == "" && $('.to_year ').val() == "") {
+      //If nothing is added then keep it as it is
+    } else {
+      if (($('.to_year ').val() - $('.from_year').val()) == 1) {
+        $("#year_err").hide();
+        return true;
+      } else {
+        $("#year_err").show();
+        return false;
+      }
+    }
+    if (!$('#customer').val() && !$('#customer_unique').val()) {
+      alert('Please select cutomer ico or linked customer ');
+      return false;
+    }
+    cOfferID = [];
+    table.draw();
+  });
 
 
   //Datatable add class to select Article Row
   $('.final_table tbody').on('click', 'tr', function () {
     $(this).toggleClass('selected');
     $(this).find('td .custom-control-input').toggleClass("selected_box");
+
+    var trData = $('.final_table').DataTable().row(this).data();
+    if ($(this).hasClass("selected")) {
+      cOfferID.push(trData['buy_subsys_no']);
+    } else {
+      cOfferID.splice($.inArray(trData['buy_subsys_no'], cOfferID), 1);
+    }
   });
 
 
   //Go to OfferList Page JS
   $("#customer-offer").click(function () {
 
-    $(".loader").show();
+    if (cOfferID.length > 0) {
+      $(".loader").show();
+      $('#customer-offer').prop('disabled', true);
+      var token = $('meta[name="_token"]').attr('content');
+      var cust_id = $(".selected_ico").val();
+      var cust_unique = $(".selected_unique").val();
+      var selected_quarter = $(".selected_quater").val();
+      var selected_artCategory = $(".selected_artCategory").val();
+      var selected_channel = $(".selected_channel").val();
+      var selected_yearId = $(".selected_yearId").val();
+      var selected_monthId = $(".selected_monthId").val();
 
-    var cOfferID = [];
-    var ids = $.map(table.rows('.selected').data(), function (item) {
-      return item[0];
-    });
+      $('<form>', {
+        "id": "customerOfferFrom",
+        "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
+        "action": "customer-offer-data",
+        "method": "POST"
+      }).appendTo(document.body).submit();
 
-    cOfferID += ids;
+    }
 
-    // if (cOfferID.length > 0) {
-    $('#customer-offer').prop('disabled', true);
-    var token = $('meta[name="_token"]').attr('content');
-    var cust_id = $(".selected_ico").val();
-    var cust_unique = $(".selected_unique").val();
-    var selected_quarter = $(".selected_quater").val();
-    var selected_artCategory = $(".selected_artCategory").val();
-    var selected_channel = $(".selected_channel").val();
-    var selected_yearId = $(".selected_yearId").val();
-    var selected_monthId = $(".selected_monthId").val();
-
-    $('<form>', {
-      "id": "customerOfferFrom",
-      "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
-      "action": "customer-offer-data",
-      "method": "POST"
-    }).appendTo(document.body).submit();
-
-
-    //  }
   });
 
 

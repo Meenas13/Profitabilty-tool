@@ -113,6 +113,7 @@ $(document).ready(function () {
   $("#reset").click(function (e) {
     $('#filterByDomain').val('');
     $('#filterBySubArtical').val('');
+    $('#filterBySubArticalName').val('')
   });
   //Add new row/article to existance table JS
 

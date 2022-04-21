@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="">Channel Type</label>
-                            <select class="form-control select2" name="channel">
+                            <select id="channel" class="form-control select2" name="channel">
                                 <option selected="selected" value=""> Type of channel</option>
                                 <option <?php if ($channel_type == "C&C") {
                                             echo "selected";
@@ -211,7 +211,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-info show_data"> Show Data</button>
+                            <button type="submit"  id="customer-button" class="btn btn-info show_data"> Show Data</button>
                         </div>
                     </div>
                 </form>
@@ -231,7 +231,7 @@
                                     <td>SALES SHARE %</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="catSaleShareTBody">
                                 <?php if (!empty($catSaleShare)) { ?>
                                     <?php
                                     $totalSale = array();
@@ -258,7 +258,7 @@
                                     <td>INVOICES/MONTH</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="salesOtiTBody">
                                 <?php if (!empty($salesOti)) {   ?>
                                     <?php
                                     $avgSales = 0;
