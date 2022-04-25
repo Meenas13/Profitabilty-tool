@@ -191,7 +191,7 @@ $(document).ready(function () {
       }
     },
     columns: [
-      { data: "buy_subsys_no" },
+      { data: "buy_subsys_no","visible": false },
       { data: "buy_domain" },
       { data: "subsys_art_no" },
       { data: "subsys_art_name" },

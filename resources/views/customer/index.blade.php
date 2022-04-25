@@ -211,7 +211,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <button type="submit"  id="customer-button" class="btn btn-info show_data"> Show Data</button>
+                            <button type="submit" id="customer-button" class="btn btn-info show_data"> Show Data</button>
                         </div>
                     </div>
                 </form>
@@ -244,7 +244,11 @@
 
                                     <?php  }  ?>
 
-                                <?php  } ?>
+                                <?php  } else{  ?>
+                                <tr >
+                                    <td colspan="2" class="text-center" >No data available </td>
+                                </tr>
+                                <?php }  ?>
                             </tbody>
                         </table>
                     </div>
@@ -277,7 +281,11 @@
                                                 } ?></td>
                                         </tr>
                                 <?php }
-                                }  ?>
+                                } else{  ?>
+                                <tr >
+                                    <td colspan="4" class="text-center" >No data available </td>
+                                </tr>
+                                <?php }  ?>
                             </tbody>
                         </table>
                     </div>
