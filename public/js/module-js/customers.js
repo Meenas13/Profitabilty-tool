@@ -191,7 +191,7 @@ $(document).ready(function () {
       }
     },
     columns: [
-      { data: "buy_subsys_no","visible": false },
+      { data: "buy_subsys_no", "visible": false },
       { data: "buy_domain" },
       { data: "subsys_art_no" },
       { data: "subsys_art_name" },
@@ -233,9 +233,13 @@ $(document).ready(function () {
       $(".loader").hide();
     },
     "error": function (xhr, error, thrown) {
-      $(".loader").hide();
+
     }
   }); //datatable end
+  // $.fn.dataTable.ext.errMode = 'none';
+  $('.final_table').on('error.dt', function (e, settings, techNote, message) {
+    $(".loader").hide();
+  })
 
   $("#customer-button").click(function (e) {
     e.preventDefault();
@@ -247,7 +251,7 @@ $(document).ready(function () {
     } else {
       if (($('.to_year ').val() - $('.from_year').val()) == 1) {
         $("#year_err").hide();
-        return true;
+        //return true;
       } else {
         $("#year_err").show();
         return false;
@@ -279,26 +283,26 @@ $(document).ready(function () {
   //Go to OfferList Page JS
   $("#customer-offer").click(function () {
 
-    if (cOfferID.length > 0) {
-      $(".loader").show();
-      $('#customer-offer').prop('disabled', true);
-      var token = $('meta[name="_token"]').attr('content');
-      var cust_id = $(".selected_ico").val();
-      var cust_unique = $(".selected_unique").val();
-      var selected_quarter = $(".selected_quater").val();
-      var selected_artCategory = $(".selected_artCategory").val();
-      var selected_channel = $(".selected_channel").val();
-      var selected_yearId = $(".selected_yearId").val();
-      var selected_monthId = $(".selected_monthId").val();
+    // if (cOfferID.length > 0) {
+    $(".loader").show();
+    $('#customer-offer').prop('disabled', true);
+    var token = $('meta[name="_token"]').attr('content');
+    var cust_id = $(".selected_ico").val();
+    var cust_unique = $(".selected_unique").val();
+    var selected_quarter = $(".selected_quater").val();
+    var selected_artCategory = $(".selected_artCategory").val();
+    var selected_channel = $(".selected_channel").val();
+    var selected_yearId = $(".selected_yearId").val();
+    var selected_monthId = $(".selected_monthId").val();
 
-      $('<form>', {
-        "id": "customerOfferFrom",
-        "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
-        "action": "customer-offer-data",
-        "method": "POST"
-      }).appendTo(document.body).submit();
+    $('<form>', {
+      "id": "customerOfferFrom",
+      "html": '<input type="text" id="cOfferID" name="cOfferID" value="' + cOfferID + '" /><input type="text" id="cust_unique" name="cust_unique" value="' + cust_unique + '" /> <input type="text" id="token" name="_token" value="' + token + '" /><input type="text" id="cust_id" name="cust_id" value="' + cust_id + '" /> <input type="text" id="sel_quarter" name="sel_quarter" value="' + selected_quarter + '" /><input type="text" id="sel_artCategory" name="sel_artCategory" value="' + selected_artCategory + '" /><input type="text" id="sel_channel" name="sel_channel" value="' + selected_channel + '" /><input type="text" id="sel_yearId" name="sel_yearId" value="' + selected_yearId + '" /><input type="text" id="sel_monthId" name="sel_monthId" value="' + selected_monthId + '" /> ',
+      "action": "customer-offer-data",
+      "method": "POST"
+    }).appendTo(document.body).submit();
 
-    }
+    //}
 
   });
 
