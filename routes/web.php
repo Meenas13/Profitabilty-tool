@@ -93,3 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get-artical-details', [ArticleController::class, 'getArticalDetails'])->name('getArticalDetails');
 	Route::get('/get-all-domainlist', [FullDomainListController::class, 'full_domainList'])->name('domainlist');
 });
+
+Route::any('{segment}', function () {
+	return abort('404');
+})->where('segment', '.*');
