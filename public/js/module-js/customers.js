@@ -287,13 +287,13 @@ $(document).ready(function () {
     $(".loader").show();
     $('#customer-offer').prop('disabled', true);
     var token = $('meta[name="_token"]').attr('content');
-    var cust_id = $(".selected_ico").val();
-    var cust_unique = $(".selected_unique").val();
-    var selected_quarter = $(".selected_quater").val();
-    var selected_artCategory = $(".selected_artCategory").val();
-    var selected_channel = $(".selected_channel").val();
+    var cust_id = $(".selected_ico").val() || $('#customer').val();
+    var cust_unique = $(".selected_unique").val() || $('#customer_unique').val();
+    var selected_quarter = $(".selected_quater").val() || $('#quater').val();
+    var selected_artCategory = $(".selected_artCategory").val() || $('.category').val();
+    var selected_channel = $(".selected_channel").val() || $('#channel').val();
     var selected_yearId = $(".selected_yearId").val();
-    var selected_monthId = $(".selected_monthId").val();
+    var selected_monthId = $(".selected_monthId").val() || $('.month_id').val();
 
     $('<form>', {
       "id": "customerOfferFrom",

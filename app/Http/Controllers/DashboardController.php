@@ -246,7 +246,7 @@ class DashboardController extends Controller
             }
 
             $selected_quarter = preg_split("/\,/", $request->sel_quarter);
-            $selected_quarter_implode =  !empty($request->selected_quarter)? implode(',', $selected_quarter) : "NULL";
+            $selected_quarter_implode =  !empty($selected_quarter)? implode(',', $selected_quarter) : "NULL";
 
             $selected_artCategory = !empty($request->selected_artCategory)? $request->selected_artCategory : "NULL";
             $selected_channel =  !empty($request->sel_channel)? $request->sel_channel : "NULL";
