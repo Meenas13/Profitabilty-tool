@@ -20,6 +20,11 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
+  if (sessionStorage.getItem("Page2Visited")) {
+    sessionStorage.removeItem("Page2Visited");
+    window.location.reload(true); // force refresh page1
+}
+
   // JS to get all Unique customers on checkbox click - starts
   $('.refresh_unique').click(function () {
 

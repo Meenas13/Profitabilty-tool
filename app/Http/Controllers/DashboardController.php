@@ -76,7 +76,7 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
             $bug = 'Something went to wrong.';
-            return back()->with('error', $bug);
+            //return back()->with('error', $bug);
         }
     }
 

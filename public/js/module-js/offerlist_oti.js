@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+  sessionStorage.setItem("Page2Visited", "True");
+  
   var oldStart = 0;
   var table = $('#advanced_table1').DataTable({
     "scrollY": "auto",
