@@ -42,13 +42,13 @@
                         <div class="col-md-4 mb-2">
                             <label for="">Customer ico <span class="error">*</span></label>
 
-                            <input type="hidden" value="<?php echo $id; ?>" name="selected_ico" class="selected_ico">
-                            <input type="hidden" value="<?php echo $unique_implode; ?>" name="selected_unique[]" class="selected_unique">
-                            <input type="hidden" value="<?php echo $sel_quater_implode; ?>" name="selected_quater[]" class="selected_quater">
-                            <input type="hidden" value="<?php echo $article_category_imp; ?>" name="selected_artCategory[]" class="selected_artCategory">
-                            <input type="hidden" value="<?php echo $channel; ?>" name="selected_channel" class="selected_channel">
-                            <input type="hidden" value="<?php echo $year_range; ?>" name="selected_yearId" class="selected_yearId">
-                            <input type="hidden" value="<?php echo $monthId; ?>" name="selected_monthId" class="selected_monthId">
+                            <input type="hidden" value="{{ isset($id)? $id:''; }}" name="selected_ico" class="selected_ico">
+                            <input type="hidden" value="{{ isset($unique_implode)?$unique_implode:''; }}" name="selected_unique[]" class="selected_unique">
+                            <input type="hidden" value="{{ isset($sel_quater_implode)?$sel_quater_implode:''; }}" name="selected_quater[]" class="selected_quater">
+                            <input type="hidden" value="{{ isset($article_category_imp)?$article_category_imp:''; }}" name="selected_artCategory[]" class="selected_artCategory">
+                            <input type="hidden" value="{{ isset($channel)?$channel:''; }}" name="selected_channel" class="selected_channel">
+                            <input type="hidden" value="{{ isset($year_range)?$year_range:''; }}" name="selected_yearId" class="selected_yearId">
+                            <input type="hidden" value="{{ isset($monthId)?$monthId:''; }}" name="selected_monthId" class="selected_monthId">
 
                             <select class="form-control select21 mb-2" name="customer_ico" id="customer" required>
                                 <!-- <option value="" selected="selected">Customer</option> -->
@@ -244,10 +244,10 @@
 
                                     <?php  }  ?>
 
-                                <?php  } else{  ?>
-                                <tr >
-                                    <td colspan="2" class="text-center" >No data available </td>
-                                </tr>
+                                <?php  } else {  ?>
+                                    <tr>
+                                        <td colspan="2" class="text-center">No data available </td>
+                                    </tr>
                                 <?php }  ?>
                             </tbody>
                         </table>
@@ -280,11 +280,11 @@
                                                     echo "0";
                                                 } ?></td>
                                         </tr>
-                                <?php }
-                                } else{  ?>
-                                <tr >
-                                    <td colspan="4" class="text-center" >No data available </td>
-                                </tr>
+                                    <?php }
+                                } else {  ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No data available </td>
+                                    </tr>
                                 <?php }  ?>
                             </tbody>
                         </table>
