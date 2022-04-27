@@ -57,14 +57,19 @@
                             @endif
 
                             </br>
-                            @guest
+
                             <div class="sign-btn text-center">
                                 <br>
                                 <button class="btn btn-custom" id="logout_btnDiv">
+                                    @guest
                                     <a class="btn-custom logout" href="{{url('login')}}">{{ __('Login')}}</a>
+                                    @endguest
+                                    @auth
+                                    <a class="btn-custom logout" href="{{url('customer')}}">{{ __('Home Page')}}</a>
+                                    @endauth
                                 </button>
                             </div>
-                            @endguest
+
                         </div>
                     </div>
                 </div>
