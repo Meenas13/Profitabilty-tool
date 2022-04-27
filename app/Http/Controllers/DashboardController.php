@@ -231,7 +231,7 @@ class DashboardController extends Controller
             $buyer_arr_implode = implode(",", $buyer_arr);
             $buyer_arr_IDs = "'" . $buyer_arr_implode . "'";
 
-            if ($request->cust_unique == "NULL") {
+            if ($request->cust_unique == "NULL" || $request->cust_unique=='null' ) {
                 $cust_unique =  array();
                 $unique_implode = "NULL";
                 $cust_uni_implode = "NULL";
@@ -246,7 +246,7 @@ class DashboardController extends Controller
             }
 
             $selected_quarter = preg_split("/\,/", $request->sel_quarter);
-            $selected_quarter_implode =  !empty($selected_quarter)? implode(',', $selected_quarter) : "NULL";
+            $selected_quarter_implode =  !empty($selected_quarter)? "'" . implode(',', $selected_quarter). "'" : "NULL";
 
             $selected_artCategory = !empty($request->selected_artCategory)? $request->selected_artCategory : "NULL";
             $selected_channel =  !empty($request->sel_channel)? $request->sel_channel : "NULL";
