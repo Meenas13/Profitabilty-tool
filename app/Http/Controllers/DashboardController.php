@@ -245,9 +245,9 @@ class DashboardController extends Controller
                 $cust_uni_implode = "'" . $unique_implode . "'";
             }
 
-            $selected_quarter = preg_split("/\,/", $request->sel_quarter);
+            $selected_quarter = ($request->sel_quarter!='null')?preg_split("/\,/", $request->sel_quarter):NULL;
             $selected_quarter_implode =  !empty($selected_quarter)? "'" . implode(',', $selected_quarter). "'" : "NULL";
-
+            
             $selected_artCategory = !empty($request->selected_artCategory)? $request->selected_artCategory : "NULL";
             $selected_channel =  !empty($request->sel_channel)? $request->sel_channel : "NULL";
 
@@ -267,6 +267,7 @@ class DashboardController extends Controller
             }
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
+            dd($e);
             $bug = 'Something went to wrong.';
             return back()->with('error', $bug);
         }
