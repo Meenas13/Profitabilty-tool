@@ -189,8 +189,13 @@ class DashboardController extends Controller
             $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             $catmanager_goupeList = category_share::select('catmanager_group')->distinct()->get();
             if (!empty($id)) {
-                $cust_uniqueList = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique')->distinct()->get();
-                return json_encode($cust_uniqueList);
+                $custMonth = tbl_Articlewise_Sale_Colli::where('ico', '=', $id)->select('cust_no_unique', 'month_id')->get();
+                $cust_uniqueList = $custMonth->unique('cust_no_unique');
+                $cust_uniqueMonth =  $custMonth->sortByDesc('month_id')->unique('month_id');
+                return json_encode([
+                    'cust_uniqueList' => $cust_uniqueList,
+                    'cust_uniqueMonth' => $cust_uniqueMonth,
+                ]);
             }
             return view('customer.index', compact('id', 'cust_icoList', 'catmanager_goupeList', 'cust_uniqueList'));
         } catch (\Exception $e) {
@@ -231,7 +236,7 @@ class DashboardController extends Controller
             $buyer_arr_implode = implode(",", $buyer_arr);
             $buyer_arr_IDs = "'" . $buyer_arr_implode . "'";
 
-            if ($request->cust_unique == "NULL" || $request->cust_unique=='null' ) {
+            if ($request->cust_unique == "NULL" || $request->cust_unique == 'null') {
                 $cust_unique =  array();
                 $unique_implode = "NULL";
                 $cust_uni_implode = "NULL";
@@ -245,14 +250,14 @@ class DashboardController extends Controller
                 $cust_uni_implode = "'" . $unique_implode . "'";
             }
 
-            $selected_quarter = ($request->sel_quarter!='null')?preg_split("/\,/", $request->sel_quarter):NULL;
-            $selected_quarter_implode =  !empty($selected_quarter)? "'" . implode(',', $selected_quarter). "'" : "NULL";
-            
-            $selected_artCategory = !empty($request->selected_artCategory)? $request->selected_artCategory : "NULL";
-            $selected_channel =  !empty($request->sel_channel)? $request->sel_channel : "NULL";
+            $selected_quarter = ($request->sel_quarter != 'null') ? preg_split("/\,/", $request->sel_quarter) : NULL;
+            $selected_quarter_implode =  !empty($selected_quarter) ? "'" . implode(',', $selected_quarter) . "'" : "NULL";
 
-            $selected_yearId =  !empty($request->sel_yearId)? $request->sel_yearId : "NULL";
-            $selected_monthId =  !empty($request->sel_monthId)? $request->sel_monthId : "NULL";
+            $selected_artCategory = !empty($request->selected_artCategory) ? $request->selected_artCategory : "NULL";
+            $selected_channel =  !empty($request->sel_channel) ? $request->sel_channel : "NULL";
+
+            $selected_yearId =  !empty($request->sel_yearId) ? $request->sel_yearId : "NULL";
+            $selected_monthId =  !empty($request->sel_monthId) ? $request->sel_monthId : "NULL";
 
             $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
 
@@ -267,7 +272,6 @@ class DashboardController extends Controller
             }
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
-            dd($e);
             $bug = 'Something went to wrong.';
             return back()->with('error', $bug);
         }
@@ -333,7 +337,7 @@ class DashboardController extends Controller
                 return view('customer.offer', compact('cust_id', 'cust_ico', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data',  'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
             } else {
                 $data = array();
-               // $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] ");
+                // $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] ");
                 return view('customer.offer', compact('cust_id', 'cust_ico', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data', 'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
             }
         } catch (\Exception $e) {
@@ -453,6 +457,10 @@ class DashboardController extends Controller
                     $mk_un_implode = "'" . $customer_unique . "'";
                 } else {
                     $mk_un_implode =  $customer_unique;
+                }
+
+                if ($selected_monthId != "NULL" || $selected_monthId != 'null') {
+                    $selected_monthId = "'" . $selected_monthId . "'";
                 }
 
                 $getSalesSum = array();

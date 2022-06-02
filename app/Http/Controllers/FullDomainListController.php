@@ -98,7 +98,8 @@ class FullDomainListController extends Controller
 
                 $month_id = $request->filterByKeyword['month_id'];
                 if (!empty($month_id)) {
-                    $monthId = date("Ym", strtotime($month_id));
+                    $monthId = implode(',', $month_id);
+                    $monthId = "'" . $monthId . "'";
                     //  dd($monthId);
                 } else {
                     $monthId = "NULL";

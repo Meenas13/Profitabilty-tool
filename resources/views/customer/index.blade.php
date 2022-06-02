@@ -36,7 +36,7 @@
     <div class="">
         <div class="card">
             <div class="card-body">
-                <form class="mb-0" method="POST" action="{{ url('full_domainList') }}">
+                <form class="mb-0" id="customer-form" method="POST" action="{{ url('full_domainList') }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-4 mb-2">
@@ -161,18 +161,7 @@
                             <div id="year_err" style="color:red;display: none;">Zvolené obdobie je dlhšie ako 1 rok</div>
                         </div>
 
-
                         <div class="col-md-4">
-                            <label for="">Month id </label>
-                            <input type='month' class="month_id form-control" name="month_id" min="2020-01" max="2022-12" placeholder="Select Month" <?php if ($month_id) {
-                                                                                                                                                            echo "value='$month_id'";
-                                                                                                                                                        } ?>>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
                             <label for="">Quarter</label>
                             <select class="form-control quater" data-placeholder="Your Placeholder" name="quater[]" id="quater" multiple="multiple">
                                 <!-- <option value="" class="linked" id="first_quarter"></option> -->
@@ -206,6 +195,20 @@
                                                 }
                                             }
                                         } ?> value="FQ4">FQ4 (Jul-Sep)</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="">Month id </label>
+
+                            <select multiple="multiple" placeholder="Month id" name="month_id[]" id="month_id" class="chosen-select1 form-control month_id mb-2" style="width: 100%;">
+
+                                <option></option>
+
                             </select>
                         </div>
                     </div>

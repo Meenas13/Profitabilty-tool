@@ -11,6 +11,10 @@ $(window).load(function () {
     placeholder: "Select linked customers",
     allowClear: true
   });
+  $('.month_id').select2({
+    placeholder: "Select Month Id's",
+    allowClear: true
+  });
   $('.category').select2({
     placeholder: "Select category of an aricle",
     allowClear: true
@@ -20,10 +24,14 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
-  if (sessionStorage.getItem("Page2Visited")) {
+  if (sessionStorage.getItem("Page2Visited") || window.history.length > 1) {
     sessionStorage.removeItem("Page2Visited");
-    window.location.reload(true); // force refresh page1
-}
+    //window.location.reload(true); // force refresh page1
+    $('#customer-form').trigger("reset");
+    setTimeout((function () {
+      $("#loader").hide();
+    }), 2500);
+  }
 
   // JS to get all Unique customers on checkbox click - starts
   $('.refresh_unique').click(function () {
@@ -125,7 +133,7 @@ $(document).ready(function () {
         success: function (data) {
           $("#loader").hide();
           $('select[name="customer_unique[]"]').empty();
-          jQuery.each(data, function (key, value) {
+          jQuery.each(data['cust_uniqueList'], function (key, value) {
             $('select[name="customer_unique[]"]').append('<option value="' + value.cust_no_unique + '">' + value.cust_no_unique + '</option>');
           });
 
@@ -135,6 +143,19 @@ $(document).ready(function () {
               text: 'Linked Customers'
             }
           });
+
+          $('select[name="month_id[]"]').empty();
+          jQuery.each(data['cust_uniqueMonth'], function (key, value) {
+            $('select[name="month_id[]"]').append('<option value="' + value.month_id + '">' + value.month_id + '</option>');
+          });
+
+          $(".month_id").select2({
+            placeholder: {
+              id: '-1', // the value of the option
+              text: "Month Id's"
+            }
+          });
+
         }
       }); //ajax
 
@@ -262,10 +283,10 @@ $(document).ready(function () {
         return false;
       }
     }
-    if (!$('#customer').val() && !$('#customer_unique').val()) {
-      alert('Please select cutomer ico or linked customer ');
-      return false;
-    }
+   let check= customerFromValidation();
+   if(!check){
+    return false;
+   }
     cOfferID = [];
     table.draw();
   });
@@ -297,8 +318,13 @@ $(document).ready(function () {
     var selected_quarter = $(".selected_quater").val() || $('#quater').val();
     var selected_artCategory = $(".selected_artCategory").val() || $('.category').val();
     var selected_channel = $(".selected_channel").val() || $('#channel').val();
-    var selected_yearId =  '' +$('.from_year').val()+$('.to_year').val() || $(".selected_yearId").val() ;
-    var selected_monthId = $(".selected_monthId").val() || $('.month_id').val();
+    var selected_yearId = '' + $('.from_year').val() + $('.to_year').val() || $(".selected_yearId").val();
+    var selected_monthId = $('.month_id').val() || $(".selected_monthId").val(); 
+    
+    let check= customerFromValidation();
+    if(!check){
+     return false;
+    }
 
     $('<form>', {
       "id": "customerOfferFrom",
@@ -311,5 +337,26 @@ $(document).ready(function () {
 
   });
 
+  function customerFromValidation() {
+    if (!$('#customer').val() && !$('#customer_unique').val()) {
+      alert('Please select cutomer ico or linked customer ');
+      return false;
+    }
+  
+    if(($("#quater").val() !=='' && $("#quater").val() !== null) && $(".year_id").val() === ''){
+      alert('Please select year id also');
+      return false;
+    }
+    if(($("#month_id").val() !=='' && $("#month_id").val() !== null) && $(".year_id").val()!=='' ){
+      alert('Please select only month or year id ');
+      return false;
+    }
+    if(($("#month_id").val() !=='' && $("#month_id").val() !== null) && ($("#quater").val()!=='' && $("#quater").val() !== null)){
+      alert('Please select only month or quater with year id ');
+      return false;
+    }
+    
+    return true;
+  }
 
 }); //Ready End
