@@ -46,9 +46,9 @@ class FullDomainListController extends Controller
                 }
 
 
-                if ($request->filterByKeyword['customer_unique']) {
+                if (isset($request->filterByKeyword['customer_unique'])) {
                     $unique_number = $request->filterByKeyword['customer_unique'];
-                    $unique_implode = implode(',', $unique_number);
+                    $unique_implode = is_array($unique_number) ? implode(',', $unique_number) : $unique_number;
                     $unique_number_implode = "'" . $unique_implode . "'";
                 } else {
                     $unique_implode = "NULL";
@@ -167,7 +167,7 @@ class FullDomainListController extends Controller
                         <td>$value2->Period</td>
                         <td> " . number_format(round($value2->sales, 2)) . " </td>
                         <td> " . round($value2->total_oti_percentage, 2) . "%" . " </td>
-                        <td> $invoiceCount </td>
+                        <td> " . round($invoiceCount, 0) . " </td>
                         </tr>";
                     }
                 }

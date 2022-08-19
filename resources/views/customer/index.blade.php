@@ -3,8 +3,8 @@
 @section('content')
 
 @section('styles')
-<link href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('js/req/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('js/req/datepicker.min.css') }}">
 @stop
 
 
@@ -66,7 +66,7 @@
                         <div class="col-md-4  mb-2">
                             <label for=""> Linked Customers<span class="error" style="display: none;">*</span> (<input type="checkbox" class="refresh_unique">Show without ico ) </label>
 
-                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique mb-2" style="width: 100%;">
+                            <select placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique mb-2" style="width: 100%;"  multiple="multiple">
                                 <!-- <option value="" class="linked"> Linked Customers</option> -->
                                 <option></option>
                                 <?php if ($unique_number) { ?>
@@ -379,11 +379,11 @@
 </div>
 
 @push('script')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<script src="{{ asset('js/req/jquery-2.2.4.min.js') }}"></script>
 <!-- month/year dropdown select Bootstrap js library -->
-<script src="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+<script src="{{ asset('js/req/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/req/bootstrap-datepicker.min.js') }}"></script>
+
 
 <script src="{{ asset('js/module-js/customers.js') }}"></script>
 @endpush

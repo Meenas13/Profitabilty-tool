@@ -64,31 +64,49 @@ class LoginController extends Controller
 
 
     // redirect to login page
+    // public function logout(Request $request)
+    // {
+    //     $all = Session::get('authLogin');
+    //     //dd($all);
+    //     $this->guard()->logout();
+
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+
+
+    //     if ($response = $this->loggedOut($request)) {
+    //         Session::put('authLogin', $all);
+    //         return $response;
+    //     }
+
+    //     Session::put('authLogin', $all);
+    //     // Auth::logout();
+    //     // $request->Session::flush();
+    //     return redirect('message')->with('logout', __('You have successfully logged out.'));
+    //     // return redirect('logout');
+    //     // ->with('logout', __('You have successfully logged out.'));
+
+    //     // return $request->wantsJson()
+    //     //     ? new Response('', 204)
+    //     //     : redirect('/message');
+    // }
+
+
     public function logout(Request $request)
     {
-        $all = Session::get('authLogin');
-        //dd($all);
         $this->guard()->logout();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
-
         if ($response = $this->loggedOut($request)) {
-            Session::put('authLogin', $all);
             return $response;
         }
-
-        Session::put('authLogin', $all);
-        // Auth::logout();
-        // $request->Session::flush();
         return redirect('message')->with('logout', __('You have successfully logged out.'));
-        // return redirect('logout');
-        // ->with('logout', __('You have successfully logged out.'));
-
         // return $request->wantsJson()
         //     ? new Response('', 204)
-        //     : redirect('/message');
+        //     : redirect('/login');
     }
 
 }

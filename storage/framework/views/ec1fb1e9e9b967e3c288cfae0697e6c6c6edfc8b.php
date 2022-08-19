@@ -60,12 +60,19 @@
                             <?php endif; ?>
 
                             </br>
+
                             <div class="sign-btn text-center">
                                 <br>
                                 <button class="btn btn-custom" id="logout_btnDiv">
+                                    <?php if(auth()->guard()->guest()): ?>
                                     <a class="btn-custom logout" href="<?php echo e(url('login')); ?>"><?php echo e(__('Login')); ?></a>
+                                    <?php endif; ?>
+                                    <?php if(auth()->guard()->check()): ?>
+                                    <a class="btn-custom logout" href="<?php echo e(url('customer')); ?>"><?php echo e(__('Home Page')); ?></a>
+                                    <?php endif; ?>
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>

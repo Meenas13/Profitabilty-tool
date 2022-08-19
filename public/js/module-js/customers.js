@@ -25,12 +25,14 @@ $(window).load(function () {
 $(document).ready(function () {
 
   if (sessionStorage.getItem("Page2Visited") || window.history.length > 1) {
-    sessionStorage.removeItem("Page2Visited");
+   
     //window.location.reload(true); // force refresh page1
     $('#customer-form').trigger("reset");
+    $(".year_id").empty();
     setTimeout((function () {
       $("#loader").hide();
     }), 2500);
+    sessionStorage.removeItem("Page2Visited");
   }
 
   // JS to get all Unique customers on checkbox click - starts
@@ -39,9 +41,11 @@ $(document).ready(function () {
     // $("#loader").show();
 
     if ($(".refresh_unique").is(":checked")) {
-      $("#loader").show();
+      $(".loader").css('display','block');
+      $(".loader").show();
+      $('select[name="customer_unique[]"]').empty();
       $("#customer").prop("disabled", true);
-      $('#customer').prop('selectedIndex', 0).trigger("change");
+      $('#customer').val('selectedIndex', 0);
       $('#customer').prop("required", false);
       $('#customer_unique').prop("required", true);
       $('#customer_unique').parent().find("span.error").css('display', 'inline-block');
@@ -53,24 +57,29 @@ $(document).ready(function () {
         type: "GET",
         dataType: "json",
         success: function (data) {
-          $("#loader").hide();
+   
           $('select[name="customer_unique[]"]').empty();
-          $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>').fadeIn("fast");
+          $(".customer_unique").select2({
+            placeholder: {
+              id: '-1', // the value of the option
+              text: 'Select Unique customers',
+            },
+            allowClear: true,
+            multiple: true
+          });
+         // $('select[name="customer_unique[]"]').append('<option value="">Unique Customers</option>');
           jQuery.each(data, function (key, value) {
             $('select[name="customer_unique[]"]').append('<option value="' + value.cust_no_unique + '">' + value.cust_no_unique + '</option>');
           });
 
-          $(".customer_unique").select2({
-            placeholder: {
-              id: '-1', // the value of the option
-              text: 'Linked Customers'
-            }
-          });
+           $("#loader").hide();
+           $('#customer').trigger("change");
         }
       }); // Ajax to get all Unique customers End
 
     } else {
       $("#loader").hide();
+      $('#customer').trigger("change");
       $('#customer').prop("required", true);
       $("#customer").prop("disabled", false);
       $('#customer_unique').prop("required", false);
@@ -133,35 +142,39 @@ $(document).ready(function () {
         success: function (data) {
           $("#loader").hide();
           $('select[name="customer_unique[]"]').empty();
+          $(".customer_unique").select2({
+            placeholder: {
+              id: '-1', // the value of the option
+              text: 'Linked Customers',
+              allowClear: true,
+              multiple: true
+            }
+          });
           jQuery.each(data['cust_uniqueList'], function (key, value) {
             $('select[name="customer_unique[]"]').append('<option value="' + value.cust_no_unique + '">' + value.cust_no_unique + '</option>');
           });
 
-          $(".customer_unique").select2({
-            placeholder: {
-              id: '-1', // the value of the option
-              text: 'Linked Customers'
-            }
-          });
 
           $('select[name="month_id[]"]').empty();
+          $(".month_id").select2({
+            placeholder: {
+              id: '-1', // the value of the option
+              text: "Month Id's",
+              allowClear: true,
+              multiple: true
+            }
+          });
           jQuery.each(data['cust_uniqueMonth'], function (key, value) {
             $('select[name="month_id[]"]').append('<option value="' + value.month_id + '">' + value.month_id + '</option>');
           });
 
-          $(".month_id").select2({
-            placeholder: {
-              id: '-1', // the value of the option
-              text: "Month Id's"
-            }
-          });
 
         }
       }); //ajax
 
     } else {
       $("#loader").hide();
-      $('select[name="customer_unique[]"]').append('<option value="">Linked Customers</option>');
+      //$('select[name="customer_unique[]"]').append('<option value="">Linked Customers</option>');
     }
   }) // get Linked customers list onChange of Ico no. end
 
@@ -323,6 +336,8 @@ $(document).ready(function () {
     
     let check= customerFromValidation();
     if(!check){
+      $('#customer-offer').prop('disabled', false);
+      $(".loader").hide();
      return false;
     }
 

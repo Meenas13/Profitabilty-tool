@@ -459,7 +459,7 @@ class DashboardController extends Controller
                     $mk_un_implode =  $customer_unique;
                 }
 
-                if ($selected_monthId != "NULL" || $selected_monthId != 'null') {
+                if ($selected_monthId !== "NULL") {
                     $selected_monthId = "'" . $selected_monthId . "'";
                 }
 

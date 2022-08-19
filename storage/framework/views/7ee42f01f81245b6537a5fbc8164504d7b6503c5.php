@@ -3,8 +3,8 @@
 <?php $__env->startSection('content'); ?>
 
 <?php $__env->startSection('styles'); ?>
-<link href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo e(asset('js/req/bootstrap.min.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('js/req/datepicker.min.css')); ?>">
 <?php $__env->stopSection(); ?>
 
 
@@ -36,19 +36,19 @@
     <div class="">
         <div class="card">
             <div class="card-body">
-                <form class="mb-0" method="POST" action="<?php echo e(url('full_domainList')); ?>">
+                <form class="mb-0" id="customer-form" method="POST" action="<?php echo e(url('full_domainList')); ?>">
                     <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-4 mb-2">
                             <label for="">Customer ico <span class="error">*</span></label>
 
-                            <input type="hidden" value="<?php echo $id; ?>" name="selected_ico" class="selected_ico">
-                            <input type="hidden" value="<?php echo $unique_implode; ?>" name="selected_unique[]" class="selected_unique">
-                            <input type="hidden" value="<?php echo $sel_quater_implode; ?>" name="selected_quater[]" class="selected_quater">
-                            <input type="hidden" value="<?php echo $article_category_imp; ?>" name="selected_artCategory[]" class="selected_artCategory">
-                            <input type="hidden" value="<?php echo $channel; ?>" name="selected_channel" class="selected_channel">
-                            <input type="hidden" value="<?php echo $year_range; ?>" name="selected_yearId" class="selected_yearId">
-                            <input type="hidden" value="<?php echo $monthId; ?>" name="selected_monthId" class="selected_monthId">
+                            <input type="hidden" value="<?php echo e(isset($id)? $id:''); ?>" name="selected_ico" class="selected_ico">
+                            <input type="hidden" value="<?php echo e(isset($unique_implode)?$unique_implode:''); ?>" name="selected_unique[]" class="selected_unique">
+                            <input type="hidden" value="<?php echo e(isset($sel_quater_implode)?$sel_quater_implode:''); ?>" name="selected_quater[]" class="selected_quater">
+                            <input type="hidden" value="<?php echo e(isset($article_category_imp)?$article_category_imp:''); ?>" name="selected_artCategory[]" class="selected_artCategory">
+                            <input type="hidden" value="<?php echo e(isset($channel)?$channel:''); ?>" name="selected_channel" class="selected_channel">
+                            <input type="hidden" value="<?php echo e(isset($year_range)?$year_range:''); ?>" name="selected_yearId" class="selected_yearId">
+                            <input type="hidden" value="<?php echo e(isset($monthId)?$monthId:''); ?>" name="selected_monthId" class="selected_monthId">
 
                             <select class="form-control select21 mb-2" name="customer_ico" id="customer" required>
                                 <!-- <option value="" selected="selected">Customer</option> -->
@@ -66,7 +66,7 @@
                         <div class="col-md-4  mb-2">
                             <label for=""> Linked Customers<span class="error" style="display: none;">*</span> (<input type="checkbox" class="refresh_unique">Show without ico ) </label>
 
-                            <select multiple="multiple" placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique mb-2" style="width: 100%;">
+                            <select placeholder="Linked Customers" name="customer_unique[]" id="customer_unique" class="chosen-select1 form-control customer_unique mb-2" style="width: 100%;"  multiple="multiple">
                                 <!-- <option value="" class="linked"> Linked Customers</option> -->
                                 <option></option>
                                 <?php if ($unique_number) { ?>
@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="">Channel Type</label>
-                            <select class="form-control select2" name="channel">
+                            <select id="channel" class="form-control select2" name="channel">
                                 <option selected="selected" value=""> Type of channel</option>
                                 <option <?php if ($channel_type == "C&C") {
                                             echo "selected";
@@ -161,18 +161,7 @@
                             <div id="year_err" style="color:red;display: none;">Zvolené obdobie je dlhšie ako 1 rok</div>
                         </div>
 
-
                         <div class="col-md-4">
-                            <label for="">Month id </label>
-                            <input type='month' class="month_id form-control" name="month_id" min="2020-01" max="2022-12" placeholder="Select Month" <?php if ($month_id) {
-                                                                                                                                                            echo "value='$month_id'";
-                                                                                                                                                        } ?>>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
                             <label for="">Quarter</label>
                             <select class="form-control quater" data-placeholder="Your Placeholder" name="quater[]" id="quater" multiple="multiple">
                                 <!-- <option value="" class="linked" id="first_quarter"></option> -->
@@ -208,10 +197,24 @@
                                         } ?> value="FQ4">FQ4 (Jul-Sep)</option>
                             </select>
                         </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="">Month id </label>
+
+                            <select multiple="multiple" placeholder="Month id" name="month_id[]" id="month_id" class="chosen-select1 form-control month_id mb-2" style="width: 100%;">
+
+                                <option></option>
+
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-info show_data"> Show Data</button>
+                            <button type="submit" id="customer-button" class="btn btn-info show_data"> Show Data</button>
                         </div>
                     </div>
                 </form>
@@ -231,7 +234,7 @@
                                     <td>SALES SHARE %</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="catSaleShareTBody">
                                 <?php if (!empty($catSaleShare)) { ?>
                                     <?php
                                     $totalSale = array();
@@ -244,7 +247,11 @@
 
                                     <?php  }  ?>
 
-                                <?php  } ?>
+                                <?php  } else {  ?>
+                                    <tr>
+                                        <td colspan="2" class="text-center">No data available </td>
+                                    </tr>
+                                <?php }  ?>
                             </tbody>
                         </table>
                     </div>
@@ -258,7 +265,7 @@
                                     <td>INVOICES/MONTH</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="salesOtiTBody">
                                 <?php if (!empty($salesOti)) {   ?>
                                     <?php
                                     $avgSales = 0;
@@ -276,8 +283,12 @@
                                                     echo "0";
                                                 } ?></td>
                                         </tr>
-                                <?php }
-                                }  ?>
+                                    <?php }
+                                } else {  ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No data available </td>
+                                    </tr>
+                                <?php }  ?>
                             </tbody>
                         </table>
                     </div>
@@ -368,11 +379,11 @@
 </div>
 
 <?php $__env->startPush('script'); ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<script src="<?php echo e(asset('js/req/jquery-2.2.4.min.js')); ?>"></script>
 <!-- month/year dropdown select Bootstrap js library -->
-<script src="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo e(asset('js/req/bootstrap.min.js')); ?>"></script>
+<script src="<?php echo e(asset('js/req/bootstrap-datepicker.min.js')); ?>"></script>
+
 
 <script src="<?php echo e(asset('js/module-js/customers.js')); ?>"></script>
 <?php $__env->stopPush(); ?>

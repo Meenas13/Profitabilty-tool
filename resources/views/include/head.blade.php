@@ -7,10 +7,9 @@
 <link rel="icon" href="{{ asset('favicon.png')}}" />
 
 <!-- font awesome library -->
-<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
-
+<link rel="stylesheet" href="{{ asset('js/req/font.css') }}">
 <!-- JQuery UI -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('js/req/jquery-ui.css') }}">
 
 <!-- Multi options (dropdown) select Bootstrap -->
 
@@ -33,9 +32,9 @@
 <link rel="stylesheet" href="{{ asset('plugins/ionicons/dist/css/ionicons.min.css') }}">
 
 <!-- <link rel="stylesheet" href="{{ asset('plugins/DataTables/datatables.min.css') }}"> -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{{ asset('js/req/jquery.dataTables.min.css') }}">
 
-<link rel="stylesheet" href="{{ asset('plugins/select2/dist/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('js/req/select2.min.css') }}">
 
 <!-- Stack array for including inline css or head elements -->
 @stack('head')

@@ -38,6 +38,7 @@
                         <span id="backBonus_amt" style="display: none;"></span>
                         <thead style="text-align: left;">
                             <tr valign="center">
+                                 <th style="display: none;">Id</th>
                                 <th width="15%">Buy Domain</th>
                                 <th width="15%">Subsys Art. No</th>
                                 <th width="15%">Subsys Art. Name</th>
@@ -52,6 +53,7 @@
                                 <input type="hidden" name="buy_domain_no[]" class="buy_domain_no" value="<?php echo $offer->buy_domain_no; ?>">
                                 <input type="hidden" name="subsys_art_no[]" class="subsys_art_no" value="<?php echo $offer->subsys_art_no; ?>">
                                 <input type="hidden" name="buy_subsys_no[]" class="buy_subsys_no" value="<?php echo $offer->buy_subsys_no; ?>">
+                                <td style="display: none;"><?php echo e($offer->buy_subsys_no); ?></td>
                                 <td><?php echo e($offer->buy_domain); ?></td>
                                 <td><?php echo e($offer->subsys_art_no); ?></td>
                                 <td><?php echo e($offer->subsys_art_name); ?></td>
@@ -307,8 +309,24 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type='text' class="form-control" id='filterByDomain' name='buy_domain' placeholder="Enter Buy Domian">
+                    </div>
+                    <div class="col-md-3">
+                        <input type='text' class="form-control" id='filterBySubArtical' name='sub_artical' placeholder="Enter Sub Article Number">
+                    </div>
+                    <div class="col-md-3">
+                        <input type='text' class="form-control" id='filterBySubArticalName' name='sub_artical_name' placeholder="Enter Sub Article Name">
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-success" href="javascript:void(0)" id="search"><?php echo e(__('Search')); ?></a>
+                        <a class="btn btn-danger" href="javascript:void(0)" id="reset"><?php echo e(__('Reset')); ?></a>
+                    </div>
+                </div>
+                <br>
                 <table id="advanced_table" class="table table-bordered AddArticle display nowrap final_table" style="width:100%">
-                    <thead style="text-align: center;" valign="center">
+                    <thead style="text-align: center;" valign="center" >
                         <tr>
                             <!-- <th class="nosort" width="10">
                                 <label class="custom-control custom-checkbox m-0">
@@ -316,60 +334,22 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
                             </th> -->
-                            <th style="display: none;">Id</th>
+                            <th >Id</th>
                             <th>Buy Domain</th>
-                            <th>Subsys<br>Art. No</th>
-                            <th>Subsys<br>Art. Name</th>
+                            <th>Subsys Art. No</th>
+                            <th>Subsys Art. Name</th>
                             <th>Status</th>
-                            <th>Qty<br>of<br>Months<br>With<br>Sales</th>
+                            <!-- <th>Qty<br>of<br>Months<br>With<br>Sales</th>
                             <th>Sales</th>
                             <th>Colli</th>
                             <th>Invoices</th>
                             <th>Sales<br>/<br>Month</th>
                             <th>Colli<br>/<br>Month</th>
-                            <th>Invoices<br>/<br>Month</th>
+                            <th>Invoices<br>/<br>Month</th> -->
 
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <?php if (!empty($allList_data)) { ?>
-                            <?php foreach ($allList_data as $key => $value) {
-                                $rand = rand(1, 5);    ?>
-                                <?php $selected_id = array();
-                                foreach ($data as $offer) :
-                                    $selected_id[] .= $offer->buy_subsys_no;
-                                endforeach;
-
-                                $array_ids = implode(",", $selected_id);
-                                ?>
-                                <tr <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> class="selected" <?php } ?>>
-                                    <!-- <td>
-                                        <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input select_all_child" <?php //if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { 
-                                                                                                                    ?> checked <?php //} 
-                                                                                                                                ?>id="" name="customer-id" value="<?php echo e($value->buy_subsys_no); ?>">
-                                            <span class="custom-control-label">&nbsp;</span>
-                                        </label>
-                                    </td> -->
-
-                                    <td style="display: none;"> <?php echo e($value->buy_subsys_no); ?> </td>
-                                    <td> <?php echo e($value->buy_domain); ?></td>
-                                    <td><?php echo e($value->subsys_art_no); ?></td>
-                                    <td><?php echo e($value->subsys_art_name); ?></td>
-                                    <td><?php echo e($value->status_article); ?></td>
-                                    <td><?php echo e($value->qtymonths); ?></td>
-                                    <td><?php echo e(round($value->sales,2)); ?></td>
-                                    <td><?php echo e(round($value->colli,2)); ?></td>
-                                    <td><?php echo e($value->noofinvoice); ?></td>
-                                    <td><?php echo e(round($value->sales_per_month)); ?></td>
-                                    <td><?php echo e(round($value->colli_per_month)); ?></td>
-                                    <td><?php echo e(round($value->invoices_per_month)); ?></td>
-                                </tr>
-                        <?php }
-                        } ?>
-
-                    </tbody>
                 </table>
             </div>
             <div class="modal-footer">
@@ -384,6 +364,11 @@
 <script src="<?php echo e(asset('js/module-js/offerlist_oti.js')); ?>"></script>
 <?php $__env->stopPush(); ?>
 
+<script>
+    $(document).on('shown.bs.modal', function (e) {
+      $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+});
+</script>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\xampp\htdocs\profitability-tool\resources\views/customer/offer.blade.php ENDPATH**/ ?>
