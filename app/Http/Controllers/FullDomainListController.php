@@ -40,7 +40,7 @@ class FullDomainListController extends Controller
                 $unique_number = array();
 
                 if ($request->filterByKeyword['customer_ico']) {
-                    $id = $request->filterByKeyword['customer_ico'];
+                    $id = "'" . $request->filterByKeyword['customer_ico'] . "'";
                 } else {
                     $id = "NULL";
                 }
@@ -120,7 +120,7 @@ class FullDomainListController extends Controller
                     $cust_uniqueList = tbl_Articlewise_Sale_Colli::select('cust_no_unique')->distinct()->get();
                 }
 
-                $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] '" . $id . "' , " . $unique_number_implode . " ," . $article_category_imp . "," . $channel . ",  " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL," . $start . "," . $rowperpage . "");
+                $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] " . $id . " , " . $unique_number_implode . " ," . $article_category_imp . "," . $channel . ",  " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL," . $start . "," . $rowperpage . "");
                 $count  = 0;
                 if (count($final_domainList)) {
                     $count = $final_domainList['0']->total_records;
@@ -150,8 +150,8 @@ class FullDomainListController extends Controller
 
                 if ($start == 1) {
 
-                    $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = '" . $id . "' , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
-                    $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = '" . $id . "' , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . " ");
+                    $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
+                    $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = " . $id . " , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . " ");
 
                     foreach ($catSaleShare as $key => $value) {
                         $sales_percentage = !empty($value->sales_percentage) ?  round($value->sales_percentage, 2) : 0;
@@ -185,7 +185,7 @@ class FullDomainListController extends Controller
                 return response()->json($response);
             }
         } catch (\Exception $e) {
-            dd($e);
+            //dd($e);
             //$bug = $e->getMessage();
             $bug = 'Something went to wrong.';
             return back()->with('error', $bug);

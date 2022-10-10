@@ -272,7 +272,7 @@ $(document).ready(function () {
       cip_val = "C";
       sales_type_idArray.push(cip_val);
     }
-
+    
     $.ajax({
       url: 'calculate_backBonus',
       // method: "POST",
@@ -300,8 +300,6 @@ $(document).ready(function () {
         var cip_sales_sum = [];
         var arr_count = "";
 
-        console.log(data);
-
         if (data.historical_oti.length > 0) {
           var historical_oti = data.historical_oti[0].total_oti_percentage;
         } else {
@@ -309,14 +307,15 @@ $(document).ready(function () {
         }
 
         $(data.data).each(function (key, index) {
-
-          console.log(index);
-
           ind_count = index.length;
           arr_count = data.data.length;
-          console.log(ind_count);
 
-          if ($(".selected_ico").val() != "NULL" && customer_unique == "NULL") {
+          if($(".selected_ico").val() != "NULL" || $(".selected_ico").val() != "null"){
+            $(".selected_ico").val("");
+          }
+
+          if ($(".selected_ico").val() != "" && customer_unique == "NULL") {
+            console.log("====1");
             $(index).each(function (k, i) {
               if (i.ico == $(".selected_ico").val()) {
                 bulk_sales_sum.push(i.bulk_sales);
@@ -327,23 +326,22 @@ $(document).ready(function () {
                 // historical.push(i.oti_percentage);
               }
             });
-          } else if ($(".selected_ico").val() != "NULL" && customer_unique != "NULL") {
-
+          } else if ($(".selected_ico").val() != "" && customer_unique != "NULL") {
+            console.log("====2");
             $(index).each(function (k, i) {
               for ($s = 0; $s < (customer_unique).length; $s++) {
-                if (i.ico == $(".selected_ico").val() && i.cust_no_unique == customer_unique[$s]) {
 
+                if (i.ico == $(".selected_ico").val() && i.cust_no_unique == customer_unique[$s]) {
                   bulk_sales_sum.push(i.bulk_sales);
                   spirit_sales_sum.push(i.spirit_sales);
                   regular_sales_sum.push(i.regular_sales);
                   promo_sales_sum.push(i.promo_sales);
                   cip_sales_sum.push(i.cip_sales);
-                  // historical.push(i.oti_percentage);
                 }
               }
             });
-          } else if ($(".selected_ico").val() == "NULL" && customer_unique != "NULL") {
-
+          } else if ($(".selected_ico").val() == "" && customer_unique != "NULL") {
+            console.log("====3");
             $(index).each(function (k, i) {
               for ($s = 0; $s < (customer_unique).length; $s++) {
                 if (i.cust_no_unique == customer_unique[$s]) {
@@ -367,7 +365,6 @@ $(document).ready(function () {
           }
           // console.log(ind_count);
         });
-
         //Calculate Sum of all Sales individually
         var bulk_sum = eval(bulk_sales_sum.join("+"));
         console.log(bulk_sum);
@@ -406,6 +403,7 @@ $(document).ready(function () {
 
 
         //Calculate Bonus Base
+        console.log("I am here 2");
         var bonus_base = [];
         if ($(".bulk").val() == "limitAndBonusBase") {
           bonus_base.push(bulk_sum);

@@ -152,7 +152,7 @@
                         </div>
 
                         <div class="col-md-4 year_column">
-                            <label for="">Year id</label>
+                            <label for="">Year id [FY]</label>
                             <div class="yearRange_div" style="display: inline-flex;">
                                 <input type='text' class="year_id form-control from_year" name="from_year" format="yyyy" placeholder="From Year (yyyy)" <?php if ($from_year) {  ?> value="<?php echo $from_year; ?>" <?php  } ?> style="width:48%">
                                 <span class="year_dash">-</span>

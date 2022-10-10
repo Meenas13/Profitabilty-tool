@@ -353,6 +353,7 @@ $(document).ready(function () {
   });
 
   function customerFromValidation() {
+    
     if (!$('#customer').val() && !$('#customer_unique').val()) {
       alert('Please select cutomer ico or linked customer ');
       return false;
@@ -362,10 +363,12 @@ $(document).ready(function () {
       alert('Please select year id also');
       return false;
     }
+
     if(($("#month_id").val() !=='' && $("#month_id").val() !== null) && $(".year_id").val()!=='' ){
       alert('Please select only month or year id ');
       return false;
     }
+
     if(($("#month_id").val() !=='' && $("#month_id").val() !== null) && ($("#quater").val()!=='' && $("#quater").val() !== null)){
       alert('Please select only month or quater with year id ');
       return false;
