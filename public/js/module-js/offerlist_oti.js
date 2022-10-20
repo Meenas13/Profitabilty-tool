@@ -310,9 +310,9 @@ $(document).ready(function () {
           ind_count = index.length;
           arr_count = data.data.length;
 
-          if($(".selected_ico").val() != "NULL" || $(".selected_ico").val() != "null"){
-            $(".selected_ico").val("");
-          }
+          // if($(".selected_ico").val() != "NULL" || $(".selected_ico").val() != "null"){
+          //   $(".selected_ico").val("");
+          // }
 
           if ($(".selected_ico").val() != "" && customer_unique == "NULL") {
             console.log("====1");
