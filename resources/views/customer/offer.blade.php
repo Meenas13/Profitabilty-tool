@@ -38,7 +38,7 @@
                         <span id="backBonus_amt" style="display: none;"></span>
                         <thead style="text-align: left;">
                             <tr valign="center">
-                                 <th style="display: none;">Id</th>
+                                <th style="display: none;">Id</th>
                                 <th width="15%">Buy Domain</th>
                                 <th width="15%">Subsys Art. No</th>
                                 <th width="15%">Subsys Art. Name</th>
@@ -326,7 +326,7 @@
                 </div>
                 <br>
                 <table id="advanced_table" class="table table-bordered AddArticle display nowrap final_table" style="width:100%">
-                    <thead style="text-align: center;" valign="center" >
+                    <thead style="text-align: center;" valign="center">
                         <tr>
                             <!-- <th class="nosort" width="10">
                                 <label class="custom-control custom-checkbox m-0">
@@ -334,7 +334,7 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
                             </th> -->
-                            <th >Id</th>
+                            <th>Id</th>
                             <th>Buy Domain</th>
                             <th>Subsys Art. No</th>
                             <th>Subsys Art. Name</th>
@@ -349,7 +349,43 @@
 
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php if (!empty($allList_data)) { ?>
+                            <?php foreach ($allList_data as $key => $value) {
+                                $rand = rand(1, 5);    ?>
+                                <?php $selected_id = array();
+                                foreach ($data as $offer) :
+                                    $selected_id[] .= $offer->buy_subsys_no;
+                                endforeach;
 
+                                $array_ids = implode(",", $selected_id);
+                                ?>
+                                <tr <?php if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { ?> class="selected" <?php } ?>>
+                                    <!-- <td>
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input select_all_child" <?php //if ($value->buy_subsys_no == in_array($value->buy_subsys_no, $selected_id)) { 
+                                                                                                                    ?> checked <?php //} 
+                                                                                                                                ?>id="" name="customer-id" value="{{$value->buy_subsys_no}}">
+                                            <span class="custom-control-label">&nbsp;</span>
+                                        </label>
+                                    </td> -->
+
+                                    <td style="display: none;"> {{$value->buy_subsys_no}} </td>
+                                    <td> {{$value->buy_domain}}</td>
+                                    <td>{{$value->subsys_art_no}}</td>
+                                    <td>{{$value->subsys_art_name}}</td>
+                                    <td>{{$value->status_article}}</td>
+                                    <td>{{$value->qtymonths }}</td>
+                                    <td>{{round($value->sales,2)}}</td>
+                                    <td>{{round($value->colli,2)}}</td>
+                                    <td>{{$value->noofinvoice}}</td>
+                                    <td>{{round($value->sales_per_month)}}</td>
+                                    <td>{{round($value->colli_per_month)}}</td>
+                                    <td>{{round($value->invoices_per_month)}}</td>
+                                </tr>
+                        <?php }
+                        } ?>
+                    </tbody>
                 </table>
             </div>
             <div class="modal-footer">
@@ -365,9 +401,12 @@
 @endpush
 
 <script>
-    $(document).on('shown.bs.modal', function (e) {
-      $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
-});
+    $(document).on('shown.bs.modal', function(e) {
+        $.fn.dataTable.tables({
+            visible: true,
+            api: true
+        }).columns.adjust();
+    });
 </script>
 
 @endsection

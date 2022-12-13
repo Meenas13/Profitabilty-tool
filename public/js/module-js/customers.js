@@ -178,6 +178,51 @@ $(document).ready(function () {
     }
   }) // get Linked customers list onChange of Ico no. end
 
+
+
+  // get month ID for Linked customers list 
+  $('select[name="customer_unique[]"] ').on('change', function () {
+    $("#loader").show();
+
+    // $(".selected_unique").val(this.value);
+    var selected_unique = $(this).val();
+    if (selected_unique) {
+      $.ajax({
+        url: 'get_monthId',
+        data: {
+          selected_unique: selected_unique
+        },
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          $("#loader").hide();
+
+          $('select[name="month_id[]"]').empty();
+          $(".month_id").select2({
+            placeholder: {
+              id: '-1', // the value of the option
+              text: "Month Id's",
+              allowClear: true,
+              multiple: true
+            }
+          });
+          jQuery.each(data['cust_uniqueMonth'], function (key, value) {
+            $('select[name="month_id[]"]').append('<option value="' + value.month_id + '">' + value.month_id + '</option>');
+          });
+
+
+        }
+      }); //ajax
+
+    } else {
+      $("#loader").hide();
+      //$('select[name="customer_unique[]"]').append('<option value="">Linked Customers</option>');
+    }
+  }) // get month ID for Linked customers list end
+
+
+
+
   var cOfferID = [];
   var oldStart = 0;
   var table = $('.final_table').DataTable({
@@ -193,8 +238,8 @@ $(document).ready(function () {
     }
     ],
     "lengthMenu": [
-      [50, 150, 200, -1],
-      [50, 150, 200, "All"]
+      [50, 100, -1],
+      [50, 100, "All"]
     ],
     "bJQueryUI": true,
     "sPaginationType": "full_numbers",
@@ -215,6 +260,7 @@ $(document).ready(function () {
       url: 'get-all-domainlist',
       type: "get",
       data: function (data) {
+        console.log(data);
         data.filterByKeyword = $("#customer-form").serializeArray().reduce((o, kv) => ({ ...o, [kv.name]: kv.value }), {});
         data.filterByKeyword.customer_unique = $('#customer_unique').val();
         data.filterByKeyword.customer_ico = $('#customer').val();
@@ -275,6 +321,7 @@ $(document).ready(function () {
 
     }
   }); //datatable end
+
   // $.fn.dataTable.ext.errMode = 'none';
   $('.final_table').on('error.dt', function (e, settings, techNote, message) {
     $(".loader").hide();
@@ -355,7 +402,7 @@ $(document).ready(function () {
   function customerFromValidation() {
 
     if (!$('#customer').val() && !$('#customer_unique').val()) {
-      alert('Please select cutomer ico or linked customer ');
+      alert('Please select customer ico or linked customer ');
       return false;
     }
 

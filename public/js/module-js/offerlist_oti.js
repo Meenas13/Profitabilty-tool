@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
   sessionStorage.setItem("Page2Visited", "True");
-  
+
   var oldStart = 0;
   var table = $('#advanced_table1').DataTable({
     "scrollY": "auto",
@@ -22,7 +22,7 @@ $(document).ready(function () {
       [50, 150, 200, "All"]
     ],
     "bJQueryUI": true,
-    "sPaginationType": "full_numbers",
+    pagingType: "full_numbers",
     "fnDrawCallback": function (o) {
       if (o._iDisplayStart != oldStart) {
         var targetOffset = $('#advanced_table1').offset().top;
@@ -39,39 +39,35 @@ $(document).ready(function () {
 
   var oldStart1 = 0;
   var table1 = $('#advanced_table').DataTable({
-    "scrollY": "auto",
-    // "ordering": false,
-    columnDefs: [
-      {
-        orderable: true,
-        // className: 'reorder',
-        targets: 1,
-      }, {
-        orderable: true,
-        // className: 'reorder',
-        targets: 0,
-        "visible": false,
-      },
-      {
-        orderable: false,
-        targets: '_all'
-      }
-    ],
-    iDisplayLength: 50,
-    "bJQueryUI": true,
-    "sPaginationType": "full_numbers",
+    order: [],
+    lengthMenu: [[50, 100, -1], [50, 100, "All"]],
     processing: true,
+    responsive: false,
     serverSide: true,
-    'searching': false,
+    searching: false,
+    "ordering": false,
     "lengthChange": false,
     "info": false,
-    "ordering": false,
+    "scrollY": "auto",
+    columnDefs: [{
+      orderable: true,
+      // className: 'reorder',
+      targets: 1
+    },
+    {
+      orderable: false,
+      targets: '_all'
+    }
+    ],
+    // scrollX: "100%",
     language: {
       processing: '<i class="ace-icon fa fa-spinner fa-spin orange bigger-500" style="font-size:60px;margin-top:50px;"></i>'
     },
     scroller: {
       loadingIndicator: false
     },
+    pagingType: "full_numbers",
+
     ajax: {
       url: 'get-artical-details',
       type: "get",
@@ -272,7 +268,7 @@ $(document).ready(function () {
       cip_val = "C";
       sales_type_idArray.push(cip_val);
     }
-    
+
     $.ajax({
       url: 'calculate_backBonus',
       // method: "POST",
@@ -292,6 +288,7 @@ $(document).ready(function () {
       },
 
       success: function (data) {
+      
         $(".loader").hide();
         var bulk_sales_sum = [];
         var spirit_sales_sum = [];
@@ -316,6 +313,7 @@ $(document).ready(function () {
 
           if ($(".selected_ico").val() != "" && customer_unique == "NULL") {
             console.log("====1");
+            console.log(data.data);
             $(index).each(function (k, i) {
               if (i.ico == $(".selected_ico").val()) {
                 bulk_sales_sum.push(i.bulk_sales);
@@ -791,9 +789,9 @@ $(document).ready(function () {
 
         $.ajax({
           // type: "POST",
-          url: 'forcasted-cal',
-          method: "POST",
-          dataType: "json",
+          url: '/forcasted-cal',
+          type: "POST",
+          // dataType: "json",
           data: {
             '_token': $('meta[name="_token"]').attr('content'),
             'ico': cust_id,

@@ -166,15 +166,15 @@ class DashboardController extends Controller
             }
 
             $final_domainList = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] '" . $id . "' , " . $unique_number_implode . " , " . $article_category_imp . ",  " . $channel . ", " . $year_range . " ," . $quater_implode . ", " . $monthId . ", NULL,NULL,NULL");
-
             $catSaleShare = DB::select("SET NOCOUNT ON;  exec usp_get_category_share_summary @p_ico = '" . $id . "' , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . ", @p_delivery_flag_name = " . $channel . ", @p_fy_year_id=" . $year_range . " , @p_fy_quarter=" . $quater_implode . " , @p_month_id=" . $monthId . " ");
             $salesOti = DB::select("SET NOCOUNT ON;  exec usp_get_sales_oti_summary @p_ico = '" . $id . "' , @p_cust_no_unique =" . $unique_number_implode . " , @p_catmanager_group = " . $article_category_imp . " ");
+
             $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
             $catmanager_groupList = category_share::select('catmanager_group')->distinct()->get();
 
             // return json_encode($cust_uniqueList) ;'
 
-            return view('customer.index', compact('id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category_imp', 'article_category', 'channel', 'year_range', 'monthId', 'final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
+            return view('customer.index', compact('final_domainList', 'cust_icoList', 'catSaleShare', 'salesOti', 'id', 'unique_number', 'unique_implode', 'sel_quater_implode', 'article_category_imp', 'article_category', 'channel', 'year_range', 'monthId', 'cust_uniqueList', 'catmanager_groupList', 'from_year', 'to_year', 'channel_type', 'article_category_type', 'quater', 'month_id'));
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
             $bug = 'Something went to wrong.';
@@ -198,6 +198,27 @@ class DashboardController extends Controller
                 ]);
             }
             return view('customer.index', compact('id', 'cust_icoList', 'catmanager_goupeList', 'cust_uniqueList'));
+        } catch (\Exception $e) {
+            //$bug = $e->getMessage();
+            $bug = 'Something went to wrong.';
+            return back()->with('error', $bug);
+        }
+    }
+
+    public function get_monthId(Request $request)
+    {
+        try {
+            $un_id = $request->selected_unique;
+
+            $catmanager_goupeList = category_share::select('catmanager_group')->distinct()->get();
+            if (!empty($un_id)) {
+                $custMonth = tbl_Articlewise_Sale_Colli::whereIn('cust_no_unique', $un_id)->select('cust_no_unique', 'month_id')->get();
+                $cust_uniqueMonth =  $custMonth->sortByDesc('month_id')->unique('month_id');
+                return json_encode([
+                    'cust_uniqueMonth' => $cust_uniqueMonth,
+                ]);
+            }
+            return view('customer.index', compact('id', 'catmanager_goupeList', 'cust_uniqueList'));
         } catch (\Exception $e) {
             //$bug = $e->getMessage();
             $bug = 'Something went to wrong.';
@@ -235,7 +256,7 @@ class DashboardController extends Controller
             $buyer_arr = preg_split("/\,/", $request->cOfferID);
             $buyer_arr_implode = implode(",", $buyer_arr);
             $buyer_arr_IDs = "'" . $buyer_arr_implode . "'";
-            
+
 
             if ($request->cust_unique == "NULL" || $request->cust_unique == 'null') {
                 $cust_unique =  array();
@@ -259,22 +280,22 @@ class DashboardController extends Controller
 
             $selected_yearId =  !empty($request->sel_yearId) ? $request->sel_yearId : "NULL";
 
-            if($request->sel_monthId != 'NULL'){
-               $sel_monthId = "'".$request->sel_monthId."'";
-            }else{
+            if ($request->sel_monthId != 'NULL') {
+                $sel_monthId = "'" . $request->sel_monthId . "'";
+            } else {
                 $sel_monthId = "NULL";
             }
             // $selected_monthId =  !empty($request->sel_monthId) ? $request->sel_monthId : "NULL";
 
-            $selected_monthId =  $sel_monthId;           
+            $selected_monthId =  $sel_monthId;
 
             $cust_icoList = tbl_Articlewise_Sale_Colli::select('ico')->distinct()->get();
-           
+
 
             if (!empty($request->cOfferID)) {
                 $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", " . $buyer_arr_IDs . " ");
                 print_r("SET NOCOUNT ON; EXEC usp_get_article_summary " . $cust_id . " , " . $cust_uni_implode . " , " . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", " . $buyer_arr_IDs . " ");
-                
+
                 //$allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] ");
                 return view('customer.offer', compact('cust_id', 'cust_ico', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data', 'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
             } else {
@@ -459,7 +480,7 @@ class DashboardController extends Controller
                 } else {
                     $sales_type_id_implode = "NULL";
                 }
-                
+
                 if ($customer_ico == "NULL" || $customer_ico == "null") {
                     $customer_ico = $customer_ico;
                 } else {
@@ -478,7 +499,7 @@ class DashboardController extends Controller
 
                 $getSalesSum = array();
                 $gethistorical_otiSum = array();
-                
+
 
                 // DB::connection()->enableQueryLog();
 

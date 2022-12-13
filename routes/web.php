@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/customer', [DashboardController::class, 'customers'])->name('customer');
 	Route::get('/get_uniqueCustomer', [DashboardController::class, 'get_uniqueCustomer'])->name('get_uniqueCustomer');
+	Route::get('/get_monthId', [DashboardController::class, 'get_monthId'])->name('get_monthId');
 	Route::get('/get_allUniqueCustomer', [DashboardController::class, 'get_allUniqueCustomer'])->name('get_allUniqueCustomer');
 	Route::post('/full_domainList', [DashboardController::class, 'full_domainList'])->name('full_domainList');
 	Route::post('/customer-offer-data', [DashboardController::class, 'customersOffer'])->name('customer-offer-data');
