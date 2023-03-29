@@ -7,7 +7,7 @@
         }
 
         .auth-wrapper .authentication-form {
-            border: 1px solid #002d72;
+            /* border: 1px solid #002d72; */
         }
 
         .btn-custom.logout:hover {
@@ -33,6 +33,12 @@
             height: 30px;
             color: #fff;
             border-radius: 25px;
+        }
+
+        .auth-wrapper {
+            background-image: url(../img/banner/finance-analytics.webp);
+            height: 100vh;
+
         }
     </style>
     <div class="col-md-12 p-0">

@@ -137,8 +137,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="">Channel Type</label>
-                            <select id="channel" class="form-control select2" name="channel">
-                                <option selected="selected" value=""> Type of channel</option>
+                            <select id="channel" class="form-control select2 channel" name="channel">
+                                <!-- <option selected="selected" value=""> Type of channel</option> -->
+                                <option></option>
+
                                 <option <?php if ($channel_type == "C&C") {
                                             echo "selected";
                                         } ?> value="C&C">Cash & Carry</option>

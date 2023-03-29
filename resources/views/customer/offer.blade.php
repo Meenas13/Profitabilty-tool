@@ -311,7 +311,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <input type='text' class="form-control" id='filterByDomain' name='buy_domain' placeholder="Enter Buy Domian">
+                        <input type='text' class="form-control" id='filterByDomain' name='buy_domain' placeholder="Enter Buy Domain">
                     </div>
                     <div class="col-md-3">
                         <input type='text' class="form-control" id='filterBySubArtical' name='sub_artical' placeholder="Enter Sub Article Number">
@@ -334,7 +334,7 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                 </label>
                             </th> -->
-                            <th>Id</th>
+                            <!-- <th>Id</th> -->
                             <th>Buy Domain</th>
                             <th>Subsys Art. No</th>
                             <th>Subsys Art. Name</th>

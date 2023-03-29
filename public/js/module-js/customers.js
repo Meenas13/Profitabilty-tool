@@ -19,6 +19,10 @@ $(window).load(function () {
     placeholder: "Select category of an aricle",
     allowClear: true
   });
+  $('.channel').select2({
+    placeholder: "Select type of channel",
+    allowClear: true
+  });
 })
 
 
@@ -96,11 +100,11 @@ $(document).ready(function () {
       format: "yyyy",
       viewMode: "years",
       minViewMode: "years",
-      startView: 2,
+      startView: 3,
       defaultViewDate: {
         year: '1950'
       },
-      startDate: '-2y', //2022 - 2020
+      startDate: '-3y', //2022 - 2020
       endDate: '-1y', //2022- 2021
       autoclose: true //to close picker once year is selected
     });
@@ -109,12 +113,12 @@ $(document).ready(function () {
       format: "yyyy",
       viewMode: "years",
       minViewMode: "years",
-      startView: 2,
+      startView: 3,
       defaultViewDate: {
         year: '1950'
       },
-      startDate: '-1y', //2022 -2021
-      endDate: '-0y', //2022- 2022
+      startDate: '-2y', //2022 -2021
+      endDate: 'y', //2022- 2022
       autoclose: true //to close picker once year is selected
     });
 
@@ -245,7 +249,7 @@ $(document).ready(function () {
     "sPaginationType": "full_numbers",
     processing: true,
     serverSide: true,
-    'searching': false,
+    'searching': true,
     "lengthChange": false,
     "info": false,
     "ordering": false,
@@ -406,9 +410,9 @@ $(document).ready(function () {
       return false;
     }
 
-    if (($("#quater").val() !== '' && $("#quater").val() !== null) && $(".year_id").val() === '') {
-      alert('Please select year id also');
-      return false;
+    if (($("#quater").val() !== '' && $("#quater").val() !== null) && $(".year_id").val() === '' && ($("#month_id").val() !== '' && $("#month_id").val() !== null)) {
+      //alert('Please select year id also');
+      // return false;
     }
 
     if (($("#month_id").val() !== '' && $("#month_id").val() !== null) && $(".year_id").val() !== '') {

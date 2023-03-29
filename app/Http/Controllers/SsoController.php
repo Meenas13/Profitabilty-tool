@@ -156,6 +156,7 @@ class SsoController extends Controller
             // $result = $this->getUserInfo($accessToken);
             $result = $this->getUserAllInfo($accessToken);
 
+
             if ($result['data'] == null) {
                 return redirect('message')->with('error', 'Idam Server Error');
             }
@@ -166,24 +167,23 @@ class SsoController extends Controller
                 $authUser = User::where('email', $email)->first();
                 if (!$authUser) {
                     $authUser = User::create([
-                        'name'     => $result['data']->displayname,
-                        'email'    => $result['data']->mail,
-                        'empId'    => $result['data']->employeenumber,
-                        // 'password' => Hash::make('metroservices1$#$'),
-                        'password' => Hash::make($request->password),
+                        'name' => $result['data']->displayname,
+                        'email' => $result['data']->mail,
+                        'empId' => $result['data']->employeenumber,
+                        'password' => Hash::make('metroservices1$#$'),
+                        // 'password' => Hash::make($request->password),
                     ]);
 
                     //  $authUser->syncRoles($role);
                 }
                 /*else {
-                    $authUser->name = $result['data']->displayname;
-                    $authUser->manager_metroid = $result['data']->managermetroid;
-                    $authUser->center = $result['data']->metrocostcenter;
-                    $authUser->save();
-
-                    if (isset($authUser->roles[0]) && $authUser->roles[0]->id == 7) {
-                        $authUser->syncRoles($role);
-                    }
+                $authUser->name = $result['data']->displayname;
+                $authUser->manager_metroid = $result['data']->managermetroid;
+                $authUser->center = $result['data']->metrocostcenter;
+                $authUser->save();
+                if (isset($authUser->roles[0]) && $authUser->roles[0]->id == 7) {
+                $authUser->syncRoles($role);
+                }
                 } */
                 if (!empty($authUser)) {
                     if ($authUser->status == 1) {
@@ -287,6 +287,8 @@ class SsoController extends Controller
         }
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         if (!empty($params['header'])) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $params['header']);
@@ -317,6 +319,7 @@ class SsoController extends Controller
             }
         }
         curl_close($ch);
+        // dd($result);
         return $result;
     }
 

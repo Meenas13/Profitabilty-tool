@@ -40,28 +40,33 @@ $(document).ready(function () {
   var oldStart1 = 0;
   var table1 = $('#advanced_table').DataTable({
     order: [],
-    lengthMenu: [
-      [50, 100, 150, -1],
-      [50, 100, 150, "All"],
-    ],
-    
+    lengthMenu: [[50, 100, -1], [50, 100, "All"]],
     processing: true,
     responsive: false,
     serverSide: true,
     searching: false,
-    lengthChange: true,
-    info: true,
-    ordering: false,
-    // "scrollX": true,
+    "ordering": false,
+    "lengthChange": false,
+    "info": false,
+    "scrollY": "auto",
+    columnDefs: [{
+      orderable: true,
+      // className: 'reorder',
+      targets: 1
+    },
+    {
+      orderable: false,
+      targets: '_all'
+    }
+    ],
     // scrollX: "100%",
     language: {
-      processing:
-        '<i class="ace-icon fa fa-spinner fa-spin orange bigger-500" style="font-size:60px;margin-top:50px;"></i>',
+      processing: '<i class="ace-icon fa fa-spinner fa-spin orange bigger-500" style="font-size:60px;margin-top:50px;"></i>'
     },
     scroller: {
-      loadingIndicator: false,
+      loadingIndicator: false
     },
-    // pagingType: "full_numbers",
+    pagingType: "full_numbers",
 
     ajax: {
       url: 'get-artical-details',
@@ -73,7 +78,7 @@ $(document).ready(function () {
       }
     },
     columns: [
-      // { data: "buy_subsys_no" },
+      { data: "buy_subsys_no" },
       { data: "buy_domain" },
       { data: "subsys_art_no" },
       { data: "subsys_art_name" },
@@ -283,7 +288,7 @@ $(document).ready(function () {
       },
 
       success: function (data) {
-
+      
         $(".loader").hide();
         var bulk_sales_sum = [];
         var spirit_sales_sum = [];
@@ -306,7 +311,7 @@ $(document).ready(function () {
           //   $(".selected_ico").val("");
           // }
 
-          if ($(".selected_ico").val() != "null" && customer_unique == "NULL") {
+          if ($(".selected_ico").val() != "" && customer_unique == "NULL") {
             console.log("====1");
             console.log(data.data);
             $(index).each(function (k, i) {
@@ -319,7 +324,7 @@ $(document).ready(function () {
                 // historical.push(i.oti_percentage);
               }
             });
-          } else if ($(".selected_ico").val() != "null" && customer_unique != "NULL") {
+          } else if ($(".selected_ico").val() != "" && customer_unique != "NULL") {
             console.log("====2");
             $(index).each(function (k, i) {
               for ($s = 0; $s < (customer_unique).length; $s++) {
@@ -333,7 +338,7 @@ $(document).ready(function () {
                 }
               }
             });
-          } else if ($(".selected_ico").val() == "null" && customer_unique != "NULL") {
+          } else if ($(".selected_ico").val() == "" && customer_unique != "NULL") {
             console.log("====3");
             $(index).each(function (k, i) {
               for ($s = 0; $s < (customer_unique).length; $s++) {
