@@ -39,6 +39,7 @@ class DashboardController extends Controller
         return view('dashboard.clear-cache');
     }
 
+    //function call initially on first /customer page
     public function customers()
     {
         try {
@@ -81,6 +82,7 @@ class DashboardController extends Controller
     }
 
 
+    //function to get articles/domain-list on first/customer page
     public function full_domainList(Request $request)
     {
         try {
@@ -182,6 +184,7 @@ class DashboardController extends Controller
         }
     }
 
+    //get Linked customers id's (According to selected ICO)
     public function get_uniqueCustomer(Request $request)
     {
         try {
@@ -205,6 +208,7 @@ class DashboardController extends Controller
         }
     }
 
+    //get month Id as per selected ico
     public function get_monthId(Request $request)
     {
         try {
@@ -226,6 +230,7 @@ class DashboardController extends Controller
         }
     }
 
+    //get unique customers id's
     public function get_allUniqueCustomer()
     {
         try {
@@ -238,6 +243,7 @@ class DashboardController extends Controller
         }
     }
 
+    //Add articles into listing for offer calculation
     public function customersOffer(Request $request)
     {
         try {
@@ -359,7 +365,7 @@ class DashboardController extends Controller
             if (!empty($request->cOfferID)) {
 
 
-                // DB::connection()->enableQueryLog();
+               // DB::connection()->enableQueryLog();
 
                 // $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary NULL,NULL," . $selected_artCategory . ", " . $selected_channel . ", " . $selected_yearId . "," . $selected_quarter_implode . ", " . $selected_monthId . ", " . $buyer_arr_IDs . " ");
                 $data = DB::select("SET NOCOUNT ON; EXEC usp_get_article_summary NULL,NULL,NULL,NULL,NULL,NULL,NULL," . $buyer_arr_IDs . " ");
@@ -367,11 +373,9 @@ class DashboardController extends Controller
                 // $queries = DB::getQueryLog();
                 // dd($queries);
 
-                //$allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] ");
                 return view('customer.offer', compact('cust_id', 'cust_ico', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data',  'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
             } else {
                 $data = array();
-                // $allList_data = DB::select(" SET NOCOUNT ON;  exec [dbo].[usp_get_article_summary] ");
                 return view('customer.offer', compact('cust_id', 'cust_ico', 'cust_unique', 'unique_implode', 'cust_uni_implode', 'cust_icoList', 'data', 'selected_quarter', 'selected_quarter_implode', 'selected_artCategory', 'selected_channel', 'selected_yearId', 'selected_monthId'));
             }
         } catch (\Exception $e) {
@@ -394,6 +398,7 @@ class DashboardController extends Controller
     }
 
 
+    //calculate forcasted OTI
     public function forecastedCal(Request $request)
     {
         try {
@@ -460,6 +465,7 @@ class DashboardController extends Controller
         }
     }
 
+    //calculate Backbonus function
     public function calculate_backBonus(Request $request)
     {
         try {
@@ -502,7 +508,6 @@ class DashboardController extends Controller
 
 
                 // DB::connection()->enableQueryLog();
-
                 $getSales = DB::select("SET NOCOUNT ON; exec [dbo].[usp_get_sales_summary] " . $customer_ico . "," . $mk_un_implode . "," . $selected_artCategory . "," . $selected_channel . "," . $selected_yearId . "," . $quater . "," . $selected_monthId . "," . $sales_type_id_implode . " ");
                 // $queries = DB::getQueryLog();
                 // dd($queries);
@@ -537,6 +542,8 @@ class DashboardController extends Controller
         }
     }
 
+
+    //update nnnbp function(update net buying price source as per domain/ buyer's id)
     public function update_nnnbpSrc(Request $request)
     {
         try {
